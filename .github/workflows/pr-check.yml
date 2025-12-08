@@ -1,0 +1,52 @@
+name: PR Check
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+jobs:
+  pr-validation:
+    name: Validate PR
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Validate commit messages
+        run: |
+          npm run commitlint -- --from ${{ github.event.pull_request.base.sha }} --to ${{ github.event.pull_request.head.sha }}
+
+      - name: Check for breaking changes
+        run: |
+          if git log --oneline ${{ github.event.pull_request.base.sha }}..${{ github.event.pull_request.head.sha }} | grep -i "breaking"; then
+            echo "::warning::This PR contains breaking changes"
+          fi
+
+  size-check:
+    name: PR Size Check
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Check PR size
+        run: |
+          ADDITIONS=$(git diff --shortstat ${{ github.event.pull_request.base.sha }} ${{ github.event.pull_request.head.sha }} | awk '{print $4}')
+          DELETIONS=$(git diff --shortstat ${{ github.event.pull_request.base.sha }} ${{ github.event.pull_request.head.sha }} | awk '{print $6}')
+          TOTAL=$((ADDITIONS + DELETIONS))
+          
+          if [ "$TOTAL" -gt 1000 ]; then
+            echo "::warning::Large PR detected ($TOTAL lines changed). Consider splitting into smaller PRs."
+          fi
+          echo "PR size: +$ADDITIONS -$DELETIONS ($TOTAL total)"
