@@ -1,0 +1,210 @@
+{
+  "name": "02 - Discovery Call Booked (Calendly)",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "calendly-webhook",
+        "responseMode": "onReceived",
+        "options": {}
+      },
+      "id": "webhook-calendly",
+      "name": "Calendly Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1.1,
+      "position": [250, 300],
+      "notes": "Register this URL in Calendly webhook settings"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "string": [
+            {
+              "value1": "={{ $json.event }}",
+              "value2": "invitee.created",
+              "operation": "equals"
+            }
+          ]
+        }
+      },
+      "id": "if-booked",
+      "name": "Is Booking Created?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [450, 300]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "name",
+              "name": "name",
+              "value": "={{ $json.payload.invitee.name }}",
+              "type": "string"
+            },
+            {
+              "id": "email",
+              "name": "email",
+              "value": "={{ $json.payload.invitee.email }}",
+              "type": "string"
+            },
+            {
+              "id": "event_name",
+              "name": "event_name",
+              "value": "={{ $json.payload.event_type.name }}",
+              "type": "string"
+            },
+            {
+              "id": "start_time",
+              "name": "start_time",
+              "value": "={{ $json.payload.scheduled_event.start_time }}",
+              "type": "string"
+            },
+            {
+              "id": "meeting_url",
+              "name": "meeting_url",
+              "value": "={{ $json.payload.scheduled_event.location.join_url || 'N/A' }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "set-data",
+      "name": "Extract Data",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.2,
+      "position": [650, 300]
+    },
+    {
+      "parameters": {
+        "method": "PATCH",
+        "url": "={{ $env.CRM_API_URL }}/contacts/search?email={{ $json.email }}",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"stage\": \"discovery_scheduled\",\n  \"discovery_call_date\": \"{{ $json.start_time }}\",\n  \"meeting_url\": \"{{ $json.meeting_url }}\",\n  \"updated_at\": \"{{ $now.toISO() }}\"\n}",
+        "options": {}
+      },
+      "id": "update-crm",
+      "name": "Update CRM Stage",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [850, 200]
+    },
+    {
+      "parameters": {
+        "channel": "#leads",
+        "text": "=📅 *Discovery Call Booked!*\n\n*Name:* {{ $json.name }}\n*Email:* {{ $json.email }}\n*Event:* {{ $json.event_name }}\n*Time:* {{ DateTime.fromISO($json.start_time).toFormat('yyyy-MM-dd HH:mm') }}\n*Meeting URL:* {{ $json.meeting_url }}\n\n✅ CRM updated to \"Discovery Scheduled\"",
+        "otherOptions": {}
+      },
+      "id": "slack-booked",
+      "name": "Notify Slack - Booked",
+      "type": "n8n-nodes-base.slack",
+      "typeVersion": 2.1,
+      "position": [850, 400]
+    },
+    {
+      "parameters": {
+        "fromEmail": "={{ $env.FROM_EMAIL }}",
+        "toEmail": "={{ $json.email }}",
+        "subject": "Your Discovery Call with The Rike - What to Expect",
+        "emailType": "html",
+        "html": "=<html>\n<body style=\"font-family: Arial, sans-serif; line-height: 1.6; color: #333;\">\n<h2>Hi {{ $json.name }},</h2>\n\n<p>Great news! Your discovery call is confirmed.</p>\n\n<p><strong>📅 When:</strong> {{ DateTime.fromISO($json.start_time).toFormat('EEEE, MMMM d, yyyy \\\\a\\\\t h:mm a') }}</p>\n\n<p><strong>📍 Where:</strong> <a href=\"{{ $json.meeting_url }}\">Join Meeting</a></p>\n\n<h3>To make the most of our call, please think about:</h3>\n<ol>\n  <li>What's your biggest marketing/growth challenge right now?</li>\n  <li>What tools are you currently using (CRM, email, social)?</li>\n  <li>What would success look like for you in 90 days?</li>\n</ol>\n\n<p>The call will take about 15-20 minutes. No preparation required, just come ready to chat!</p>\n\n<p>See you soon,<br>\nThe Rike Team</p>\n</body>\n</html>",
+        "options": {}
+      },
+      "id": "email-prep",
+      "name": "Send Prep Email",
+      "type": "n8n-nodes-base.emailSend",
+      "typeVersion": 2.1,
+      "position": [1050, 300]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "={{ $env.CLICKUP_API_URL }}/list/{{ $env.CLICKUP_LIST_ID }}/task",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"name\": \"Prep for Discovery Call: {{ $json.name }}\",\n  \"description\": \"**Lead:** {{ $json.name }}\\n**Email:** {{ $json.email }}\\n**Call Time:** {{ DateTime.fromISO($json.start_time).toFormat('yyyy-MM-dd HH:mm') }}\\n\\n**Prep Checklist:**\\n- [ ] Research company website\\n- [ ] Check LinkedIn profile\\n- [ ] Prepare relevant case study\\n- [ ] Review any previous communication\",\n  \"assignees\": [],\n  \"due_date\": {{ DateTime.fromISO($json.start_time).minus({hours: 2}).toMillis() }},\n  \"priority\": 2,\n  \"tags\": [\"discovery-call\", \"prep\"]\n}",
+        "options": {}
+      },
+      "id": "clickup-task",
+      "name": "Create Prep Task",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [1050, 500],
+      "notes": "Creates a task in ClickUp 2 hours before call"
+    }
+  ],
+  "connections": {
+    "Calendly Webhook": {
+      "main": [
+        [
+          {
+            "node": "Is Booking Created?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Is Booking Created?": {
+      "main": [
+        [
+          {
+            "node": "Extract Data",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Extract Data": {
+      "main": [
+        [
+          {
+            "node": "Update CRM Stage",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Notify Slack - Booked",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Create Prep Task",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Update CRM Stage": {
+      "main": [
+        [
+          {
+            "node": "Send Prep Email",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "tags": [
+    {
+      "name": "Sales"
+    },
+    {
+      "name": "Calendly"
+    }
+  ]
+}

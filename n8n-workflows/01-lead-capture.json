@@ -1,0 +1,216 @@
+{
+  "name": "01 - Lead Capture from Website",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "lead-capture",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "id": "webhook-1",
+      "name": "Webhook - Lead Form",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1.1,
+      "position": [250, 300]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "string": [
+            {
+              "value1": "={{ $json.email }}",
+              "operation": "isNotEmpty"
+            }
+          ]
+        }
+      },
+      "id": "if-1",
+      "name": "Has Email?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [450, 300]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "={{ $env.CRM_API_URL }}/contacts",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"name\": \"{{ $json.name }}\",\n  \"email\": \"{{ $json.email }}\",\n  \"phone\": \"{{ $json.phone || '' }}\",\n  \"company\": \"{{ $json.company || '' }}\",\n  \"source\": \"website\",\n  \"industry\": \"{{ $json.industry || 'Other' }}\",\n  \"message\": \"{{ $json.message || '' }}\",\n  \"stage\": \"lead\",\n  \"created_at\": \"{{ $now.toISO() }}\"\n}",
+        "options": {}
+      },
+      "id": "http-crm",
+      "name": "Add to CRM",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [650, 200],
+      "notes": "Replace CRM_API_URL with your GoHighLevel/HubSpot API endpoint"
+    },
+    {
+      "parameters": {
+        "channel": "#leads",
+        "text": "=🔥 *New Lead from Website!*\n\n*Name:* {{ $json.name }}\n*Email:* {{ $json.email }}\n*Phone:* {{ $json.phone || 'N/A' }}\n*Company:* {{ $json.company || 'N/A' }}\n*Industry:* {{ $json.industry || 'N/A' }}\n*Message:* {{ $json.message || 'N/A' }}\n\n_Received at {{ $now.format('yyyy-MM-dd HH:mm') }}_",
+        "otherOptions": {}
+      },
+      "id": "slack-1",
+      "name": "Notify Slack",
+      "type": "n8n-nodes-base.slack",
+      "typeVersion": 2.1,
+      "position": [650, 400],
+      "notes": "Connect your Slack workspace"
+    },
+    {
+      "parameters": {
+        "fromEmail": "={{ $env.FROM_EMAIL }}",
+        "toEmail": "={{ $json.email }}",
+        "subject": "Thanks for reaching out to The Rike!",
+        "emailType": "html",
+        "html": "=<html>\n<body style=\"font-family: Arial, sans-serif; line-height: 1.6; color: #333;\">\n<h2>Hi {{ $json.name }},</h2>\n\n<p>Thanks for reaching out to The Rike!</p>\n\n<p>We received your inquiry and a team member will get back to you within 24 hours.</p>\n\n<p>In the meantime, here's what you can expect:</p>\n<ul>\n  <li>📞 A discovery call to understand your needs</li>\n  <li>📋 A customized proposal based on your goals</li>\n  <li>🚀 Quick implementation (most setups in 5-10 days)</li>\n</ul>\n\n<p>Want to skip the wait? <a href=\"{{ $env.CALENDLY_URL }}\">Book a call directly</a></p>\n\n<p>Best,<br>\nThe Rike Team</p>\n</body>\n</html>",
+        "options": {}
+      },
+      "id": "email-1",
+      "name": "Send Welcome Email",
+      "type": "n8n-nodes-base.emailSend",
+      "typeVersion": 2.1,
+      "position": [850, 300],
+      "notes": "Configure SMTP credentials"
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={\n  \"success\": true,\n  \"message\": \"Thank you! We'll be in touch soon.\"\n}",
+        "options": {}
+      },
+      "id": "respond-1",
+      "name": "Respond Success",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1,
+      "position": [1050, 300]
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={\n  \"success\": false,\n  \"message\": \"Please provide a valid email address.\"\n}",
+        "options": {
+          "responseCode": 400
+        }
+      },
+      "id": "respond-error",
+      "name": "Respond Error",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1,
+      "position": [650, 500]
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "={{ $env.GOOGLE_SHEET_ID }}",
+          "mode": "id"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "Leads",
+          "mode": "list"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Date": "={{ $now.format('yyyy-MM-dd HH:mm') }}",
+            "Name": "={{ $json.name }}",
+            "Email": "={{ $json.email }}",
+            "Phone": "={{ $json.phone || '' }}",
+            "Company": "={{ $json.company || '' }}",
+            "Industry": "={{ $json.industry || '' }}",
+            "Message": "={{ $json.message || '' }}",
+            "Source": "website",
+            "Status": "New"
+          }
+        },
+        "options": {}
+      },
+      "id": "gsheet-1",
+      "name": "Log to Google Sheet",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.1,
+      "position": [850, 100],
+      "notes": "Backup leads to Google Sheets"
+    }
+  ],
+  "connections": {
+    "Webhook - Lead Form": {
+      "main": [
+        [
+          {
+            "node": "Has Email?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Has Email?": {
+      "main": [
+        [
+          {
+            "node": "Add to CRM",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Notify Slack",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Log to Google Sheet",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Respond Error",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Add to CRM": {
+      "main": [
+        [
+          {
+            "node": "Send Welcome Email",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send Welcome Email": {
+      "main": [
+        [
+          {
+            "node": "Respond Success",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "tags": [
+    {
+      "name": "Lead Generation"
+    }
+  ]
+}
