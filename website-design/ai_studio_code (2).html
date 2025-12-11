@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ngũ Hành Agency - Micro Agency Philosophy</title>
+    <style>
+        /* --- UX/UI RIGOR: TYPOGRAPHY & LAYOUT --- */
+        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;600;900&family=Playfair+Display:ital@1&display=swap');
+
+        :root {
+            --color-metal: #E0E0E0; /* Kim - Trắng bạc */
+            --color-wood: #00FF9D;  /* Mộc - Xanh lá neon */
+            --color-water: #00AAFF; /* Thủy - Xanh dương */
+            --color-fire: #FF3333;  /* Hỏa - Đỏ rực */
+            --color-earth: #FFD700; /* Thổ - Vàng kim */
+            --bg-color: #050505;
+        }
+
+        body {
+            margin: 0;
+            overflow: hidden;
+            background-color: var(--bg-color);
+            font-family: 'Montserrat', sans-serif;
+            color: white;
+        }
+
+        #canvas-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+        }
+
+        /* --- UI OVERLAY --- */
+        .ui-layer {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 10;
+            display: grid;
+            grid-template-columns: 300px 1fr; /* Chia cột: Menu trái - Content phải */
+            pointer-events: none; /* Để chuột xuyên qua canvas */
+        }
+
+        /* LEFT MENU (LEAN CONTENT) */
+        .nav-container {
+            pointer-events: auto;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding-left: 50px;
+            background: linear-gradient(90deg, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0) 100%);
+        }
+
+        .brand-name {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 900;
+            font-size: 1.5rem;
+            margin-bottom: 60px;
+            letter-spacing: 2px;
+            opacity: 0.5;
+        }
+
+        .menu-item {
+            font-size: 2.5rem;
+            font-weight: 900;
+            text-transform: uppercase;
+            color: rgba(255, 255, 255, 0.2); /* Mờ khi không chọn */
+            margin: 10px 0;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+            position: relative;
+            width: fit-content;
+        }
+
+        .menu-item::before {
+            content: '';
+            position: absolute;
+            left: -20px;
+            top: 50%;
+            width: 0px;
+            height: 2px;
+            background: white;
+            transition: width 0.3s ease;
+        }
+
+        /* Hover States - Tương tác UX */
+        .menu-item:hover, .menu-item.active {
+            color: white;
+            padding-left: 10px;
+        }
+        
+        .menu-item:hover::before, .menu-item.active::before {
+            width: 20px;
+        }
+
+        /* Specific Colors for Hover */
+        .menu-item[data-element="metal"]:hover { text-shadow: 0 0 20px var(--color-metal); }
+        .menu-item[data-element="wood"]:hover { text-shadow: 0 0 20px var(--color-wood); }
+        .menu-item[data-element="water"]:hover { text-shadow: 0 0 20px var(--color-water); }
+        .menu-item[data-element="fire"]:hover { text-shadow: 0 0 20px var(--color-fire); }
+        .menu-item[data-element="earth"]:hover { text-shadow: 0 0 20px var(--color-earth); }
+
+        /* RIGHT CONTENT (STORYTELLING) */
+        .content-display {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: flex-end;
+            padding-right: 100px;
+            text-align: right;
+        }
+
+        .niche-title {
+            font-size: 1rem;
+            letter-spacing: 5px;
+            text-transform: uppercase;
+            color: #888;
+            margin-bottom: 10px;
+        }
+
+        .niche-desc {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.8rem;
+            max-width: 400px;
+            line-height: 1.4;
+            opacity: 0; /* Ẩn mặc định */
+            transform: translateY(20px);
+            transition: opacity 0.5s, transform 0.5s;
+        }
+
+        .niche-desc.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* MOBILE RESPOSIVE BASIC */
+        @media (max-width: 768px) {
+            .ui-layer { grid-template-columns: 1fr; grid-template-rows: 1fr 1fr; }
+            .nav-container { padding-left: 20px; justify-content: flex-end; padding-bottom: 20px;}
+            .content-display { align-items: flex-start; padding-left: 20px; justify-content: flex-start; padding-top: 20px; text-align: left; }
+            .menu-item { font-size: 1.8rem; }
+        }
+    </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/gsap.min.js"></script>
+</head>
+<body>
+
+    <div id="canvas-container"></div>
+
+    <div class="ui-layer">
+        <!-- MENU -->
+        <div class="nav-container">
+            <div class="brand-name">MICRO AGENCY</div>
+            
+            <div class="menu-item" data-element="wood" data-desc="Phát triển chiến lược bền vững như cây vươn mình.">
+                01. MỘC (GROWTH)
+            </div>
+            <div class="menu-item" data-element="fire" data-desc="Sáng tạo bùng nổ, lan tỏa thương hiệu như lửa.">
+                02. HỎA (BRANDING)
+            </div>
+            <div class="menu-item" data-element="earth" data-desc="Nền tảng công nghệ vững chắc như đất mẹ.">
+                03. THỔ (TECH BASE)
+            </div>
+            <div class="menu-item" data-element="metal" data-desc="Tối ưu tài chính & hiệu suất sắc bén như kim khí.">
+                04. KIM (FINANCE)
+            </div>
+            <div class="menu-item" data-element="water" data-desc="Nội dung tuôn chảy, linh hoạt như dòng nước.">
+                05. THỦY (CONTENT FLOW)
+            </div>
+        </div>
+
+        <!-- CONTENT EXPLANATION -->
+        <div class="content-display">
+            <div class="niche-title" id="displayTitle">PHILOSOPHY</div>
+            <div class="niche-desc visible" id="displayDesc">
+                "Thuận theo tự nhiên để vận hành doanh nghiệp."<br>Hãy chọn một Hành tố để khám phá.
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // --- 1. SETUP THREE.JS SCENE ---
+        const scene = new THREE.Scene();
+        scene.fog = new THREE.FogExp2(0x050505, 0.02); // Sương mù nền tối
+
+        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+        camera.position.z = 6;
+        camera.position.x = 2; // Dời camera sang phải để chừa chỗ cho menu
+
+        const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        renderer.setPixelRatio(window.devicePixelRatio);
+        document.getElementById('canvas-container').appendChild(renderer.domElement);
+
+        // --- 2. THE OBJECTS (THE CORE) ---
+        // Thay vì Cube, dùng Icosahedron (20 mặt) để trông huyền bí hơn
+        const geometry = new THREE.IcosahedronGeometry(1.8, 0); // Low poly
+        
+        // Material chính (Wireframe)
+        const mainMaterial = new THREE.MeshStandardMaterial({
+            color: 0x333333,
+            wireframe: true,
+            emissive: 0x000000,
+            emissiveIntensity: 0.5,
+            roughness: 0.1,
+            metalness: 0.5
+        });
+
+        // Material lõi (Core glowing)
+        const coreGeometry = new THREE.IcosahedronGeometry(1.0, 1);
+        const coreMaterial = new THREE.MeshBasicMaterial({
+            color: 0xffffff,
+            transparent: true,
+            opacity: 0.8,
+            wireframe: false
+        });
+
+        const mainMesh = new THREE.Mesh(geometry, mainMaterial);
+        const coreMesh = new THREE.Mesh(coreGeometry, coreMaterial);
+        
+        const group = new THREE.Group();
+        group.add(mainMesh);
+        group.add(coreMesh);
+        scene.add(group);
+
+        // --- 3. PARTICLES (VŨ TRỤ) ---
+        const pGeo = new THREE.BufferGeometry();
+        const pCount = 1500;
+        const pPos = new Float32Array(pCount * 3);
+        for(let i=0; i<pCount*3; i++) {
+            pPos[i] = (Math.random() - 0.5) * 25;
+        }
+        pGeo.setAttribute('position', new THREE.BufferAttribute(pPos, 3));
+        const pMat = new THREE.PointsMaterial({ size: 0.03, color: 0x444444 });
+        const particles = new THREE.Points(pGeo, pMat);
+        scene.add(particles);
+
+        // --- 4. LIGHTING SYSTEM ---
+        const ambientLight = new THREE.AmbientLight(0xffffff, 0.1);
+        scene.add(ambientLight);
+
+        const pointLight = new THREE.PointLight(0xffffff, 2, 20);
+        pointLight.position.set(5, 5, 5);
+        scene.add(pointLight);
+
+        // Đèn màu chủ đạo (sẽ đổi màu theo Ngũ Hành)
+        const moodLight = new THREE.PointLight(0x000000, 0, 20); // Mặc định tắt
+        moodLight.position.set(-2, 0, 2);
+        scene.add(moodLight);
+
+
+        // --- 5. LOGIC NGŨ HÀNH & ANIMATION ---
+        
+        // Định nghĩa bảng màu (Hex codes)
+        const COLORS = {
+            metal: { hex: 0xE0E0E0, emissive: 0xAAAAAA }, // Trắng
+            wood:  { hex: 0x00FF9D, emissive: 0x004411 }, // Xanh lá
+            water: { hex: 0x00AAFF, emissive: 0x001144 }, // Xanh dương
+            fire:  { hex: 0xFF3333, emissive: 0x550000 }, // Đỏ
+            earth: { hex: 0xFFD700, emissive: 0x443300 }, // Vàng
+            void:  { hex: 0x333333, emissive: 0x000000 }  // Mặc định
+        };
+
+        const menuItems = document.querySelectorAll('.menu-item');
+        const descText = document.getElementById('displayDesc');
+        const titleText = document.getElementById('displayTitle');
+
+        // Hàm chuyển đổi trạng thái (State Machine)
+        function changeState(elementKey, description) {
+            const colorData = COLORS[elementKey] || COLORS.void;
+            const newColor = new THREE.Color(colorData.hex);
+
+            // 1. ANIMATION OBJECT 3D (GSAP)
+            // Đổi màu Wireframe
+            gsap.to(mainMesh.material.color, { r: newColor.r, g: newColor.g, b: newColor.b, duration: 0.5 });
+            gsap.to(mainMesh.material, { emissiveIntensity: 1, duration: 0.5 });
+            
+            // Đổi màu Core
+            gsap.to(coreMesh.material.color, { r: newColor.r, g: newColor.g, b: newColor.b, duration: 0.5 });
+            
+            // Đổi màu đèn Mood Light
+            gsap.to(moodLight.color, { r: newColor.r, g: newColor.g, b: newColor.b, duration: 0.5 });
+            gsap.to(moodLight, { intensity: 2, duration: 0.5 });
+
+            // Hiệu ứng vật lý: Tăng tốc độ xoay khi chọn
+            gsap.to(group.scale, { x: 1.2, y: 1.2, z: 1.2, duration: 0.5, ease: "back.out(1.7)" });
+
+            // 2. ANIMATION TEXT
+            // Fade out cũ -> Đổi nội dung -> Fade in mới
+            descText.classList.remove('visible');
+            setTimeout(() => {
+                descText.innerHTML = description;
+                titleText.innerText = "YẾU TỐ: " + (elementKey === 'void' ? 'CÂN BẰNG' : elementKey.toUpperCase());
+                titleText.style.color = '#' + newColor.getHexString();
+                descText.classList.add('visible');
+            }, 300);
+        }
+
+        function resetState() {
+            // Trở về trạng thái Void (Cân bằng)
+            const colorData = COLORS.void;
+            gsap.to(mainMesh.material.color, { r: 0.2, g: 0.2, b: 0.2, duration: 1 });
+            gsap.to(mainMesh.material, { emissiveIntensity: 0.2, duration: 1 });
+            gsap.to(coreMesh.material.color, { r: 1, g: 1, b: 1, duration: 1 });
+            gsap.to(moodLight, { intensity: 0, duration: 1 });
+            gsap.to(group.scale, { x: 1, y: 1, z: 1, duration: 1 });
+
+            // Reset text
+            /* Giữ nguyên text cuối cùng hoặc reset về intro tùy ý */
+        }
+
+        // Gắn sự kiện cho Menu
+        menuItems.forEach(item => {
+            item.addEventListener('mouseenter', () => {
+                const element = item.getAttribute('data-element');
+                const desc = item.getAttribute('data-desc');
+                
+                // Active class for UI
+                menuItems.forEach(i => i.classList.remove('active'));
+                item.classList.add('active');
+
+                changeState(element, desc);
+            });
+        });
+
+        // --- 6. RENDER LOOP ---
+        const clock = new THREE.Clock();
+        
+        // Tương tác chuột cơ bản (Parallax)
+        let mouseX = 0;
+        let mouseY = 0;
+        document.addEventListener('mousemove', (e) => {
+            mouseX = (e.clientX - window.innerWidth / 2) * 0.001;
+            mouseY = (e.clientY - window.innerHeight / 2) * 0.001;
+        });
+
+        function animate() {
+            requestAnimationFrame(animate);
+            const time = clock.getElapsedTime();
+
+            // Xoay vật thể (Idle animation)
+            group.rotation.y += 0.005;
+            group.rotation.x += 0.002;
+
+            // Xoay theo chuột (Parallax)
+            group.rotation.y += mouseX * 0.05;
+            group.rotation.x += mouseY * 0.05;
+
+            // Hiệu ứng "Thở" cho lõi (Breathing core)
+            const scale = 1 + Math.sin(time * 2) * 0.1;
+            coreMesh.scale.set(scale, scale, scale);
+
+            // Particles trôi
+            particles.rotation.y = time * 0.05;
+
+            renderer.render(scene, camera);
+        }
+
+        animate();
+
+        // Resize handler
+        window.addEventListener('resize', () => {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        });
+
+    </script>
+</body>
+</html>

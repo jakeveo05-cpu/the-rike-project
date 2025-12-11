@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Immersive Web Experience Demo</title>
+    <style>
+        /* --- 1. CORE UX/UI STYLING --- */
+        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;700;900&display=swap');
+
+        body {
+            margin: 0;
+            overflow: hidden; /* Chặn scroll mặc định để dùng scroll ảo 3D */
+            background-color: #050505;
+            font-family: 'Montserrat', sans-serif;
+            color: white;
+        }
+
+        #canvas-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1; /* Nằm dưới UI */
+        }
+
+        /* UI OVERLAY LAYER */
+        .ui-layer {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 10;
+            pointer-events: none; /* Để chuột xuyên qua bấm vào 3D nếu cần */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+
+        /* SECTION 1: HERO */
+        .hero-section {
+            text-align: center;
+            opacity: 1;
+            transition: opacity 1s ease;
+        }
+
+        h1 {
+            font-size: 4rem;
+            text-transform: uppercase;
+            letter-spacing: 5px;
+            margin: 0;
+            text-shadow: 0 0 20px rgba(0, 255, 255, 0.5);
+        }
+
+        p {
+            font-size: 1.2rem;
+            letter-spacing: 2px;
+            color: #ccc;
+            margin-top: 10px;
+        }
+
+        .btn-explore {
+            pointer-events: auto; /* Bật lại tương tác chuột cho nút */
+            margin-top: 40px;
+            padding: 15px 40px;
+            background: transparent;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            color: white;
+            font-size: 1rem;
+            font-weight: bold;
+            letter-spacing: 3px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-explore:hover {
+            background: white;
+            color: black;
+            box-shadow: 0 0 30px rgba(255, 255, 255, 0.5);
+        }
+
+        /* SECTION 2: CONTENT (Ẩn ban đầu) */
+        .content-section {
+            position: absolute;
+            opacity: 0;
+            transform: translateY(50px);
+            pointer-events: none;
+            max-width: 600px;
+            text-align: center;
+        }
+
+        .content-card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            padding: 40px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+        }
+
+        .highlight {
+            color: #00ffff;
+        }
+    </style>
+    
+    <!-- LOAD LIBRARIES: Three.js & GSAP -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/gsap.min.js"></script>
+</head>
+<body>
+
+    <!-- 3D BACKGROUND -->
+    <div id="canvas-container"></div>
+
+    <!-- UI INTERFACE -->
+    <div class="ui-layer">
+        <!-- SCENE 1 -->
+        <div class="hero-section" id="hero">
+            <h1>Digital Magic</h1>
+            <p>Ready to explore the future?</p>
+            <button class="btn-explore" id="exploreBtn">EXPLORE</button>
+        </div>
+
+        <!-- SCENE 2 -->
+        <div class="content-section" id="content">
+            <div class="content-card">
+                <h2 class="highlight">WHO WE ARE</h2>
+                <p>We build immersive digital experiences using advanced WebGL technology.</p>
+                <p style="font-size: 0.9rem; margin-top:20px; opacity: 0.7">Scroll to discover more...</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // --- 2. JAVASCRIPT & 3D LOGIC ---
+
+        // SETUP SCENE
+        const scene = new THREE.Scene();
+        // Fog để tạo chiều sâu và che đi điểm kết thúc của các hạt
+        scene.fog = new THREE.FogExp2(0x050505, 0.02);
+
+        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+        camera.position.z = 5;
+
+        const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        renderer.setPixelRatio(window.devicePixelRatio); // Render sắc nét trên màn hình Retina
+        document.getElementById('canvas-container').appendChild(renderer.domElement);
+
+        // CREATE OBJECTS
+
+        // 1. The Cube (Khối lập phương Neon)
+        // Tạo một khối wireframe bên ngoài và một khối solid mờ bên trong
+        const geometry = new THREE.BoxGeometry(1.5, 1.5, 1.5);
+        
+        // Material cho khung dây (Wireframe)
+        const wireMat = new THREE.MeshBasicMaterial({ color: 0x00ffff, wireframe: true });
+        const wireCube = new THREE.Mesh(geometry, wireMat);
+        
+        // Material cho lõi (Core) - tạo cảm giác "glass"
+        const coreMat = new THREE.MeshPhongMaterial({ 
+            color: 0xaa00ff, 
+            opacity: 0.1, 
+            transparent: true,
+            shininess: 100
+        });
+        const coreCube = new THREE.Mesh(geometry, coreMat);
+
+        const cubeGroup = new THREE.Group();
+        cubeGroup.add(wireCube);
+        cubeGroup.add(coreCube);
+        scene.add(cubeGroup);
+
+        // 2. The Particles (Hạt bụi không gian)
+        const particlesGeometry = new THREE.BufferGeometry();
+        const particlesCount = 2000;
+        const posArray = new Float32Array(particlesCount * 3);
+
+        for(let i = 0; i < particlesCount * 3; i++) {
+            // Rải hạt ngẫu nhiên trong không gian rộng
+            posArray[i] = (Math.random() - 0.5) * 20; 
+        }
+        particlesGeometry.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
+        const particlesMaterial = new THREE.PointsMaterial({
+            size: 0.02,
+            color: 0xffffff,
+            transparent: true,
+            opacity: 0.8
+        });
+        const particlesMesh = new THREE.Points(particlesGeometry, particlesMaterial);
+        scene.add(particlesMesh);
+
+        // LIGHTING
+        const ambientLight = new THREE.AmbientLight(0xffffff, 0.2);
+        scene.add(ambientLight);
+
+        // Đèn xanh cyan chiếu từ trái
+        const light1 = new THREE.PointLight(0x00ffff, 1, 10);
+        light1.position.set(-5, 2, 5);
+        scene.add(light1);
+
+        // Đèn tím magenta chiếu từ phải
+        const light2 = new THREE.PointLight(0xff00ff, 1, 10);
+        light2.position.set(5, -2, 5);
+        scene.add(light2);
+
+        // --- 3. INTERACTION & ANIMATION LOGIC ---
+
+        let mouseX = 0;
+        let mouseY = 0;
+        let targetX = 0;
+        let targetY = 0;
+        const windowHalfX = window.innerWidth / 2;
+        const windowHalfY = window.innerHeight / 2;
+
+        // Bắt sự kiện di chuột để tạo hiệu ứng Parallax
+        document.addEventListener('mousemove', (event) => {
+            mouseX = (event.clientX - windowHalfX);
+            mouseY = (event.clientY - windowHalfY);
+        });
+
+        // Xử lý nút Explore
+        const btn = document.getElementById('exploreBtn');
+        let isExplored = false;
+
+        btn.addEventListener('click', () => {
+            if(isExplored) return;
+            isExplored = true;
+
+            // GSAP ANIMATION SEQUENCE
+            
+            // 1. Ẩn UI cũ
+            gsap.to("#hero", { opacity: 0, duration: 1, pointerEvents: "none" });
+
+            // 2. Hiệu ứng Warp Speed (Biến khối lập phương to lên và biến mất sau camera)
+            gsap.to(cubeGroup.rotation, { x: "+=2", y: "+=2", duration: 2, ease: "power2.in" });
+            gsap.to(cubeGroup.scale, { x: 5, y: 5, z: 5, duration: 1.5, ease: "power2.in" });
+            gsap.to(cubeGroup.material, { opacity: 0, duration: 0.5, delay: 1 }); // Fade out
+
+            // 3. Camera bay xuyên qua không gian
+            gsap.to(camera.position, { 
+                z: -5, 
+                duration: 2.5, 
+                ease: "power3.inOut",
+                onUpdate: () => {
+                    // Tăng tốc độ hạt khi bay
+                    particlesMesh.rotation.z += 0.05;
+                },
+                onComplete: () => {
+                    // Sau khi bay xong, hiện UI nội dung
+                    gsap.to("#content", { 
+                        opacity: 1, 
+                        y: 0, 
+                        duration: 1, 
+                        ease: "power2.out" 
+                    });
+                }
+            });
+        });
+
+        // ANIMATION LOOP (Render loop)
+        const clock = new THREE.Clock();
+
+        function animate() {
+            requestAnimationFrame(animate);
+
+            const elapsedTime = clock.getElapsedTime();
+
+            if (!isExplored) {
+                // Hiệu ứng khi chưa bấm nút (Idle)
+                targetX = mouseX * 0.001;
+                targetY = mouseY * 0.001;
+
+                // Smooth rotation theo chuột
+                cubeGroup.rotation.y += 0.5 * (targetX - cubeGroup.rotation.y);
+                cubeGroup.rotation.x += 0.5 * (targetY - cubeGroup.rotation.x);
+                
+                // Tự xoay nhẹ
+                cubeGroup.rotation.z += 0.002;
+
+                // Các hạt trôi nhẹ
+                particlesMesh.rotation.y = elapsedTime * 0.05;
+            } else {
+                // Hiệu ứng khi đang bay (Warp)
+                // Hạt di chuyển nhanh hơn tạo cảm giác tốc độ
+                particlesMesh.rotation.z += 0.02;
+                particlesMesh.position.z += 0.1;
+                if(particlesMesh.position.z > 5) particlesMesh.position.z = -5; // Reset vị trí hạt
+            }
+
+            renderer.render(scene, camera);
+        }
+
+        animate();
+
+        // Responsive resize
+        window.addEventListener('resize', () => {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        });
+
+    </script>
+</body>
+</html>

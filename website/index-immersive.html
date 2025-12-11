@@ -1,0 +1,1063 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Rike | AI-Native Growth Partner</title>
+    <meta name="description" content="Your competitors use AI. So do we. For you. AI automation + performance-based growth for ambitious SMEs.">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700;900&family=Playfair+Display:ital,wght@0,400;1,400&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            /* Ngũ Hành Colors */
+            --color-wood: #00FF9D;
+            --color-fire: #FF3333;
+            --color-earth: #FFD700;
+            --color-metal: #E0E0E0;
+            --color-water: #00AAFF;
+            
+            /* UI Colors */
+            --bg-dark: #0a0a14;
+            --bg-card: rgba(255, 255, 255, 0.03);
+            --text-primary: #ffffff;
+            --text-secondary: #888888;
+            --text-muted: #555555;
+            --border-subtle: rgba(255, 255, 255, 0.1);
+            
+            /* Spacing */
+            --section-padding: 100px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: var(--bg-dark);
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* ==================== */
+        /* SECTION 1: HERO      */
+        /* ==================== */
+        
+        #hero {
+            position: relative;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 40px 20px;
+            overflow: hidden;
+        }
+
+        /* 3D Canvas Container */
+        #canvas-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+        }
+
+        /* Hero Content Overlay */
+        .hero-content {
+            position: relative;
+            z-index: 10;
+            max-width: 800px;
+            padding: 40px;
+        }
+
+        .hero-badge {
+            display: inline-block;
+            padding: 8px 20px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--border-subtle);
+            border-radius: 30px;
+            font-size: 0.75rem;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: var(--text-secondary);
+            margin-bottom: 30px;
+            backdrop-filter: blur(10px);
+        }
+
+        .hero-headline {
+            font-size: clamp(2.5rem, 6vw, 4rem);
+            font-weight: 900;
+            line-height: 1.1;
+            margin-bottom: 24px;
+            text-transform: uppercase;
+            letter-spacing: -1px;
+        }
+
+        .hero-headline .highlight {
+            background: linear-gradient(135deg, var(--color-wood), var(--color-water));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-subheadline {
+            font-size: clamp(1rem, 2vw, 1.25rem);
+            color: var(--text-secondary);
+            max-width: 600px;
+            margin: 0 auto 40px;
+            line-height: 1.8;
+        }
+
+        .hero-cta-group {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .btn-primary {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 18px 40px;
+            background: linear-gradient(135deg, var(--color-water), var(--color-wood));
+            color: var(--bg-dark);
+            font-size: 0.9rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            text-decoration: none;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 20px 40px rgba(0, 170, 255, 0.3);
+        }
+
+        .btn-secondary {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 12px 24px;
+            background: transparent;
+            color: var(--text-secondary);
+            font-size: 0.8rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            text-decoration: none;
+            border: 1px solid var(--border-subtle);
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-secondary:hover {
+            color: var(--text-primary);
+            border-color: var(--text-primary);
+        }
+
+        /* Scroll Indicator */
+        .scroll-indicator {
+            position: absolute;
+            bottom: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 10;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+            opacity: 0.5;
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        .scroll-indicator span {
+            font-size: 0.7rem;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: var(--text-secondary);
+        }
+
+        .scroll-wheel {
+            width: 24px;
+            height: 40px;
+            border: 2px solid var(--text-muted);
+            border-radius: 12px;
+            position: relative;
+        }
+
+        .scroll-wheel::after {
+            content: '';
+            position: absolute;
+            top: 8px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 3px;
+            height: 8px;
+            background: var(--text-secondary);
+            border-radius: 2px;
+            animation: scroll-down 1.5s ease-in-out infinite;
+        }
+
+        @keyframes scroll-down {
+            0% { opacity: 1; transform: translateX(-50%) translateY(0); }
+            100% { opacity: 0; transform: translateX(-50%) translateY(12px); }
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 0.7; }
+        }
+
+        /* ==================== */
+        /* SECTION 2: TRUST     */
+        /* ==================== */
+        
+        #trust {
+            position: relative;
+            z-index: 20;
+            background: linear-gradient(180deg, transparent 0%, var(--bg-dark) 20%);
+            padding: var(--section-padding) 20px;
+        }
+
+        .trust-container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .trust-label {
+            text-align: center;
+            font-size: 0.75rem;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            margin-bottom: 40px;
+        }
+
+        /* Metrics Grid */
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 30px;
+            margin-bottom: 60px;
+        }
+
+        .metric-card {
+            text-align: center;
+            padding: 30px 20px;
+            background: var(--bg-card);
+            border: 1px solid var(--border-subtle);
+            border-radius: 12px;
+            transition: all 0.3s ease;
+        }
+
+        .metric-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--color-water);
+            box-shadow: 0 10px 30px rgba(0, 170, 255, 0.1);
+        }
+
+        .metric-number {
+            font-size: 2.5rem;
+            font-weight: 900;
+            background: linear-gradient(135deg, var(--color-earth), var(--color-fire));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 8px;
+        }
+
+        .metric-label {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            letter-spacing: 1px;
+        }
+
+        /* Testimonial */
+        .testimonial-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-subtle);
+            border-radius: 16px;
+            padding: 40px;
+            text-align: center;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .testimonial-quote {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.4rem;
+            font-style: italic;
+            line-height: 1.8;
+            color: var(--text-primary);
+            margin-bottom: 24px;
+        }
+
+        .testimonial-author {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 16px;
+        }
+
+        .testimonial-avatar {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, var(--color-water), var(--color-wood));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 1.2rem;
+            color: var(--bg-dark);
+        }
+
+        .testimonial-info {
+            text-align: left;
+        }
+
+        .testimonial-name {
+            font-weight: 600;
+            font-size: 0.95rem;
+        }
+
+        .testimonial-role {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+        }
+
+        /* ==================== */
+        /* SECTION 3: CTA FORM  */
+        /* ==================== */
+        
+        #cta {
+            position: relative;
+            z-index: 20;
+            padding: var(--section-padding) 20px;
+            background: linear-gradient(180deg, var(--bg-dark) 0%, #0d0d1a 100%);
+        }
+
+        .cta-container {
+            max-width: 600px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .cta-headline {
+            font-size: clamp(1.8rem, 4vw, 2.5rem);
+            font-weight: 700;
+            margin-bottom: 16px;
+        }
+
+        .cta-subheadline {
+            font-size: 1rem;
+            color: var(--text-secondary);
+            margin-bottom: 40px;
+        }
+
+        .form-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-subtle);
+            border-radius: 16px;
+            padding: 40px;
+            text-align: left;
+        }
+
+        .form-group {
+            margin-bottom: 24px;
+        }
+
+        .form-label {
+            display: block;
+            font-size: 0.8rem;
+            font-weight: 600;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            color: var(--text-secondary);
+            margin-bottom: 10px;
+        }
+
+        .form-input,
+        .form-select {
+            width: 100%;
+            padding: 16px 20px;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--border-subtle);
+            border-radius: 8px;
+            color: var(--text-primary);
+            font-family: inherit;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .form-input:focus,
+        .form-select:focus {
+            outline: none;
+            border-color: var(--color-water);
+            box-shadow: 0 0 0 3px rgba(0, 170, 255, 0.1);
+        }
+
+        .form-select {
+            cursor: pointer;
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='%23888' viewBox='0 0 16 16'%3E%3Cpath d='M8 11L3 6h10l-5 5z'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 16px center;
+        }
+
+        .form-select option {
+            background: var(--bg-dark);
+            color: var(--text-primary);
+        }
+
+        .form-submit {
+            width: 100%;
+            padding: 18px;
+            background: linear-gradient(135deg, var(--color-water), var(--color-wood));
+            color: var(--bg-dark);
+            font-family: inherit;
+            font-size: 0.9rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .form-submit:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 15px 30px rgba(0, 170, 255, 0.3);
+        }
+
+        .form-note {
+            text-align: center;
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            margin-top: 20px;
+        }
+
+        /* ==================== */
+        /* FOOTER               */
+        /* ==================== */
+        
+        footer {
+            padding: 40px 20px;
+            text-align: center;
+            border-top: 1px solid var(--border-subtle);
+        }
+
+        .footer-text {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+        }
+
+        .footer-text a {
+            color: var(--text-secondary);
+            text-decoration: none;
+        }
+
+        .footer-text a:hover {
+            color: var(--color-water);
+        }
+
+        /* Language Switcher */
+        .lang-switch {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
+            display: flex;
+            gap: 8px;
+        }
+
+        .lang-btn {
+            padding: 8px 16px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--border-subtle);
+            border-radius: 4px;
+            color: var(--text-secondary);
+            font-size: 0.75rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .lang-btn:hover,
+        .lang-btn.active {
+            background: var(--text-primary);
+            color: var(--bg-dark);
+            border-color: var(--text-primary);
+        }
+
+        /* ==================== */
+        /* RESPONSIVE           */
+        /* ==================== */
+        
+        @media (max-width: 768px) {
+            :root {
+                --section-padding: 60px;
+            }
+
+            .metrics-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 16px;
+            }
+
+            .metric-card {
+                padding: 20px 16px;
+            }
+
+            .metric-number {
+                font-size: 1.8rem;
+            }
+
+            .testimonial-card {
+                padding: 30px 20px;
+            }
+
+            .testimonial-quote {
+                font-size: 1.1rem;
+            }
+
+            .form-card {
+                padding: 30px 20px;
+            }
+
+            .hero-content {
+                padding: 20px;
+            }
+
+            /* Hide 3D on mobile, show static background */
+            #canvas-container {
+                display: none;
+            }
+
+            #hero {
+                background: radial-gradient(ellipse at center, #1a1a2e 0%, var(--bg-dark) 70%);
+            }
+
+            #hero::before {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background-image: 
+                    radial-gradient(circle at 20% 30%, rgba(0, 255, 157, 0.1) 0%, transparent 30%),
+                    radial-gradient(circle at 80% 70%, rgba(0, 170, 255, 0.1) 0%, transparent 30%),
+                    radial-gradient(circle at 50% 50%, rgba(255, 215, 0, 0.05) 0%, transparent 40%);
+                z-index: 1;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .metrics-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .lang-switch {
+                top: 10px;
+                right: 10px;
+            }
+
+            .lang-btn {
+                padding: 6px 12px;
+                font-size: 0.7rem;
+            }
+        }
+
+        /* ==================== */
+        /* LOADING SCREEN       */
+        /* ==================== */
+        
+        .loading-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--bg-dark);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            transition: opacity 0.8s ease, visibility 0.8s ease;
+        }
+
+        .loading-screen.hidden {
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        .loading-content {
+            text-align: center;
+        }
+
+        .loading-logo {
+            font-size: 1.5rem;
+            font-weight: 900;
+            letter-spacing: 3px;
+            margin-bottom: 30px;
+            background: linear-gradient(135deg, var(--color-wood), var(--color-water));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .loading-bar {
+            width: 200px;
+            height: 2px;
+            background: var(--border-subtle);
+            border-radius: 2px;
+            overflow: hidden;
+        }
+
+        .loading-progress {
+            width: 0%;
+            height: 100%;
+            background: linear-gradient(90deg, var(--color-wood), var(--color-water), var(--color-fire), var(--color-earth));
+            animation: loading 2s ease-out forwards;
+        }
+
+        @keyframes loading {
+            0% { width: 0%; }
+            100% { width: 100%; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Loading Screen -->
+    <div class="loading-screen" id="loadingScreen">
+        <div class="loading-content">
+            <div class="loading-logo">THE RIKE</div>
+            <div class="loading-bar">
+                <div class="loading-progress"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Language Switcher -->
+    <div class="lang-switch">
+        <button class="lang-btn active" data-lang="en">EN</button>
+        <button class="lang-btn" data-lang="vi">VI</button>
+    </div>
+
+    <!-- 3D Canvas -->
+    <div id="canvas-container"></div>
+
+    <!-- SECTION 1: HERO -->
+    <section id="hero">
+        <div class="hero-content">
+            <div class="hero-badge">AI-Native Micro Agency</div>
+            <h1 class="hero-headline">
+                Your competitors use AI.<br>
+                <span class="highlight">So do we. For you.</span>
+            </h1>
+            <p class="hero-subheadline" data-en="AI automation + performance-based growth. You pay us when YOUR revenue goes up." data-vi="Tự động hóa AI + tăng trưởng theo hiệu suất. Bạn trả tiền khi DOANH THU của bạn tăng.">
+                AI automation + performance-based growth. You pay us when YOUR revenue goes up.
+            </p>
+            <div class="hero-cta-group">
+                <a href="#cta" class="btn-primary" data-en="Book 30-min Audit" data-vi="Đặt lịch tư vấn 30 phút">
+                    Book 30-min Audit
+                    <svg width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                        <path d="M8 0a8 8 0 1 1 0 16A8 8 0 0 1 8 0zM4.5 7.5a.5.5 0 0 0 0 1h5.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3a.5.5 0 0 0 0-.708l-3-3a.5.5 0 1 0-.708.708L10.293 7.5H4.5z"/>
+                    </svg>
+                </a>
+                <a href="#trust" class="btn-secondary" data-en="Explore Our Approach" data-vi="Khám phá phương pháp">
+                    Explore Our Approach
+                    <svg width="12" height="12" fill="currentColor" viewBox="0 0 16 16">
+                        <path d="M8 4a.5.5 0 0 1 .5.5v5.793l2.146-2.147a.5.5 0 0 1 .708.708l-3 3a.5.5 0 0 1-.708 0l-3-3a.5.5 0 1 1 .708-.708L7.5 10.293V4.5A.5.5 0 0 1 8 4z"/>
+                    </svg>
+                </a>
+            </div>
+        </div>
+        
+        <div class="scroll-indicator">
+            <span data-en="Scroll" data-vi="Cuộn">Scroll</span>
+            <div class="scroll-wheel"></div>
+        </div>
+    </section>
+
+    <!-- SECTION 2: TRUST -->
+    <section id="trust">
+        <div class="trust-container">
+            <p class="trust-label" data-en="Trusted by ambitious SMBs" data-vi="Được tin tưởng bởi các SMB tham vọng">Trusted by ambitious SMBs</p>
+            
+            <div class="metrics-grid">
+                <div class="metric-card">
+                    <div class="metric-number">$2M+</div>
+                    <div class="metric-label" data-en="Revenue Impacted" data-vi="Doanh thu tác động">Revenue Impacted</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-number">3.2x</div>
+                    <div class="metric-label" data-en="Avg ROI in 6 months" data-vi="ROI trung bình 6 tháng">Avg ROI in 6 months</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-number">40-60</div>
+                    <div class="metric-label" data-en="Hours/month Saved" data-vi="Giờ/tháng tiết kiệm">Hours/month Saved</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-number">98%</div>
+                    <div class="metric-label" data-en="Client Retention" data-vi="Tỷ lệ giữ chân">Client Retention</div>
+                </div>
+            </div>
+
+            <div class="testimonial-card">
+                <p class="testimonial-quote" data-en=""Within 8 weeks, they automated what took my team 40 hours/month. Now we focus on strategy, not data entry."" data-vi=""Trong 8 tuần, họ tự động hóa những gì team tôi mất 40 giờ/tháng. Giờ chúng tôi tập trung vào chiến lược, không phải nhập liệu."">
+                    "Within 8 weeks, they automated what took my team 40 hours/month. Now we focus on strategy, not data entry."
+                </p>
+                <div class="testimonial-author">
+                    <div class="testimonial-avatar">V</div>
+                    <div class="testimonial-info">
+                        <div class="testimonial-name">Founder & CTO</div>
+                        <div class="testimonial-role">Vibecode - Tech Startup</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION 3: CTA FORM -->
+    <section id="cta">
+        <div class="cta-container">
+            <h2 class="cta-headline" data-en="Let's find your unfair advantage" data-vi="Hãy tìm lợi thế cạnh tranh của bạn">Let's find your unfair advantage</h2>
+            <p class="cta-subheadline" data-en="30-min Zoom call. You'll leave with a custom action plan—or we'll tell you upfront if we're not the fit." data-vi="Cuộc gọi Zoom 30 phút. Bạn sẽ có kế hoạch hành động riêng—hoặc chúng tôi sẽ nói thẳng nếu không phù hợp.">
+                30-min Zoom call. You'll leave with a custom action plan—or we'll tell you upfront if we're not the fit.
+            </p>
+            
+            <div class="form-card">
+                <form id="auditForm" action="#" method="POST">
+                    <div class="form-group">
+                        <label class="form-label" data-en="Business Name" data-vi="Tên doanh nghiệp">Business Name</label>
+                        <input type="text" class="form-input" name="business_name" placeholder="Your company name" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label" data-en="Monthly Revenue" data-vi="Doanh thu hàng tháng">Monthly Revenue</label>
+                        <select class="form-select" name="revenue" required>
+                            <option value="" data-en="Select range" data-vi="Chọn mức">Select range</option>
+                            <option value="<50k">< $50k</option>
+                            <option value="50-100k">$50k - $100k</option>
+                            <option value="100-250k">$100k - $250k</option>
+                            <option value="250k-1m">$250k - $1M</option>
+                            <option value=">1m">> $1M</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label" data-en="Biggest Challenge Right Now" data-vi="Thách thức lớn nhất hiện tại">Biggest Challenge Right Now</label>
+                        <select class="form-select" name="challenge" required>
+                            <option value="" data-en="Select challenge" data-vi="Chọn thách thức">Select challenge</option>
+                            <option value="acquisition" data-en="High customer acquisition cost" data-vi="Chi phí thu hút khách hàng cao">High customer acquisition cost</option>
+                            <option value="manual" data-en="Manual work killing my team" data-vi="Công việc thủ công làm kiệt sức team">Manual work killing my team</option>
+                            <option value="visibility" data-en="Losing visibility to AI search" data-vi="Mất khả năng hiển thị trên AI search">Losing visibility to AI search</option>
+                            <option value="growth" data-en="Revenue is flat, need to scale" data-vi="Doanh thu đi ngang, cần mở rộng">Revenue is flat, need to scale</option>
+                            <option value="strategy" data-en="No clear marketing strategy" data-vi="Không có chiến lược marketing rõ ràng">No clear marketing strategy</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label" data-en="Team Size" data-vi="Quy mô team">Team Size</label>
+                        <select class="form-select" name="team_size" required>
+                            <option value="" data-en="Select size" data-vi="Chọn quy mô">Select size</option>
+                            <option value="solo" data-en="Just me" data-vi="Chỉ mình tôi">Just me</option>
+                            <option value="2-5">2-5</option>
+                            <option value="6-10">6-10</option>
+                            <option value="10+">10+</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label" data-en="Best Email" data-vi="Email liên hệ">Best Email</label>
+                        <input type="email" class="form-input" name="email" placeholder="you@company.com" required>
+                    </div>
+                    
+                    <button type="submit" class="form-submit" data-en="Book My Free Audit" data-vi="Đặt lịch tư vấn miễn phí">Book My Free Audit</button>
+                </form>
+                
+                <p class="form-note" data-en="No credit card required. Takes 60 seconds." data-vi="Không cần thẻ tín dụng. Chỉ mất 60 giây.">
+                    No credit card required. Takes 60 seconds.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer>
+        <p class="footer-text">
+            © 2024 The Rike. AI-Native Growth Partner.<br>
+            <a href="mailto:hello@therike.com">hello@therike.com</a>
+        </p>
+    </footer>
+
+    <!-- THREE.JS & GSAP -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    
+    <script>
+        // ============================================
+        // 1. LOADING SCREEN
+        // ============================================
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                document.getElementById('loadingScreen').classList.add('hidden');
+            }, 2200);
+        });
+
+        // ============================================
+        // 2. LANGUAGE SWITCHER
+        // ============================================
+        const langBtns = document.querySelectorAll('.lang-btn');
+        let currentLang = 'en';
+
+        langBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                const lang = btn.getAttribute('data-lang');
+                if (lang === currentLang) return;
+
+                currentLang = lang;
+                langBtns.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+
+                // Update all translatable elements
+                document.querySelectorAll('[data-' + lang + ']').forEach(el => {
+                    const text = el.getAttribute('data-' + lang);
+                    if (text) {
+                        if (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA') {
+                            el.placeholder = text;
+                        } else if (el.tagName === 'OPTION') {
+                            el.textContent = text;
+                        } else {
+                            el.textContent = text;
+                        }
+                    }
+                });
+            });
+        });
+
+        // ============================================
+        // 3. THREE.JS PLANETARY SYSTEM
+        // ============================================
+        
+        // Check if mobile
+        const isMobile = window.innerWidth < 768;
+        
+        if (!isMobile) {
+            // Scene setup
+            const scene = new THREE.Scene();
+            scene.fog = new THREE.FogExp2(0x0a0a14, 0.015);
+
+            const camera = new THREE.PerspectiveCamera(
+                75,
+                window.innerWidth / window.innerHeight,
+                0.1,
+                1000
+            );
+            camera.position.set(0, 5, 18);
+            camera.lookAt(0, 0, 0);
+
+            const renderer = new THREE.WebGLRenderer({ 
+                antialias: true, 
+                alpha: true,
+                powerPreference: 'high-performance'
+            });
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+            document.getElementById('canvas-container').appendChild(renderer.domElement);
+
+            // Lighting
+            const ambientLight = new THREE.AmbientLight(0xffffff, 0.15);
+            scene.add(ambientLight);
+
+            const coreLight = new THREE.PointLight(0xFFD700, 2, 50);
+            coreLight.position.set(0, 0, 0);
+            scene.add(coreLight);
+
+            // Core (Sun)
+            const coreGeo = new THREE.IcosahedronGeometry(1.5, 3);
+            const coreMat = new THREE.MeshStandardMaterial({
+                color: 0xFFD700,
+                emissive: 0xFFAA00,
+                emissiveIntensity: 0.6,
+                metalness: 0.5,
+                roughness: 0.3
+            });
+            const core = new THREE.Mesh(coreGeo, coreMat);
+            scene.add(core);
+
+            // Core wireframe
+            const coreWireGeo = new THREE.IcosahedronGeometry(1.8, 1);
+            const coreWireMat = new THREE.MeshBasicMaterial({
+                color: 0xFFD700,
+                wireframe: true,
+                transparent: true,
+                opacity: 0.2
+            });
+            const coreWire = new THREE.Mesh(coreWireGeo, coreWireMat);
+            core.add(coreWire);
+
+            // Planets config (Ngũ Hành)
+            const PLANETS = [
+                { name: 'wood', color: 0x00FF9D, radius: 6, speed: 0.5, size: 0.6, type: 'sphere' },
+                { name: 'fire', color: 0xFF3333, radius: 8, speed: 0.4, size: 0.7, type: 'icosahedron' },
+                { name: 'earth', color: 0xFFD700, radius: 10, speed: 0.3, size: 0.8, type: 'tetrahedron' },
+                { name: 'metal', color: 0xE0E0E0, radius: 12, speed: 0.25, size: 0.65, type: 'octahedron' },
+                { name: 'water', color: 0x00AAFF, radius: 14, speed: 0.2, size: 0.75, type: 'sphere' }
+            ];
+
+            const planets = [];
+
+            PLANETS.forEach((config, i) => {
+                let geometry;
+                if (config.type === 'sphere') geometry = new THREE.IcosahedronGeometry(config.size, 2);
+                else if (config.type === 'icosahedron') geometry = new THREE.IcosahedronGeometry(config.size, 1);
+                else if (config.type === 'tetrahedron') geometry = new THREE.TetrahedronGeometry(config.size);
+                else if (config.type === 'octahedron') geometry = new THREE.OctahedronGeometry(config.size);
+
+                const material = new THREE.MeshStandardMaterial({
+                    color: config.color,
+                    emissive: config.color,
+                    emissiveIntensity: 0.2,
+                    metalness: 0.5,
+                    roughness: 0.4
+                });
+
+                const mesh = new THREE.Mesh(geometry, material);
+                
+                // Initial position
+                const angle = (i / PLANETS.length) * Math.PI * 2;
+                mesh.position.x = Math.cos(angle) * config.radius;
+                mesh.position.z = Math.sin(angle) * config.radius;
+                mesh.position.y = (Math.random() - 0.5) * 2;
+
+                scene.add(mesh);
+                planets.push({ mesh, config, angle });
+
+                // Orbit ring
+                const orbitGeo = new THREE.BufferGeometry();
+                const orbitPoints = [];
+                for (let j = 0; j <= 64; j++) {
+                    const a = (j / 64) * Math.PI * 2;
+                    orbitPoints.push(Math.cos(a) * config.radius, 0, Math.sin(a) * config.radius);
+                }
+                orbitGeo.setAttribute('position', new THREE.Float32BufferAttribute(orbitPoints, 3));
+                const orbitMat = new THREE.LineBasicMaterial({ 
+                    color: config.color, 
+                    transparent: true, 
+                    opacity: 0.1 
+                });
+                const orbitLine = new THREE.Line(orbitGeo, orbitMat);
+                scene.add(orbitLine);
+            });
+
+            // Particles (Stars)
+            const particleCount = 1500;
+            const particleGeo = new THREE.BufferGeometry();
+            const positions = new Float32Array(particleCount * 3);
+            for (let i = 0; i < particleCount * 3; i++) {
+                positions[i] = (Math.random() - 0.5) * 100;
+            }
+            particleGeo.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+            const particleMat = new THREE.PointsMaterial({
+                size: 0.08,
+                color: 0xffffff,
+                transparent: true,
+                opacity: 0.5
+            });
+            const particles = new THREE.Points(particleGeo, particleMat);
+            scene.add(particles);
+
+            // Mouse interaction
+            let mouseX = 0, mouseY = 0;
+            document.addEventListener('mousemove', (e) => {
+                mouseX = (e.clientX - window.innerWidth / 2) * 0.0005;
+                mouseY = (e.clientY - window.innerHeight / 2) * 0.0005;
+            });
+
+            // Animation loop
+            const clock = new THREE.Clock();
+
+            function animate() {
+                requestAnimationFrame(animate);
+                const time = clock.getElapsedTime();
+
+                // Core rotation & breathing
+                core.rotation.y = time * 0.2;
+                core.rotation.x = time * 0.1;
+                coreWire.rotation.z = -time * 0.3;
+                const breathe = 1 + Math.sin(time * 2) * 0.1;
+                core.scale.set(breathe, breathe, breathe);
+
+                // Planets orbit
+                planets.forEach((planet) => {
+                    planet.angle += planet.config.speed * 0.01;
+                    planet.mesh.position.x = Math.cos(planet.angle) * planet.config.radius;
+                    planet.mesh.position.z = Math.sin(planet.angle) * planet.config.radius;
+                    planet.mesh.rotation.x += 0.01;
+                    planet.mesh.rotation.y += 0.015;
+                });
+
+                // Particles drift
+                particles.rotation.y = time * 0.02;
+
+                // Camera parallax
+                camera.position.x += (mouseX * 3 - camera.position.x) * 0.02;
+                camera.position.y += (-mouseY * 3 + 5 - camera.position.y) * 0.02;
+                camera.lookAt(0, 0, 0);
+
+                renderer.render(scene, camera);
+            }
+
+            animate();
+
+            // Resize handler
+            window.addEventListener('resize', () => {
+                camera.aspect = window.innerWidth / window.innerHeight;
+                camera.updateProjectionMatrix();
+                renderer.setSize(window.innerWidth, window.innerHeight);
+            });
+        }
+
+        // ============================================
+        // 4. FORM SUBMISSION
+        // ============================================
+        document.getElementById('auditForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            
+            const formData = new FormData(e.target);
+            const data = Object.fromEntries(formData);
+            
+            console.log('Form submitted:', data);
+            
+            // TODO: Send to backend or Calendly
+            alert(currentLang === 'en' 
+                ? 'Thanks! We\'ll be in touch within 24 hours.' 
+                : 'Cảm ơn bạn! Chúng tôi sẽ liên hệ trong vòng 24 giờ.');
+            
+            e.target.reset();
+        });
+
+        console.log('🚀 The Rike - Phase 1 Loaded');
+    </script>
+</body>
+</html>
