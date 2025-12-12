@@ -1,0 +1,562 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Rike | AI SEO for Ecommerce</title>
+    <meta name="description" content="Is Google AI Overview stealing your ecommerce traffic? We help eCom brands get featured in AI search results.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #2563EB;
+            --primary-dark: #1D4ED8;
+            --dark: #0F172A;
+            --gray: #64748B;
+            --light: #F8FAFC;
+            --white: #FFFFFF;
+            --red: #DC2626;
+            --green: #16A34A;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            color: var(--dark);
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        /* Navigation - Minimal */
+        nav {
+            padding: 20px 0;
+            background: var(--white);
+        }
+
+        nav .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: 800;
+            color: var(--dark);
+            text-decoration: none;
+        }
+
+        .nav-cta {
+            background: var(--primary);
+            color: var(--white);
+            padding: 10px 20px;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 14px;
+            transition: background 0.3s;
+        }
+
+        .nav-cta:hover {
+            background: var(--primary-dark);
+        }
+
+        /* Hero Section */
+        .hero {
+            padding: 80px 0 60px;
+            text-align: center;
+            background: linear-gradient(180deg, var(--white) 0%, var(--light) 100%);
+        }
+
+        .hero-badge {
+            display: inline-block;
+            background: #FEF3C7;
+            color: #92400E;
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 24px;
+        }
+
+        .hero h1 {
+            font-size: 44px;
+            font-weight: 800;
+            line-height: 1.2;
+            margin-bottom: 20px;
+            color: var(--dark);
+        }
+
+        .hero h1 span {
+            color: var(--red);
+        }
+
+        .hero p {
+            font-size: 20px;
+            color: var(--gray);
+            margin-bottom: 32px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .btn-primary {
+            display: inline-block;
+            background: var(--primary);
+            color: var(--white);
+            padding: 16px 32px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 18px;
+            transition: all 0.3s;
+        }
+
+        .btn-primary:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(37, 99, 235, 0.3);
+        }
+
+        .hero-note {
+            margin-top: 16px;
+            font-size: 14px;
+            color: var(--gray);
+        }
+
+        /* Problem Section */
+        .problem {
+            padding: 80px 0;
+            background: var(--white);
+        }
+
+        .section-label {
+            text-transform: uppercase;
+            font-size: 12px;
+            font-weight: 700;
+            letter-spacing: 2px;
+            color: var(--red);
+            margin-bottom: 16px;
+        }
+
+        .problem h2 {
+            font-size: 32px;
+            font-weight: 700;
+            margin-bottom: 32px;
+        }
+
+        .problem-list {
+            list-style: none;
+        }
+
+        .problem-list li {
+            display: flex;
+            align-items: flex-start;
+            gap: 16px;
+            padding: 20px 0;
+            border-bottom: 1px solid #E2E8F0;
+        }
+
+        .problem-list li:last-child {
+            border-bottom: none;
+        }
+
+        .problem-icon {
+            width: 32px;
+            height: 32px;
+            background: #FEE2E2;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            color: var(--red);
+            font-weight: bold;
+        }
+
+        .problem-list h4 {
+            font-size: 18px;
+            margin-bottom: 4px;
+        }
+
+        .problem-list p {
+            color: var(--gray);
+            font-size: 15px;
+        }
+
+        /* Solution Section */
+        .solution {
+            padding: 80px 0;
+            background: var(--light);
+        }
+
+        .solution .section-label {
+            color: var(--green);
+        }
+
+        .solution h2 {
+            font-size: 32px;
+            font-weight: 700;
+            margin-bottom: 32px;
+        }
+
+        .solution-list {
+            list-style: none;
+        }
+
+        .solution-list li {
+            display: flex;
+            align-items: flex-start;
+            gap: 16px;
+            padding: 20px 0;
+            border-bottom: 1px solid #E2E8F0;
+        }
+
+        .solution-list li:last-child {
+            border-bottom: none;
+        }
+
+        .solution-icon {
+            width: 32px;
+            height: 32px;
+            background: #DCFCE7;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            color: var(--green);
+            font-weight: bold;
+        }
+
+        .solution-list h4 {
+            font-size: 18px;
+            margin-bottom: 4px;
+        }
+
+        .solution-list p {
+            color: var(--gray);
+            font-size: 15px;
+        }
+
+        /* Proof Section */
+        .proof {
+            padding: 80px 0;
+            background: var(--white);
+        }
+
+        .proof h2 {
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 40px;
+            text-align: center;
+        }
+
+        .testimonial {
+            background: var(--light);
+            border-radius: 16px;
+            padding: 32px;
+            margin-bottom: 24px;
+        }
+
+        .testimonial-quote {
+            font-size: 20px;
+            font-style: italic;
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+
+        .testimonial-author {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .testimonial-avatar {
+            width: 48px;
+            height: 48px;
+            background: var(--primary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--white);
+            font-weight: 700;
+        }
+
+        .testimonial-name {
+            font-weight: 600;
+        }
+
+        .testimonial-role {
+            font-size: 14px;
+            color: var(--gray);
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+            margin-top: 40px;
+        }
+
+        .stat {
+            text-align: center;
+            padding: 24px;
+            background: var(--light);
+            border-radius: 12px;
+        }
+
+        .stat-number {
+            font-size: 36px;
+            font-weight: 800;
+            color: var(--primary);
+        }
+
+        .stat-label {
+            font-size: 14px;
+            color: var(--gray);
+        }
+
+        /* CTA Section */
+        .cta {
+            padding: 80px 0;
+            background: var(--dark);
+            text-align: center;
+        }
+
+        .cta h2 {
+            font-size: 36px;
+            font-weight: 700;
+            color: var(--white);
+            margin-bottom: 16px;
+        }
+
+        .cta p {
+            font-size: 18px;
+            color: #94A3B8;
+            margin-bottom: 32px;
+        }
+
+        .cta .btn-primary {
+            background: var(--white);
+            color: var(--primary);
+        }
+
+        .cta .btn-primary:hover {
+            background: var(--light);
+        }
+
+        .cta-features {
+            display: flex;
+            justify-content: center;
+            gap: 32px;
+            margin-top: 24px;
+        }
+
+        .cta-feature {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #94A3B8;
+            font-size: 14px;
+        }
+
+        .cta-feature svg {
+            color: var(--green);
+        }
+
+        /* Footer */
+        footer {
+            padding: 24px 0;
+            background: var(--dark);
+            border-top: 1px solid #1E293B;
+            text-align: center;
+        }
+
+        footer p {
+            color: #64748B;
+            font-size: 14px;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 32px;
+            }
+
+            .hero p {
+                font-size: 18px;
+            }
+
+            .stats {
+                grid-template-columns: 1fr;
+            }
+
+            .cta h2 {
+                font-size: 28px;
+            }
+
+            .cta-features {
+                flex-direction: column;
+                gap: 12px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav>
+        <div class="container">
+            <a href="#" class="logo">The Rike</a>
+            <a href="#book" class="nav-cta">Get Free Audit</a>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-badge">⚠️ eCom Traffic Alert</div>
+            <h1>Is Google AI Overview <span>Stealing</span> Your Ecommerce Traffic?</h1>
+            <p>Your customers are getting answers directly from AI — without ever clicking to your site. We help eCom brands get featured IN the AI results.</p>
+            <a href="#book" class="btn-primary">Get Your Free AI Audit →</a>
+            <p class="hero-note">15-minute call • No obligation • See exactly what's happening</p>
+        </div>
+    </section>
+
+    <!-- Problem Section -->
+    <section class="problem">
+        <div class="container">
+            <div class="section-label">The Problem</div>
+            <h2>Why Your Organic Traffic Is Dropping</h2>
+            <ul class="problem-list">
+                <li>
+                    <div class="problem-icon">1</div>
+                    <div>
+                        <h4>Google AI Overview answers questions directly</h4>
+                        <p>Users get product comparisons, reviews, and recommendations without clicking any links. Your content is being used, but you're not getting the traffic.</p>
+                    </div>
+                </li>
+                <li>
+                    <div class="problem-icon">2</div>
+                    <div>
+                        <h4>Traditional SEO is losing effectiveness</h4>
+                        <p>Ranking #1 doesn't matter if the AI summary appears above all results. Click-through rates on informational queries have dropped 30-60%.</p>
+                    </div>
+                </li>
+                <li>
+                    <div class="problem-icon">3</div>
+                    <div>
+                        <h4>Your competitors are adapting — you're not</h4>
+                        <p>Smart eCom brands are optimizing to BE the source that AI cites. While you're stuck doing "old SEO", they're capturing your market share.</p>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </section>
+
+    <!-- Solution Section -->
+    <section class="solution">
+        <div class="container">
+            <div class="section-label">The Solution</div>
+            <h2>Get Featured IN the AI Results</h2>
+            <ul class="solution-list">
+                <li>
+                    <div class="solution-icon">✓</div>
+                    <div>
+                        <h4>AI Overview Optimization</h4>
+                        <p>We restructure your content to be the source Google's AI cites. When users see the AI summary, YOUR brand is mentioned.</p>
+                    </div>
+                </li>
+                <li>
+                    <div class="solution-icon">✓</div>
+                    <div>
+                        <h4>ChatGPT & Perplexity Citations</h4>
+                        <p>It's not just Google. We optimize your content to be cited by ChatGPT, Perplexity, and other AI assistants your customers use.</p>
+                    </div>
+                </li>
+                <li>
+                    <div class="solution-icon">✓</div>
+                    <div>
+                        <h4>Traffic That Actually Converts</h4>
+                        <p>AI-referred visitors have 2-3x higher intent than regular organic traffic. They've already been "pre-sold" by the AI recommendation.</p>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </section>
+
+    <!-- Proof Section -->
+    <section class="proof">
+        <div class="container">
+            <h2>Results From eCom Brands Like Yours</h2>
+            
+            <div class="testimonial">
+                <p class="testimonial-quote">"We were losing 40% of our blog traffic to AI Overview. The Rike optimized our top 10 posts — now we're actually FEATURED in the AI results. Traffic recovered in 6 weeks."</p>
+                <div class="testimonial-author">
+                    <div class="testimonial-avatar">M</div>
+                    <div>
+                        <div class="testimonial-name">Marketing Director</div>
+                        <div class="testimonial-role">$2M/year eCom Brand, California</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="stats">
+                <div class="stat">
+                    <div class="stat-number">40%</div>
+                    <div class="stat-label">Avg. Traffic Recovery</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-number">7 Days</div>
+                    <div class="stat-label">To First Results</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-number">2-3x</div>
+                    <div class="stat-label">Higher Conversion Rate</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta" id="book">
+        <div class="container">
+            <h2>Get Your Free AI Traffic Audit</h2>
+            <p>In 15 minutes, we'll show you exactly how AI Overview is affecting your traffic — and how to fix it.</p>
+            <a href="https://calendly.com/therike/ai-audit" class="btn-primary" target="_blank">Book Your Free Audit →</a>
+            <div class="cta-features">
+                <div class="cta-feature">
+                    <svg width="16" height="16" fill="currentColor" viewBox="0 0 16 16"><path d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0z"/></svg>
+                    15 minutes
+                </div>
+                <div class="cta-feature">
+                    <svg width="16" height="16" fill="currentColor" viewBox="0 0 16 16"><path d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0z"/></svg>
+                    No obligation
+                </div>
+                <div class="cta-feature">
+                    <svg width="16" height="16" fill="currentColor" viewBox="0 0 16 16"><path d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0z"/></svg>
+                    Actionable insights
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <p>© 2024 The Rike. AI-Native SEO for Ecommerce.</p>
+        </div>
+    </footer>
+</body>
+</html>

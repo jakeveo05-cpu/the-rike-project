@@ -1,0 +1,1064 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Rike | Ngũ Hành Universe</title>
+    <meta name="description" content="Experience the Five Elements of Business Growth">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700;900&family=Noto+Serif:ital@0;1&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            /* Ngũ Hành */
+            --hoa-primary: #FF3333;
+            --hoa-glow: #FF6600;
+            --thuy-primary: #0088FF;
+            --thuy-glow: #00DDFF;
+            --tho-primary: #DDAA00;
+            --tho-glow: #FFDD44;
+            --kim-primary: #AABBCC;
+            --kim-glow: #FFFFFF;
+            --moc-primary: #00CC66;
+            --moc-glow: #44FFAA;
+            
+            --bg: #08080c;
+            --text: #ffffff;
+            --text-dim: #666677;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html, body {
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            background: var(--bg);
+            font-family: 'Montserrat', sans-serif;
+            color: var(--text);
+            cursor: none;
+        }
+
+        /* Custom Cursor */
+        .cursor {
+            position: fixed;
+            width: 20px;
+            height: 20px;
+            border: 2px solid rgba(255,255,255,0.5);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 9999;
+            transition: transform 0.1s, border-color 0.3s;
+            transform: translate(-50%, -50%);
+        }
+
+        .cursor.hover {
+            transform: translate(-50%, -50%) scale(2);
+            border-color: var(--hoa-glow);
+            background: rgba(255,102,0,0.1);
+        }
+
+        .cursor-dot {
+            position: fixed;
+            width: 4px;
+            height: 4px;
+            background: #fff;
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 9999;
+            transform: translate(-50%, -50%);
+        }
+
+        /* Canvas */
+        #universe {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+        }
+
+        /* UI Layer */
+        .ui-layer {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 100;
+            pointer-events: none;
+        }
+
+        /* Header */
+        .header {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            padding: 32px 48px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            pointer-events: auto;
+        }
+
+        .logo {
+            font-size: 0.9rem;
+            font-weight: 700;
+            letter-spacing: 4px;
+            color: var(--text);
+            text-decoration: none;
+            opacity: 0.7;
+            transition: opacity 0.3s;
+        }
+
+        .logo:hover {
+            opacity: 1;
+        }
+
+        .header-cta {
+            padding: 12px 24px;
+            background: transparent;
+            border: 1px solid rgba(255,255,255,0.2);
+            color: var(--text);
+            font-family: inherit;
+            font-size: 0.7rem;
+            font-weight: 600;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            cursor: none;
+            transition: all 0.3s;
+        }
+
+        .header-cta:hover {
+            background: var(--text);
+            color: var(--bg);
+        }
+
+        /* Center Stage Content */
+        .stage-content {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            pointer-events: none;
+            z-index: 10;
+        }
+
+        .stage-content.hidden {
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        .stage-title {
+            font-size: clamp(3rem, 8vw, 6rem);
+            font-weight: 900;
+            letter-spacing: -2px;
+            line-height: 1;
+            margin-bottom: 16px;
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeUp 1s ease forwards 0.5s;
+        }
+
+        .stage-subtitle {
+            font-family: 'Noto Serif', serif;
+            font-style: italic;
+            font-size: clamp(1rem, 2vw, 1.3rem);
+            color: var(--text-dim);
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeUp 1s ease forwards 0.8s;
+        }
+
+        @keyframes fadeUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Agent Info Panel */
+        .agent-panel {
+            position: absolute;
+            top: 50%;
+            right: 80px;
+            transform: translateY(-50%) translateX(50px);
+            width: 400px;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+            pointer-events: auto;
+        }
+
+        .agent-panel.active {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(-50%) translateX(0);
+        }
+
+        .agent-badge {
+            display: inline-block;
+            padding: 8px 16px;
+            border-radius: 4px;
+            font-size: 0.65rem;
+            font-weight: 700;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            margin-bottom: 20px;
+        }
+
+        .agent-panel.hoa .agent-badge { background: rgba(255,51,51,0.2); color: var(--hoa-glow); }
+        .agent-panel.thuy .agent-badge { background: rgba(0,136,255,0.2); color: var(--thuy-glow); }
+        .agent-panel.tho .agent-badge { background: rgba(221,170,0,0.2); color: var(--tho-glow); }
+        .agent-panel.kim .agent-badge { background: rgba(170,187,204,0.2); color: var(--kim-glow); }
+        .agent-panel.moc .agent-badge { background: rgba(0,204,102,0.2); color: var(--moc-glow); }
+
+        .agent-name {
+            font-size: 2.5rem;
+            font-weight: 900;
+            margin-bottom: 8px;
+            letter-spacing: -1px;
+        }
+
+        .agent-title {
+            font-family: 'Noto Serif', serif;
+            font-style: italic;
+            font-size: 1.1rem;
+            color: var(--text-dim);
+            margin-bottom: 24px;
+        }
+
+        .agent-desc {
+            font-size: 0.95rem;
+            line-height: 1.8;
+            color: rgba(255,255,255,0.7);
+            margin-bottom: 32px;
+        }
+
+        .agent-services {
+            list-style: none;
+            margin-bottom: 32px;
+        }
+
+        .agent-services li {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+            font-size: 0.85rem;
+        }
+
+        .service-icon {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+        }
+
+        .agent-panel.hoa .service-icon { background: var(--hoa-primary); box-shadow: 0 0 10px var(--hoa-glow); }
+        .agent-panel.thuy .service-icon { background: var(--thuy-primary); box-shadow: 0 0 10px var(--thuy-glow); }
+        .agent-panel.tho .service-icon { background: var(--tho-primary); box-shadow: 0 0 10px var(--tho-glow); }
+        .agent-panel.kim .service-icon { background: var(--kim-primary); box-shadow: 0 0 10px var(--kim-glow); }
+        .agent-panel.moc .service-icon { background: var(--moc-primary); box-shadow: 0 0 10px var(--moc-glow); }
+
+        .agent-cta {
+            display: inline-block;
+            padding: 16px 32px;
+            border: none;
+            border-radius: 4px;
+            font-family: inherit;
+            font-size: 0.8rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            cursor: none;
+            transition: all 0.3s;
+        }
+
+        .agent-panel.hoa .agent-cta { background: var(--hoa-primary); color: white; }
+        .agent-panel.thuy .agent-cta { background: var(--thuy-primary); color: white; }
+        .agent-panel.tho .agent-cta { background: var(--tho-primary); color: var(--bg); }
+        .agent-panel.kim .agent-cta { background: var(--kim-primary); color: var(--bg); }
+        .agent-panel.moc .agent-cta { background: var(--moc-primary); color: var(--bg); }
+
+        .agent-cta:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+
+        /* Navigation Hints */
+        .nav-hints {
+            position: absolute;
+            bottom: 48px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 48px;
+            pointer-events: auto;
+        }
+
+        .nav-hint {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            cursor: none;
+            opacity: 0.4;
+            transition: opacity 0.3s;
+        }
+
+        .nav-hint:hover {
+            opacity: 1;
+        }
+
+        .nav-hint.active {
+            opacity: 1;
+        }
+
+        .hint-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            border: 2px solid currentColor;
+            transition: all 0.3s;
+        }
+
+        .nav-hint:hover .hint-dot,
+        .nav-hint.active .hint-dot {
+            background: currentColor;
+            box-shadow: 0 0 20px currentColor;
+        }
+
+        .nav-hint[data-agent="hoa"] { color: var(--hoa-primary); }
+        .nav-hint[data-agent="thuy"] { color: var(--thuy-primary); }
+        .nav-hint[data-agent="tho"] { color: var(--tho-primary); }
+        .nav-hint[data-agent="kim"] { color: var(--kim-primary); }
+        .nav-hint[data-agent="moc"] { color: var(--moc-primary); }
+
+        .hint-label {
+            font-size: 0.6rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        /* Back Button */
+        .back-btn {
+            position: absolute;
+            top: 50%;
+            left: 48px;
+            transform: translateY(-50%);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 16px 24px;
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 4px;
+            color: var(--text-dim);
+            font-family: inherit;
+            font-size: 0.7rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            cursor: none;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s;
+            pointer-events: auto;
+        }
+
+        .back-btn.visible {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .back-btn:hover {
+            background: rgba(255,255,255,0.08);
+            color: var(--text);
+        }
+
+        /* Loading */
+        .loading {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--bg);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 10000;
+            transition: opacity 1s, visibility 1s;
+        }
+
+        .loading.done {
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        .loading-text {
+            font-size: 0.8rem;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            color: var(--text-dim);
+            margin-bottom: 24px;
+        }
+
+        .loading-bar {
+            width: 200px;
+            height: 1px;
+            background: rgba(255,255,255,0.1);
+            overflow: hidden;
+        }
+
+        .loading-progress {
+            height: 100%;
+            background: linear-gradient(90deg, var(--hoa-primary), var(--tho-primary), var(--moc-primary), var(--thuy-primary), var(--kim-primary));
+            animation: load 2s ease forwards;
+        }
+
+        @keyframes load {
+            from { width: 0; }
+            to { width: 100%; }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .header {
+                padding: 20px 24px;
+            }
+
+            .agent-panel {
+                right: 20px;
+                left: 20px;
+                width: auto;
+                top: auto;
+                bottom: 120px;
+                transform: translateY(50px);
+            }
+
+            .agent-panel.active {
+                transform: translateY(0);
+            }
+
+            .agent-name {
+                font-size: 1.8rem;
+            }
+
+            .nav-hints {
+                gap: 24px;
+            }
+
+            .hint-label {
+                display: none;
+            }
+
+            .back-btn {
+                top: auto;
+                bottom: 120px;
+                left: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Loading -->
+    <div class="loading" id="loading">
+        <div class="loading-text">Entering Universe</div>
+        <div class="loading-bar">
+            <div class="loading-progress"></div>
+        </div>
+    </div>
+
+    <!-- Custom Cursor -->
+    <div class="cursor" id="cursor"></div>
+    <div class="cursor-dot" id="cursorDot"></div>
+
+    <!-- 3D Canvas -->
+    <canvas id="universe"></canvas>
+
+    <!-- UI Layer -->
+    <div class="ui-layer">
+        <!-- Header -->
+        <header class="header">
+            <a href="#" class="logo" id="logoBtn">THE RIKE</a>
+            <button class="header-cta">Book Consultation</button>
+        </header>
+
+        <!-- Stage Content (Center) -->
+        <div class="stage-content" id="stageContent">
+            <h1 class="stage-title">NGŨ HÀNH</h1>
+            <p class="stage-subtitle">"Thuận theo vũ trụ để vận hành doanh nghiệp"</p>
+        </div>
+
+        <!-- Agent Panels -->
+        <div class="agent-panel hoa" id="panelHoa">
+            <span class="agent-badge">🔥 Hỏa · Fire</span>
+            <h2 class="agent-name">The Viral Engine</h2>
+            <p class="agent-title">Creator / UGC Strategy</p>
+            <p class="agent-desc">Sáng tạo bùng nổ, lan tỏa như lửa. Biến ý tưởng thành content viral, đốt cháy sự chú ý trên mọi nền tảng.</p>
+            <ul class="agent-services">
+                <li><span class="service-icon"></span> AI Script Writing</li>
+                <li><span class="service-icon"></span> Video Production (5-20/month)</li>
+                <li><span class="service-icon"></span> Platform Optimization</li>
+                <li><span class="service-icon"></span> Viral Strategy</li>
+            </ul>
+            <button class="agent-cta">Ignite Your Content →</button>
+        </div>
+
+        <div class="agent-panel thuy" id="panelThuy">
+            <span class="agent-badge">💧 Thủy · Water</span>
+            <h2 class="agent-name">The Data Shapeshifter</h2>
+            <p class="agent-title">Performance Partner</p>
+            <p class="agent-desc">Linh hoạt như nước, thích ứng mọi môi trường. Tối ưu hóa liên tục dựa trên data, trả phí theo performance.</p>
+            <ul class="agent-services">
+                <li><span class="service-icon"></span> Conversion Optimization</li>
+                <li><span class="service-icon"></span> A/B Testing & Analytics</li>
+                <li><span class="service-icon"></span> Performance-based Pricing</li>
+                <li><span class="service-icon"></span> Revenue Tracking</li>
+            </ul>
+            <button class="agent-cta">Flow With Data →</button>
+        </div>
+
+        <div class="agent-panel tho" id="panelTho">
+            <span class="agent-badge">🌍 Thổ · Earth</span>
+            <h2 class="agent-name">The System Architect</h2>
+            <p class="agent-title">AI Automation</p>
+            <p class="agent-desc">Vững chắc như đất, nền tảng cho mọi tăng trưởng. Xây dựng hệ thống tự động thay thế 40+ giờ công việc thủ công.</p>
+            <ul class="agent-services">
+                <li><span class="service-icon"></span> CRM & Workflow Automation</li>
+                <li><span class="service-icon"></span> AI Follow-up Sequences</li>
+                <li><span class="service-icon"></span> Booking & Retention Systems</li>
+                <li><span class="service-icon"></span> Integration Setup</li>
+            </ul>
+            <button class="agent-cta">Build Your Foundation →</button>
+        </div>
+
+        <div class="agent-panel kim" id="panelKim">
+            <span class="agent-badge">⚪ Kim · Metal</span>
+            <h2 class="agent-name">The Strategic Commander</h2>
+            <p class="agent-title">Fractional CMO</p>
+            <p class="agent-desc">Sắc bén như kim loại, quyết đoán trong từng chiến lược. Điều khiển đội quân AI agents với độ chính xác tuyệt đối.</p>
+            <ul class="agent-services">
+                <li><span class="service-icon"></span> Marketing Strategy</li>
+                <li><span class="service-icon"></span> AI Stack Management</li>
+                <li><span class="service-icon"></span> Team Coordination</li>
+                <li><span class="service-icon"></span> ROI Optimization</li>
+            </ul>
+            <button class="agent-cta">Command Your Growth →</button>
+        </div>
+
+        <div class="agent-panel moc" id="panelMoc">
+            <span class="agent-badge">🌿 Mộc · Wood</span>
+            <h2 class="agent-name">The Knowledge Weaver</h2>
+            <p class="agent-title">AI-Native SEO</p>
+            <p class="agent-desc">Sinh sôi như cây cối, lan tỏa tự nhiên. Được AI cite, xuất hiện trong Google AI Overview và ChatGPT.</p>
+            <ul class="agent-services">
+                <li><span class="service-icon"></span> AI Overview Optimization</li>
+                <li><span class="service-icon"></span> Entity SEO & Knowledge Graph</li>
+                <li><span class="service-icon"></span> Content Clusters</li>
+                <li><span class="service-icon"></span> 4-8 Articles/month</li>
+            </ul>
+            <button class="agent-cta">Grow Your Presence →</button>
+        </div>
+
+        <!-- Navigation -->
+        <nav class="nav-hints">
+            <div class="nav-hint" data-agent="hoa">
+                <div class="hint-dot"></div>
+                <span class="hint-label">Hỏa</span>
+            </div>
+            <div class="nav-hint" data-agent="tho">
+                <div class="hint-dot"></div>
+                <span class="hint-label">Thổ</span>
+            </div>
+            <div class="nav-hint" data-agent="moc">
+                <div class="hint-dot"></div>
+                <span class="hint-label">Mộc</span>
+            </div>
+            <div class="nav-hint" data-agent="kim">
+                <div class="hint-dot"></div>
+                <span class="hint-label">Kim</span>
+            </div>
+            <div class="nav-hint" data-agent="thuy">
+                <div class="hint-dot"></div>
+                <span class="hint-label">Thủy</span>
+            </div>
+        </nav>
+
+        <!-- Back Button -->
+        <button class="back-btn" id="backBtn">
+            <span>←</span> Return to Universe
+        </button>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    
+    <script>
+    // ============================================
+    // CONFIGURATION
+    // ============================================
+    const AGENTS = {
+        hoa: {
+            name: 'HỎA',
+            color: 0xFF3333,
+            emissive: 0xFF6600,
+            particleColor: 0xFF4400,
+            position: { x: -6, y: 2, z: -3 },
+            cameraTarget: { x: -4, y: 1, z: 2 }
+        },
+        thuy: {
+            name: 'THỦY',
+            color: 0x0088FF,
+            emissive: 0x00DDFF,
+            particleColor: 0x00AAFF,
+            position: { x: 6, y: -1, z: -4 },
+            cameraTarget: { x: 4, y: 0, z: 2 }
+        },
+        tho: {
+            name: 'THỔ',
+            color: 0xDDAA00,
+            emissive: 0xFFDD44,
+            particleColor: 0xFFCC00,
+            position: { x: 0, y: -3, z: -5 },
+            cameraTarget: { x: 0, y: -2, z: 2 }
+        },
+        kim: {
+            name: 'KIM',
+            color: 0xAABBCC,
+            emissive: 0xFFFFFF,
+            particleColor: 0xCCDDEE,
+            position: { x: 5, y: 3, z: -6 },
+            cameraTarget: { x: 3, y: 2, z: 2 }
+        },
+        moc: {
+            name: 'MỘC',
+            color: 0x00CC66,
+            emissive: 0x44FFAA,
+            particleColor: 0x22FF88,
+            position: { x: -5, y: -2, z: -5 },
+            cameraTarget: { x: -3, y: -1, z: 2 }
+        }
+    };
+
+    let currentAgent = null;
+    let isAnimating = false;
+
+    // ============================================
+    // THREE.JS SETUP
+    // ============================================
+    const canvas = document.getElementById('universe');
+    const scene = new THREE.Scene();
+    scene.fog = new THREE.FogExp2(0x08080c, 0.04);
+
+    const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 1000);
+    camera.position.set(0, 0, 8);
+
+    const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    renderer.setClearColor(0x08080c);
+
+    // ============================================
+    // LIGHTING
+    // ============================================
+    const ambientLight = new THREE.AmbientLight(0xffffff, 0.1);
+    scene.add(ambientLight);
+
+    // Center core light
+    const coreLight = new THREE.PointLight(0xffffff, 0.5, 20);
+    scene.add(coreLight);
+
+    // ============================================
+    // STAR FIELD
+    // ============================================
+    const starCount = 3000;
+    const starGeo = new THREE.BufferGeometry();
+    const starPositions = new Float32Array(starCount * 3);
+    const starColors = new Float32Array(starCount * 3);
+
+    for (let i = 0; i < starCount; i++) {
+        starPositions[i * 3] = (Math.random() - 0.5) * 100;
+        starPositions[i * 3 + 1] = (Math.random() - 0.5) * 100;
+        starPositions[i * 3 + 2] = (Math.random() - 0.5) * 100;
+        
+        const brightness = Math.random() * 0.5 + 0.5;
+        starColors[i * 3] = brightness;
+        starColors[i * 3 + 1] = brightness;
+        starColors[i * 3 + 2] = brightness;
+    }
+
+    starGeo.setAttribute('position', new THREE.BufferAttribute(starPositions, 3));
+    starGeo.setAttribute('color', new THREE.BufferAttribute(starColors, 3));
+
+    const starMat = new THREE.PointsMaterial({
+        size: 0.08,
+        vertexColors: true,
+        transparent: true,
+        opacity: 0.8
+    });
+
+    const stars = new THREE.Points(starGeo, starMat);
+    scene.add(stars);
+
+    // ============================================
+    // AGENTS (Stylized Energy Beings)
+    // ============================================
+    const agents = {};
+
+    function createAgent(key, config) {
+        const group = new THREE.Group();
+        group.userData = { key, config };
+
+        // Core (inner glow)
+        const coreGeo = new THREE.IcosahedronGeometry(0.3, 2);
+        const coreMat = new THREE.MeshBasicMaterial({
+            color: config.emissive,
+            transparent: true,
+            opacity: 0.9
+        });
+        const core = new THREE.Mesh(coreGeo, coreMat);
+        group.add(core);
+
+        // Outer shell (wireframe)
+        const shellGeo = new THREE.IcosahedronGeometry(0.6, 1);
+        const shellMat = new THREE.MeshBasicMaterial({
+            color: config.color,
+            wireframe: true,
+            transparent: true,
+            opacity: 0.4
+        });
+        const shell = new THREE.Mesh(shellGeo, shellMat);
+        group.add(shell);
+
+        // Aura ring
+        const ringGeo = new THREE.TorusGeometry(0.9, 0.02, 8, 32);
+        const ringMat = new THREE.MeshBasicMaterial({
+            color: config.emissive,
+            transparent: true,
+            opacity: 0.3
+        });
+        const ring = new THREE.Mesh(ringGeo, ringMat);
+        ring.rotation.x = Math.PI / 2;
+        group.add(ring);
+
+        // Particles
+        const particleCount = 50;
+        const particleGeo = new THREE.BufferGeometry();
+        const particlePositions = new Float32Array(particleCount * 3);
+        const particleVelocities = [];
+
+        for (let i = 0; i < particleCount; i++) {
+            const theta = Math.random() * Math.PI * 2;
+            const phi = Math.random() * Math.PI;
+            const r = 0.8 + Math.random() * 0.5;
+
+            particlePositions[i * 3] = r * Math.sin(phi) * Math.cos(theta);
+            particlePositions[i * 3 + 1] = r * Math.sin(phi) * Math.sin(theta);
+            particlePositions[i * 3 + 2] = r * Math.cos(phi);
+
+            particleVelocities.push({
+                speed: Math.random() * 0.02 + 0.01,
+                offset: Math.random() * Math.PI * 2
+            });
+        }
+
+        particleGeo.setAttribute('position', new THREE.BufferAttribute(particlePositions, 3));
+
+        const particleMat = new THREE.PointsMaterial({
+            color: config.particleColor,
+            size: 0.05,
+            transparent: true,
+            opacity: 0.8
+        });
+
+        const particles = new THREE.Points(particleGeo, particleMat);
+        group.add(particles);
+
+        // Point light for glow
+        const light = new THREE.PointLight(config.emissive, 0.5, 5);
+        group.add(light);
+
+        // Position
+        group.position.set(config.position.x, config.position.y, config.position.z);
+
+        // Store references
+        agents[key] = {
+            group,
+            core,
+            shell,
+            ring,
+            particles,
+            particlePositions,
+            particleVelocities,
+            light,
+            config
+        };
+
+        scene.add(group);
+    }
+
+    // Create all agents
+    Object.entries(AGENTS).forEach(([key, config]) => {
+        createAgent(key, config);
+    });
+
+    // ============================================
+    // MOUSE INTERACTION
+    // ============================================
+    const cursor = document.getElementById('cursor');
+    const cursorDot = document.getElementById('cursorDot');
+    const raycaster = new THREE.Raycaster();
+    const mouse = new THREE.Vector2();
+    let mouseX = 0, mouseY = 0;
+
+    document.addEventListener('mousemove', (e) => {
+        // Update cursor position
+        cursor.style.left = e.clientX + 'px';
+        cursor.style.top = e.clientY + 'px';
+        cursorDot.style.left = e.clientX + 'px';
+        cursorDot.style.top = e.clientY + 'px';
+
+        // Store for parallax
+        mouseX = (e.clientX / window.innerWidth - 0.5) * 2;
+        mouseY = (e.clientY / window.innerHeight - 0.5) * 2;
+
+        // Raycasting for hover
+        mouse.x = (e.clientX / window.innerWidth) * 2 - 1;
+        mouse.y = -(e.clientY / window.innerHeight) * 2 + 1;
+
+        if (!currentAgent) {
+            raycaster.setFromCamera(mouse, camera);
+            const meshes = Object.values(agents).map(a => a.shell);
+            const intersects = raycaster.intersectObjects(meshes);
+
+            if (intersects.length > 0) {
+                cursor.classList.add('hover');
+                document.body.style.cursor = 'none';
+            } else {
+                cursor.classList.remove('hover');
+            }
+        }
+    });
+
+    // Click to select agent
+    canvas.addEventListener('click', () => {
+        if (isAnimating) return;
+
+        raycaster.setFromCamera(mouse, camera);
+        const meshes = Object.values(agents).map(a => a.shell);
+        const intersects = raycaster.intersectObjects(meshes);
+
+        if (intersects.length > 0) {
+            const mesh = intersects[0].object;
+            const agent = Object.values(agents).find(a => a.shell === mesh);
+            if (agent) {
+                selectAgent(Object.keys(agents).find(k => agents[k] === agent));
+            }
+        }
+    });
+
+    // Navigation hints
+    document.querySelectorAll('.nav-hint').forEach(hint => {
+        hint.addEventListener('click', () => {
+            if (isAnimating) return;
+            const agentKey = hint.dataset.agent;
+            selectAgent(agentKey);
+        });
+    });
+
+    // Back button
+    document.getElementById('backBtn').addEventListener('click', returnToUniverse);
+    document.getElementById('logoBtn').addEventListener('click', (e) => {
+        e.preventDefault();
+        returnToUniverse();
+    });
+
+    // ============================================
+    // AGENT SELECTION
+    // ============================================
+    function selectAgent(key) {
+        if (isAnimating || currentAgent === key) return;
+        isAnimating = true;
+        currentAgent = key;
+
+        const agent = agents[key];
+        const config = agent.config;
+
+        // Hide stage content
+        document.getElementById('stageContent').classList.add('hidden');
+
+        // Update nav
+        document.querySelectorAll('.nav-hint').forEach(h => {
+            h.classList.toggle('active', h.dataset.agent === key);
+        });
+
+        // Show back button
+        document.getElementById('backBtn').classList.add('visible');
+
+        // Camera animation
+        gsap.to(camera.position, {
+            x: config.cameraTarget.x,
+            y: config.cameraTarget.y,
+            z: config.cameraTarget.z,
+            duration: 2,
+            ease: 'power2.inOut',
+            onComplete: () => {
+                isAnimating = false;
+            }
+        });
+
+        // Dim other agents
+        Object.entries(agents).forEach(([k, a]) => {
+            const isSelected = k === key;
+            gsap.to(a.core.material, { opacity: isSelected ? 1 : 0.2, duration: 0.5 });
+            gsap.to(a.shell.material, { opacity: isSelected ? 0.6 : 0.1, duration: 0.5 });
+            gsap.to(a.light, { intensity: isSelected ? 1 : 0.1, duration: 0.5 });
+        });
+
+        // Scale up selected
+        gsap.to(agent.group.scale, {
+            x: 1.5, y: 1.5, z: 1.5,
+            duration: 0.8,
+            ease: 'back.out(1.7)'
+        });
+
+        // Show panel
+        document.querySelectorAll('.agent-panel').forEach(p => p.classList.remove('active'));
+        document.getElementById(`panel${key.charAt(0).toUpperCase() + key.slice(1)}`).classList.add('active');
+    }
+
+    function returnToUniverse() {
+        if (isAnimating || !currentAgent) return;
+        isAnimating = true;
+
+        // Hide panel
+        document.querySelectorAll('.agent-panel').forEach(p => p.classList.remove('active'));
+
+        // Reset camera
+        gsap.to(camera.position, {
+            x: 0, y: 0, z: 8,
+            duration: 1.5,
+            ease: 'power2.inOut',
+            onComplete: () => {
+                isAnimating = false;
+                currentAgent = null;
+            }
+        });
+
+        // Reset all agents
+        Object.values(agents).forEach(a => {
+            gsap.to(a.core.material, { opacity: 0.9, duration: 0.5 });
+            gsap.to(a.shell.material, { opacity: 0.4, duration: 0.5 });
+            gsap.to(a.group.scale, { x: 1, y: 1, z: 1, duration: 0.5 });
+            gsap.to(a.light, { intensity: 0.5, duration: 0.5 });
+        });
+
+        // Reset nav
+        document.querySelectorAll('.nav-hint').forEach(h => h.classList.remove('active'));
+
+        // Hide back button
+        document.getElementById('backBtn').classList.remove('visible');
+
+        // Show stage content
+        document.getElementById('stageContent').classList.remove('hidden');
+    }
+
+    // Keyboard
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') returnToUniverse();
+    });
+
+    // ============================================
+    // ANIMATION LOOP
+    // ============================================
+    const clock = new THREE.Clock();
+
+    function animate() {
+        requestAnimationFrame(animate);
+        const time = clock.getElapsedTime();
+
+        // Stars drift
+        stars.rotation.y = time * 0.01;
+        stars.rotation.x = time * 0.005;
+
+        // Camera parallax (subtle)
+        if (!currentAgent && !isAnimating) {
+            camera.position.x += (mouseX * 0.5 - camera.position.x) * 0.02;
+            camera.position.y += (-mouseY * 0.3 - camera.position.y) * 0.02;
+            camera.lookAt(0, 0, 0);
+        } else if (currentAgent) {
+            const target = agents[currentAgent].group.position;
+            camera.lookAt(target);
+        }
+
+        // Animate agents
+        Object.values(agents).forEach((agent, i) => {
+            const offset = i * 0.5;
+
+            // Core pulse
+            const pulse = 1 + Math.sin(time * 2 + offset) * 0.1;
+            agent.core.scale.set(pulse, pulse, pulse);
+
+            // Shell rotation
+            agent.shell.rotation.x = time * 0.3 + offset;
+            agent.shell.rotation.y = time * 0.2 + offset;
+
+            // Ring rotation
+            agent.ring.rotation.z = time * 0.5 + offset;
+
+            // Float
+            agent.group.position.y = agent.config.position.y + Math.sin(time * 0.8 + offset) * 0.2;
+
+            // Particle orbiting
+            const positions = agent.particles.geometry.attributes.position.array;
+            for (let j = 0; j < agent.particleVelocities.length; j++) {
+                const vel = agent.particleVelocities[j];
+                const angle = time * vel.speed + vel.offset;
+                const r = 0.8 + Math.sin(time + j) * 0.2;
+
+                positions[j * 3] = r * Math.cos(angle + j * 0.3);
+                positions[j * 3 + 1] = r * Math.sin(angle * 0.7 + j * 0.2);
+                positions[j * 3 + 2] = r * Math.sin(angle + j * 0.5) * 0.5;
+            }
+            agent.particles.geometry.attributes.position.needsUpdate = true;
+        });
+
+        renderer.render(scene, camera);
+    }
+
+    animate();
+
+    // ============================================
+    // RESIZE
+    // ============================================
+    window.addEventListener('resize', () => {
+        camera.aspect = window.innerWidth / window.innerHeight;
+        camera.updateProjectionMatrix();
+        renderer.setSize(window.innerWidth, window.innerHeight);
+    });
+
+    // ============================================
+    // LOADING COMPLETE
+    // ============================================
+    window.addEventListener('load', () => {
+        setTimeout(() => {
+            document.getElementById('loading').classList.add('done');
+        }, 2500);
+    });
+
+    console.log('🌌 The Rike Universe - Stage Mode Active');
+    console.log('💡 Click on any Agent or use bottom navigation');
+    </script>
+</body>
+</html>

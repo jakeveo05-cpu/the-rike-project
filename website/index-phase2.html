@@ -1,0 +1,1554 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Rike | Ngũ Hành Universe</title>
+    <meta name="description" content="AI-Native Growth Partner - Experience the Five Elements">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700;900&family=Playfair+Display:ital@0;1&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            /* Ngũ Hành Color Palettes */
+            --fire-primary: #FF3333;
+            --fire-secondary: #FF6600;
+            --fire-glow: #FFAA00;
+            --fire-dark: #330000;
+            
+            --water-primary: #0066AA;
+            --water-secondary: #00AAFF;
+            --water-glow: #00FFFF;
+            --water-dark: #001133;
+            
+            --earth-primary: #DDAA00;
+            --earth-secondary: #AA7700;
+            --earth-glow: #FFDD44;
+            --earth-dark: #332200;
+            
+            --metal-primary: #CCCCCC;
+            --metal-secondary: #FFFFFF;
+            --metal-glow: #FFFFFF;
+            --metal-dark: #222233;
+            
+            --wood-primary: #00AA44;
+            --wood-secondary: #00FF88;
+            --wood-glow: #88FFAA;
+            --wood-dark: #002211;
+            
+            /* UI */
+            --bg-dark: #0a0a12;
+            --text-primary: #ffffff;
+            --text-secondary: #888888;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background: var(--bg-dark);
+            color: var(--text-primary);
+            overflow: hidden;
+            width: 100vw;
+            height: 100vh;
+        }
+
+        /* ==================== */
+        /* 3D CANVAS            */
+        /* ==================== */
+        #canvas-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+        }
+
+        /* ==================== */
+        /* ENVIRONMENT OVERLAY  */
+        /* ==================== */
+        .environment-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 2;
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.8s ease;
+        }
+
+        .environment-overlay.active {
+            opacity: 1;
+        }
+
+        /* Fire Environment */
+        .env-fire {
+            background: radial-gradient(ellipse at bottom, rgba(51, 0, 0, 0.9) 0%, rgba(10, 10, 18, 0.95) 70%);
+        }
+
+        .env-fire::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 30% 80%, rgba(255, 102, 0, 0.15) 0%, transparent 40%),
+                radial-gradient(circle at 70% 90%, rgba(255, 51, 51, 0.1) 0%, transparent 30%);
+            animation: fireFlicker 3s ease-in-out infinite;
+        }
+
+        @keyframes fireFlicker {
+            0%, 100% { opacity: 0.8; }
+            50% { opacity: 1; }
+        }
+
+        /* Water Environment */
+        .env-water {
+            background: radial-gradient(ellipse at top, rgba(0, 17, 51, 0.9) 0%, rgba(10, 10, 18, 0.95) 70%);
+        }
+
+        .env-water::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 50% 0%, rgba(0, 170, 255, 0.1) 0%, transparent 50%);
+            animation: waterCaustics 4s ease-in-out infinite;
+        }
+
+        @keyframes waterCaustics {
+            0%, 100% { transform: scale(1); opacity: 0.5; }
+            50% { transform: scale(1.1); opacity: 0.8; }
+        }
+
+        /* Earth Environment */
+        .env-earth {
+            background: radial-gradient(ellipse at center, rgba(51, 34, 0, 0.9) 0%, rgba(10, 10, 18, 0.95) 70%);
+        }
+
+        /* Metal Environment */
+        .env-metal {
+            background: radial-gradient(ellipse at center, rgba(34, 34, 51, 0.9) 0%, rgba(10, 10, 18, 0.95) 70%);
+        }
+
+        /* Wood Environment */
+        .env-wood {
+            background: radial-gradient(ellipse at bottom, rgba(0, 34, 17, 0.9) 0%, rgba(10, 10, 18, 0.95) 70%);
+        }
+
+        /* ==================== */
+        /* UI LAYER             */
+        /* ==================== */
+        .ui-layer {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 100;
+            pointer-events: none;
+        }
+
+        /* Header */
+        .header {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            padding: 24px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            pointer-events: auto;
+        }
+
+        .logo {
+            font-size: 1.2rem;
+            font-weight: 900;
+            letter-spacing: 3px;
+            text-decoration: none;
+            color: var(--text-primary);
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .lang-switch {
+            display: flex;
+            gap: 4px;
+        }
+
+        .lang-btn {
+            padding: 6px 12px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 4px;
+            color: var(--text-secondary);
+            font-size: 0.7rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .lang-btn:hover, .lang-btn.active {
+            background: var(--text-primary);
+            color: var(--bg-dark);
+        }
+
+        .btn-book {
+            padding: 10px 20px;
+            background: linear-gradient(135deg, #00AAFF, #00FF88);
+            color: var(--bg-dark);
+            font-size: 0.75rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            text-decoration: none;
+            border-radius: 4px;
+            transition: all 0.3s;
+        }
+
+        .btn-book:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(0, 170, 255, 0.3);
+        }
+
+        /* Center Content (Welcome) */
+        .center-content {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            pointer-events: none;
+            transition: opacity 0.5s, transform 0.5s;
+        }
+
+        .center-content.hidden {
+            opacity: 0;
+            transform: translate(-50%, -50%) scale(0.9);
+        }
+
+        .welcome-text {
+            font-size: 0.8rem;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            color: var(--text-secondary);
+            margin-bottom: 16px;
+        }
+
+        .main-title {
+            font-size: clamp(2rem, 5vw, 3.5rem);
+            font-weight: 900;
+            margin-bottom: 24px;
+            background: linear-gradient(135deg, #FF6633, #FFAA00, #00FF88, #00AAFF, #AA88FF);
+            background-size: 300% 300%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: gradientShift 8s ease infinite;
+        }
+
+        @keyframes gradientShift {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+
+        .subtitle {
+            font-size: 1rem;
+            color: var(--text-secondary);
+            max-width: 400px;
+            margin: 0 auto;
+        }
+
+        /* Orbital Menu */
+        .orbital-menu {
+            position: absolute;
+            bottom: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 32px;
+            padding: 16px 32px;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 50px;
+            backdrop-filter: blur(10px);
+            pointer-events: auto;
+        }
+
+        .orbital-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .orbital-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            border: 2px solid currentColor;
+            transition: all 0.3s;
+        }
+
+        .orbital-item[data-element="fire"] { color: var(--fire-primary); }
+        .orbital-item[data-element="water"] { color: var(--water-secondary); }
+        .orbital-item[data-element="earth"] { color: var(--earth-primary); }
+        .orbital-item[data-element="metal"] { color: var(--metal-primary); }
+        .orbital-item[data-element="wood"] { color: var(--wood-secondary); }
+
+        .orbital-item:hover .orbital-dot,
+        .orbital-item.active .orbital-dot {
+            background: currentColor;
+            box-shadow: 0 0 20px currentColor;
+        }
+
+        .orbital-label {
+            font-size: 0.65rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            opacity: 0.5;
+            transition: opacity 0.3s;
+        }
+
+        .orbital-item:hover .orbital-label,
+        .orbital-item.active .orbital-label {
+            opacity: 1;
+        }
+
+        /* Trust Badge */
+        .trust-badge {
+            position: absolute;
+            bottom: 120px;
+            left: 50%;
+            transform: translateX(-50%);
+            padding: 12px 24px;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 8px;
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+            text-align: center;
+            backdrop-filter: blur(10px);
+            opacity: 0.7;
+            transition: opacity 0.3s;
+        }
+
+        .trust-badge:hover {
+            opacity: 1;
+        }
+
+        .trust-badge strong {
+            color: var(--text-primary);
+        }
+
+        /* ==================== */
+        /* SERVICE CARD         */
+        /* ==================== */
+        .service-card {
+            position: absolute;
+            top: 50%;
+            right: 60px;
+            transform: translateY(-50%) translateX(100px);
+            width: 480px;
+            max-height: 80vh;
+            background: rgba(20, 20, 30, 0.85);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 24px;
+            backdrop-filter: blur(30px);
+            pointer-events: auto;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+            overflow: hidden;
+        }
+
+        .service-card.active {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(-50%) translateX(0);
+        }
+
+        /* Card variations by element */
+        .service-card.fire {
+            border-color: rgba(255, 51, 51, 0.3);
+            box-shadow: 
+                0 0 60px rgba(255, 51, 51, 0.1),
+                inset 0 0 60px rgba(255, 51, 51, 0.05);
+        }
+
+        .service-card.water {
+            border-color: rgba(0, 170, 255, 0.3);
+            box-shadow: 
+                0 0 60px rgba(0, 170, 255, 0.1),
+                inset 0 0 60px rgba(0, 170, 255, 0.05);
+        }
+
+        .service-card.earth {
+            border-color: rgba(221, 170, 0, 0.3);
+            box-shadow: 
+                0 0 60px rgba(221, 170, 0, 0.1),
+                inset 0 0 60px rgba(221, 170, 0, 0.05);
+        }
+
+        .service-card.metal {
+            border-color: rgba(200, 200, 220, 0.3);
+            box-shadow: 
+                0 0 60px rgba(200, 200, 220, 0.1),
+                inset 0 0 60px rgba(200, 200, 220, 0.05);
+        }
+
+        .service-card.wood {
+            border-color: rgba(0, 255, 136, 0.3);
+            box-shadow: 
+                0 0 60px rgba(0, 255, 136, 0.1),
+                inset 0 0 60px rgba(0, 255, 136, 0.05);
+        }
+
+        /* Card Header */
+        .card-header {
+            padding: 32px 32px 24px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            position: relative;
+        }
+
+        .card-close {
+            position: absolute;
+            top: 24px;
+            right: 24px;
+            width: 32px;
+            height: 32px;
+            background: rgba(255, 255, 255, 0.05);
+            border: none;
+            border-radius: 8px;
+            color: var(--text-secondary);
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .card-close:hover {
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--text-primary);
+        }
+
+        .card-element-badge {
+            display: inline-block;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.65rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 16px;
+        }
+
+        .fire .card-element-badge {
+            background: rgba(255, 51, 51, 0.2);
+            color: var(--fire-secondary);
+        }
+
+        .water .card-element-badge {
+            background: rgba(0, 170, 255, 0.2);
+            color: var(--water-secondary);
+        }
+
+        .earth .card-element-badge {
+            background: rgba(221, 170, 0, 0.2);
+            color: var(--earth-primary);
+        }
+
+        .metal .card-element-badge {
+            background: rgba(200, 200, 220, 0.2);
+            color: var(--metal-primary);
+        }
+
+        .wood .card-element-badge {
+            background: rgba(0, 255, 136, 0.2);
+            color: var(--wood-secondary);
+        }
+
+        .card-title {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .card-subtitle {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+
+        /* Card Tabs */
+        .card-tabs {
+            display: flex;
+            padding: 0 32px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .card-tab {
+            flex: 1;
+            padding: 16px 8px;
+            background: none;
+            border: none;
+            color: var(--text-secondary);
+            font-family: inherit;
+            font-size: 0.7rem;
+            font-weight: 600;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            cursor: pointer;
+            position: relative;
+            transition: color 0.3s;
+        }
+
+        .card-tab:hover {
+            color: var(--text-primary);
+        }
+
+        .card-tab.active {
+            color: var(--text-primary);
+        }
+
+        .card-tab::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: currentColor;
+            transform: scaleX(0);
+            transition: transform 0.3s;
+        }
+
+        .card-tab.active::after {
+            transform: scaleX(1);
+        }
+
+        /* Card Content */
+        .card-content {
+            padding: 24px 32px;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+
+        .card-content::-webkit-scrollbar {
+            width: 4px;
+        }
+
+        .card-content::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        .card-content::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 2px;
+        }
+
+        .tab-panel {
+            display: none;
+            animation: fadeIn 0.4s ease;
+        }
+
+        .tab-panel.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .content-section {
+            margin-bottom: 24px;
+        }
+
+        .content-section:last-child {
+            margin-bottom: 0;
+        }
+
+        .section-title {
+            font-size: 0.7rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--text-secondary);
+            margin-bottom: 12px;
+        }
+
+        .section-text {
+            font-size: 0.95rem;
+            line-height: 1.7;
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        .benefit-list {
+            list-style: none;
+        }
+
+        .benefit-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            margin-bottom: 12px;
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        .benefit-icon {
+            flex-shrink: 0;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.7rem;
+        }
+
+        .fire .benefit-icon { background: rgba(255, 51, 51, 0.2); color: var(--fire-secondary); }
+        .water .benefit-icon { background: rgba(0, 170, 255, 0.2); color: var(--water-secondary); }
+        .earth .benefit-icon { background: rgba(221, 170, 0, 0.2); color: var(--earth-primary); }
+        .metal .benefit-icon { background: rgba(200, 200, 220, 0.2); color: var(--metal-primary); }
+        .wood .benefit-icon { background: rgba(0, 255, 136, 0.2); color: var(--wood-secondary); }
+
+        /* Checklist */
+        .checklist {
+            list-style: none;
+        }
+
+        .checklist-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 10px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+            font-size: 0.85rem;
+        }
+
+        .checklist-item:last-child {
+            border-bottom: none;
+        }
+
+        .check-icon {
+            color: #00FF88;
+        }
+
+        /* Timeline */
+        .timeline {
+            position: relative;
+            padding-left: 24px;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 4px;
+            top: 8px;
+            bottom: 8px;
+            width: 2px;
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .timeline-item {
+            position: relative;
+            padding-bottom: 20px;
+        }
+
+        .timeline-item:last-child {
+            padding-bottom: 0;
+        }
+
+        .timeline-dot {
+            position: absolute;
+            left: -24px;
+            top: 4px;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            border: 2px solid currentColor;
+        }
+
+        .fire .timeline-dot { color: var(--fire-secondary); }
+        .water .timeline-dot { color: var(--water-secondary); }
+
+        .timeline-label {
+            font-size: 0.7rem;
+            font-weight: 600;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            margin-bottom: 4px;
+        }
+
+        .timeline-text {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
+
+        /* Quote */
+        .quote-block {
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 12px;
+            border-left: 3px solid currentColor;
+        }
+
+        .fire .quote-block { border-color: var(--fire-secondary); }
+        .water .quote-block { border-color: var(--water-secondary); }
+
+        .quote-text {
+            font-family: 'Playfair Display', serif;
+            font-style: italic;
+            font-size: 1rem;
+            line-height: 1.6;
+            margin-bottom: 12px;
+        }
+
+        .quote-author {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+        }
+
+        /* Stats */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+        }
+
+        .stat-item {
+            text-align: center;
+            padding: 16px;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 12px;
+        }
+
+        .stat-number {
+            font-size: 1.5rem;
+            font-weight: 900;
+        }
+
+        .fire .stat-number { color: var(--fire-secondary); }
+        .water .stat-number { color: var(--water-secondary); }
+
+        .stat-label {
+            font-size: 0.65rem;
+            color: var(--text-secondary);
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            margin-top: 4px;
+        }
+
+        /* Card Footer */
+        .card-footer {
+            padding: 24px 32px;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .btn-cta {
+            display: block;
+            width: 100%;
+            padding: 16px;
+            border: none;
+            border-radius: 12px;
+            font-family: inherit;
+            font-size: 0.85rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .fire .btn-cta {
+            background: linear-gradient(135deg, var(--fire-primary), var(--fire-secondary));
+            color: white;
+        }
+
+        .water .btn-cta {
+            background: linear-gradient(135deg, var(--water-primary), var(--water-secondary));
+            color: white;
+        }
+
+        .earth .btn-cta {
+            background: linear-gradient(135deg, var(--earth-secondary), var(--earth-primary));
+            color: var(--bg-dark);
+        }
+
+        .metal .btn-cta {
+            background: linear-gradient(135deg, #888, var(--metal-secondary));
+            color: var(--bg-dark);
+        }
+
+        .wood .btn-cta {
+            background: linear-gradient(135deg, var(--wood-primary), var(--wood-secondary));
+            color: var(--bg-dark);
+        }
+
+        .btn-cta:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        /* ==================== */
+        /* LOADING SCREEN       */
+        /* ==================== */
+        .loading-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--bg-dark);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            transition: opacity 0.8s, visibility 0.8s;
+        }
+
+        .loading-screen.hidden {
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        .loading-logo {
+            font-size: 1.5rem;
+            font-weight: 900;
+            letter-spacing: 4px;
+            margin-bottom: 40px;
+        }
+
+        .loading-bar {
+            width: 200px;
+            height: 2px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 2px;
+            overflow: hidden;
+        }
+
+        .loading-progress {
+            height: 100%;
+            background: linear-gradient(90deg, var(--fire-primary), var(--earth-primary), var(--wood-secondary), var(--water-secondary));
+            animation: loadProgress 2s ease forwards;
+        }
+
+        @keyframes loadProgress {
+            from { width: 0; }
+            to { width: 100%; }
+        }
+
+        /* ==================== */
+        /* RESPONSIVE           */
+        /* ==================== */
+        @media (max-width: 768px) {
+            .service-card {
+                right: 20px;
+                left: 20px;
+                width: auto;
+                max-height: 70vh;
+                transform: translateY(100%);
+                top: auto;
+                bottom: 100px;
+                border-radius: 24px 24px 0 0;
+            }
+
+            .service-card.active {
+                transform: translateY(0);
+            }
+
+            .orbital-menu {
+                gap: 16px;
+                padding: 12px 20px;
+            }
+
+            .orbital-label {
+                display: none;
+            }
+
+            .header {
+                padding: 16px 20px;
+            }
+
+            .trust-badge {
+                display: none;
+            }
+
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Loading Screen -->
+    <div class="loading-screen" id="loadingScreen">
+        <div class="loading-logo">THE RIKE</div>
+        <div class="loading-bar">
+            <div class="loading-progress"></div>
+        </div>
+    </div>
+
+    <!-- 3D Canvas -->
+    <div id="canvas-container"></div>
+
+    <!-- Environment Overlays -->
+    <div class="environment-overlay env-fire" id="envFire"></div>
+    <div class="environment-overlay env-water" id="envWater"></div>
+    <div class="environment-overlay env-earth" id="envEarth"></div>
+    <div class="environment-overlay env-metal" id="envMetal"></div>
+    <div class="environment-overlay env-wood" id="envWood"></div>
+
+    <!-- UI Layer -->
+    <div class="ui-layer">
+        <!-- Header -->
+        <header class="header">
+            <a href="#" class="logo" id="logoBtn">THE RIKE</a>
+            <div class="header-right">
+                <div class="lang-switch">
+                    <button class="lang-btn active" data-lang="en">EN</button>
+                    <button class="lang-btn" data-lang="vi">VI</button>
+                </div>
+                <a href="#book" class="btn-book">Book Audit</a>
+            </div>
+        </header>
+
+        <!-- Center Welcome Content -->
+        <div class="center-content" id="centerContent">
+            <p class="welcome-text">Welcome to the Universe</p>
+            <h1 class="main-title">Ngũ Hành</h1>
+            <p class="subtitle">Click on any element to explore our services</p>
+        </div>
+
+        <!-- Trust Badge -->
+        <div class="trust-badge">
+            🛡️ <strong>30-Day Guarantee:</strong> Results improve or we work free
+        </div>
+
+        <!-- Orbital Menu -->
+        <nav class="orbital-menu">
+            <div class="orbital-item" data-element="fire">
+                <div class="orbital-dot"></div>
+                <span class="orbital-label">AI SEO</span>
+            </div>
+            <div class="orbital-item" data-element="water">
+                <div class="orbital-dot"></div>
+                <span class="orbital-label">Content</span>
+            </div>
+            <div class="orbital-item" data-element="earth">
+                <div class="orbital-dot"></div>
+                <span class="orbital-label">Automation</span>
+            </div>
+            <div class="orbital-item" data-element="metal">
+                <div class="orbital-dot"></div>
+                <span class="orbital-label">Pricing</span>
+            </div>
+            <div class="orbital-item" data-element="wood">
+                <div class="orbital-dot"></div>
+                <span class="orbital-label">Strategy</span>
+            </div>
+        </nav>
+
+        <!-- Service Card: FIRE (AI SEO) -->
+        <div class="service-card fire" id="cardFire">
+            <div class="card-header">
+                <button class="card-close" onclick="closeCard()">×</button>
+                <span class="card-element-badge">🔥 HỎA - Fire</span>
+                <h2 class="card-title">AI-Native SEO</h2>
+                <p class="card-subtitle">Xuất hiện trong câu trả lời của AI</p>
+            </div>
+            
+            <div class="card-tabs">
+                <button class="card-tab active" data-tab="overview">Overview</button>
+                <button class="card-tab" data-tab="deliverables">Deliverables</button>
+                <button class="card-tab" data-tab="process">Process</button>
+                <button class="card-tab" data-tab="proof">Proof</button>
+            </div>
+            
+            <div class="card-content">
+                <!-- Overview Tab -->
+                <div class="tab-panel active" data-panel="overview">
+                    <div class="content-section">
+                        <p class="section-text">Get found where it matters — Google AI Overview, ChatGPT, and Perplexity. We optimize for AI citations, not just keywords.</p>
+                    </div>
+                    <div class="content-section">
+                        <h4 class="section-title">Key Benefits</h4>
+                        <ul class="benefit-list">
+                            <li class="benefit-item">
+                                <span class="benefit-icon">✓</span>
+                                <span>Được AI cite khi trả lời khách hàng</span>
+                            </li>
+                            <li class="benefit-item">
+                                <span class="benefit-icon">✓</span>
+                                <span>Vượt qua SEO truyền thống</span>
+                            </li>
+                            <li class="benefit-item">
+                                <span class="benefit-icon">✓</span>
+                                <span>Traffic chất lượng cao hơn 2-3x</span>
+                            </li>
+                            <li class="benefit-item">
+                                <span class="benefit-icon">✓</span>
+                                <span>Xây dựng authority lâu dài</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Deliverables Tab -->
+                <div class="tab-panel" data-panel="deliverables">
+                    <div class="content-section">
+                        <h4 class="section-title">What You Get</h4>
+                        <ul class="checklist">
+                            <li class="checklist-item"><span class="check-icon">✓</span> Google AI Overview Optimization</li>
+                            <li class="checklist-item"><span class="check-icon">✓</span> Entity SEO & Knowledge Graph</li>
+                            <li class="checklist-item"><span class="check-icon">✓</span> Semantic Content Clusters</li>
+                            <li class="checklist-item"><span class="check-icon">✓</span> 4-8 AI-optimized articles/month</li>
+                            <li class="checklist-item"><span class="check-icon">✓</span> GEO Landing Pages</li>
+                            <li class="checklist-item"><span class="check-icon">✓</span> Google Business Profile Optimization</li>
+                            <li class="checklist-item"><span class="check-icon">✓</span> Monthly Performance Report</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Process Tab -->
+                <div class="tab-panel" data-panel="process">
+                    <div class="content-section">
+                        <h4 class="section-title">Our Process</h4>
+                        <div class="timeline">
+                            <div class="timeline-item">
+                                <div class="timeline-dot"></div>
+                                <div class="timeline-label">Week 1</div>
+                                <div class="timeline-text">SEO Audit & Entity Mapping</div>
+                            </div>
+                            <div class="timeline-item">
+                                <div class="timeline-dot"></div>
+                                <div class="timeline-label">Week 2</div>
+                                <div class="timeline-text">Content Strategy & Clusters</div>
+                            </div>
+                            <div class="timeline-item">
+                                <div class="timeline-dot"></div>
+                                <div class="timeline-label">Week 3-4</div>
+                                <div class="timeline-text">Content Production</div>
+                            </div>
+                            <div class="timeline-item">
+                                <div class="timeline-dot"></div>
+                                <div class="timeline-label">Ongoing</div>
+                                <div class="timeline-text">Optimize for AI Citations</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Proof Tab -->
+                <div class="tab-panel" data-panel="proof">
+                    <div class="content-section">
+                        <div class="quote-block">
+                            <p class="quote-text">"We finally show up in Google's AI Overview and ChatGPT results. SEO feels alive again."</p>
+                            <p class="quote-author">— John, Home Service Business (Florida)</p>
+                        </div>
+                    </div>
+                    <div class="content-section">
+                        <h4 class="section-title">Results</h4>
+                        <div class="stats-grid">
+                            <div class="stat-item">
+                                <div class="stat-number">3.2x</div>
+                                <div class="stat-label">Avg ROI</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-number">+40%</div>
+                                <div class="stat-label">Traffic</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-number">98%</div>
+                                <div class="stat-label">Retention</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card-footer">
+                <button class="btn-cta">Start Your SEO Audit →</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/howler/2.2.3/howler.min.js"></script>
+
+    <script>
+        // ============================================
+        // CONFIGURATION
+        // ============================================
+        const ELEMENTS = {
+            fire: {
+                name: 'HỎA',
+                service: 'AI-Native SEO',
+                color: 0xFF3333,
+                emissive: 0xFF6600,
+                orbitRadius: 8,
+                orbitSpeed: 0.4,
+                size: 0.8
+            },
+            water: {
+                name: 'THỦY',
+                service: 'Content/UGC',
+                color: 0x0066AA,
+                emissive: 0x00AAFF,
+                orbitRadius: 10,
+                orbitSpeed: 0.3,
+                size: 0.9
+            },
+            earth: {
+                name: 'THỔ',
+                service: 'Automation',
+                color: 0xAA7700,
+                emissive: 0xDDAA00,
+                orbitRadius: 12,
+                orbitSpeed: 0.25,
+                size: 1.0
+            },
+            metal: {
+                name: 'KIM',
+                service: 'Pricing',
+                color: 0x888899,
+                emissive: 0xCCCCDD,
+                orbitRadius: 14,
+                orbitSpeed: 0.2,
+                size: 0.7
+            },
+            wood: {
+                name: 'MỘC',
+                service: 'Strategy',
+                color: 0x00AA44,
+                emissive: 0x00FF88,
+                orbitRadius: 16,
+                orbitSpeed: 0.15,
+                size: 0.85
+            }
+        };
+
+        let currentElement = null;
+        let isTransitioning = false;
+
+        // ============================================
+        // THREE.JS SETUP
+        // ============================================
+        const scene = new THREE.Scene();
+        scene.fog = new THREE.FogExp2(0x0a0a12, 0.015);
+
+        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+        camera.position.set(0, 5, 20);
+
+        const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+        document.getElementById('canvas-container').appendChild(renderer.domElement);
+
+        // Lighting
+        const ambientLight = new THREE.AmbientLight(0xffffff, 0.1);
+        scene.add(ambientLight);
+
+        const coreLight = new THREE.PointLight(0xFFAA00, 2, 50);
+        scene.add(coreLight);
+
+        // Core (Sun)
+        const coreGeo = new THREE.IcosahedronGeometry(2, 3);
+        const coreMat = new THREE.MeshStandardMaterial({
+            color: 0xFFDD00,
+            emissive: 0xFFAA00,
+            emissiveIntensity: 0.8,
+            metalness: 0.3,
+            roughness: 0.4
+        });
+        const core = new THREE.Mesh(coreGeo, coreMat);
+        scene.add(core);
+
+        // Core glow
+        const coreGlowGeo = new THREE.IcosahedronGeometry(2.5, 1);
+        const coreGlowMat = new THREE.MeshBasicMaterial({
+            color: 0xFFAA00,
+            wireframe: true,
+            transparent: true,
+            opacity: 0.15
+        });
+        const coreGlow = new THREE.Mesh(coreGlowGeo, coreGlowMat);
+        core.add(coreGlow);
+
+        // Planets
+        const planets = {};
+        const planetGroup = new THREE.Group();
+        scene.add(planetGroup);
+
+        Object.entries(ELEMENTS).forEach(([key, config], index) => {
+            // Planet geometry varies by element
+            let geometry;
+            if (key === 'fire') {
+                geometry = new THREE.IcosahedronGeometry(config.size, 1);
+            } else if (key === 'water') {
+                geometry = new THREE.SphereGeometry(config.size, 32, 32);
+            } else if (key === 'earth') {
+                geometry = new THREE.DodecahedronGeometry(config.size);
+            } else if (key === 'metal') {
+                geometry = new THREE.OctahedronGeometry(config.size);
+            } else {
+                geometry = new THREE.IcosahedronGeometry(config.size, 2);
+            }
+
+            const material = new THREE.MeshStandardMaterial({
+                color: config.color,
+                emissive: config.emissive,
+                emissiveIntensity: 0.3,
+                metalness: 0.5,
+                roughness: 0.3
+            });
+
+            const mesh = new THREE.Mesh(geometry, material);
+            mesh.userData = { element: key };
+
+            // Initial position
+            const angle = (index / Object.keys(ELEMENTS).length) * Math.PI * 2;
+            mesh.position.x = Math.cos(angle) * config.orbitRadius;
+            mesh.position.z = Math.sin(angle) * config.orbitRadius;
+
+            planetGroup.add(mesh);
+
+            // Orbit line
+            const orbitGeo = new THREE.BufferGeometry();
+            const orbitPoints = [];
+            for (let i = 0; i <= 64; i++) {
+                const a = (i / 64) * Math.PI * 2;
+                orbitPoints.push(Math.cos(a) * config.orbitRadius, 0, Math.sin(a) * config.orbitRadius);
+            }
+            orbitGeo.setAttribute('position', new THREE.Float32BufferAttribute(orbitPoints, 3));
+            const orbitMat = new THREE.LineBasicMaterial({ color: config.color, transparent: true, opacity: 0.1 });
+            const orbitLine = new THREE.Line(orbitGeo, orbitMat);
+            scene.add(orbitLine);
+
+            planets[key] = {
+                mesh,
+                config,
+                angle,
+                orbitLine
+            };
+        });
+
+        // Particles
+        const particleCount = 2000;
+        const particleGeo = new THREE.BufferGeometry();
+        const positions = new Float32Array(particleCount * 3);
+        for (let i = 0; i < particleCount * 3; i++) {
+            positions[i] = (Math.random() - 0.5) * 120;
+        }
+        particleGeo.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+        const particleMat = new THREE.PointsMaterial({ size: 0.08, color: 0xffffff, transparent: true, opacity: 0.4 });
+        const particles = new THREE.Points(particleGeo, particleMat);
+        scene.add(particles);
+
+        // Ember particles for fire
+        const emberCount = 100;
+        const emberGeo = new THREE.BufferGeometry();
+        const emberPositions = new Float32Array(emberCount * 3);
+        const emberVelocities = [];
+        for (let i = 0; i < emberCount; i++) {
+            emberPositions[i * 3] = (Math.random() - 0.5) * 30;
+            emberPositions[i * 3 + 1] = Math.random() * 20 - 10;
+            emberPositions[i * 3 + 2] = (Math.random() - 0.5) * 30;
+            emberVelocities.push({
+                x: (Math.random() - 0.5) * 0.02,
+                y: Math.random() * 0.05 + 0.02,
+                z: (Math.random() - 0.5) * 0.02
+            });
+        }
+        emberGeo.setAttribute('position', new THREE.BufferAttribute(emberPositions, 3));
+        const emberMat = new THREE.PointsMaterial({ size: 0.15, color: 0xFF6600, transparent: true, opacity: 0 });
+        const embers = new THREE.Points(emberGeo, emberMat);
+        scene.add(embers);
+
+        // ============================================
+        // INTERACTIONS
+        // ============================================
+        const raycaster = new THREE.Raycaster();
+        const mouse = new THREE.Vector2();
+
+        // Click detection
+        renderer.domElement.addEventListener('click', (e) => {
+            if (isTransitioning) return;
+
+            mouse.x = (e.clientX / window.innerWidth) * 2 - 1;
+            mouse.y = -(e.clientY / window.innerHeight) * 2 + 1;
+
+            raycaster.setFromCamera(mouse, camera);
+            const intersects = raycaster.intersectObjects(Object.values(planets).map(p => p.mesh));
+
+            if (intersects.length > 0) {
+                const element = intersects[0].object.userData.element;
+                selectElement(element);
+            }
+        });
+
+        // Orbital menu clicks
+        document.querySelectorAll('.orbital-item').forEach(item => {
+            item.addEventListener('click', () => {
+                if (isTransitioning) return;
+                const element = item.dataset.element;
+                selectElement(element);
+            });
+        });
+
+        // Tab clicks
+        document.querySelectorAll('.card-tab').forEach(tab => {
+            tab.addEventListener('click', () => {
+                const tabName = tab.dataset.tab;
+                const card = tab.closest('.service-card');
+                
+                card.querySelectorAll('.card-tab').forEach(t => t.classList.remove('active'));
+                tab.classList.add('active');
+                
+                card.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+                card.querySelector(`[data-panel="${tabName}"]`).classList.add('active');
+            });
+        });
+
+        // Logo click - return to overview
+        document.getElementById('logoBtn').addEventListener('click', (e) => {
+            e.preventDefault();
+            closeCard();
+        });
+
+        // ============================================
+        // ELEMENT SELECTION
+        // ============================================
+        function selectElement(element) {
+            if (currentElement === element) return;
+            isTransitioning = true;
+            currentElement = element;
+
+            const planet = planets[element];
+            const config = planet.config;
+
+            // Hide center content
+            document.getElementById('centerContent').classList.add('hidden');
+
+            // Update orbital menu
+            document.querySelectorAll('.orbital-item').forEach(item => {
+                item.classList.toggle('active', item.dataset.element === element);
+            });
+
+            // Camera animation
+            const targetPos = planet.mesh.position.clone();
+            targetPos.z += 8;
+            targetPos.y += 3;
+
+            gsap.to(camera.position, {
+                x: targetPos.x,
+                y: targetPos.y,
+                z: targetPos.z,
+                duration: 1.5,
+                ease: 'power2.inOut',
+                onComplete: () => {
+                    isTransitioning = false;
+                }
+            });
+
+            // Highlight planet
+            Object.values(planets).forEach(p => {
+                gsap.to(p.mesh.material, {
+                    emissiveIntensity: p.mesh.userData.element === element ? 0.8 : 0.1,
+                    opacity: p.mesh.userData.element === element ? 1 : 0.3,
+                    duration: 0.5
+                });
+                gsap.to(p.orbitLine.material, {
+                    opacity: p.mesh.userData.element === element ? 0.3 : 0.05,
+                    duration: 0.5
+                });
+            });
+
+            gsap.to(planet.mesh.scale, {
+                x: 1.3, y: 1.3, z: 1.3,
+                duration: 0.5,
+                ease: 'back.out(1.7)'
+            });
+
+            // Environment overlay
+            document.querySelectorAll('.environment-overlay').forEach(env => {
+                env.classList.remove('active');
+            });
+            document.getElementById(`env${element.charAt(0).toUpperCase() + element.slice(1)}`).classList.add('active');
+
+            // Show element-specific particles
+            if (element === 'fire') {
+                gsap.to(emberMat, { opacity: 0.8, duration: 0.5 });
+            } else {
+                gsap.to(emberMat, { opacity: 0, duration: 0.5 });
+            }
+
+            // Show card
+            document.querySelectorAll('.service-card').forEach(card => {
+                card.classList.remove('active');
+            });
+            
+            const cardId = `card${element.charAt(0).toUpperCase() + element.slice(1)}`;
+            const card = document.getElementById(cardId);
+            if (card) {
+                setTimeout(() => {
+                    card.classList.add('active');
+                }, 800);
+            }
+
+            // Play sound (if available)
+            // playSound(element);
+        }
+
+        function closeCard() {
+            if (isTransitioning) return;
+            isTransitioning = true;
+            currentElement = null;
+
+            // Hide cards
+            document.querySelectorAll('.service-card').forEach(card => {
+                card.classList.remove('active');
+            });
+
+            // Reset camera
+            gsap.to(camera.position, {
+                x: 0, y: 5, z: 20,
+                duration: 1.5,
+                ease: 'power2.inOut',
+                onComplete: () => {
+                    isTransitioning = false;
+                }
+            });
+
+            // Reset planets
+            Object.values(planets).forEach(p => {
+                gsap.to(p.mesh.material, { emissiveIntensity: 0.3, opacity: 1, duration: 0.5 });
+                gsap.to(p.mesh.scale, { x: 1, y: 1, z: 1, duration: 0.5 });
+                gsap.to(p.orbitLine.material, { opacity: 0.1, duration: 0.5 });
+            });
+
+            // Hide environment
+            document.querySelectorAll('.environment-overlay').forEach(env => {
+                env.classList.remove('active');
+            });
+
+            // Hide embers
+            gsap.to(emberMat, { opacity: 0, duration: 0.5 });
+
+            // Show center content
+            document.getElementById('centerContent').classList.remove('hidden');
+
+            // Reset orbital menu
+            document.querySelectorAll('.orbital-item').forEach(item => {
+                item.classList.remove('active');
+            });
+        }
+
+        // Keyboard
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') closeCard();
+        });
+
+        // ============================================
+        // ANIMATION LOOP
+        // ============================================
+        const clock = new THREE.Clock();
+
+        function animate() {
+            requestAnimationFrame(animate);
+            const time = clock.getElapsedTime();
+
+            // Core animation
+            core.rotation.y = time * 0.1;
+            coreGlow.rotation.z = -time * 0.15;
+            const breathe = 1 + Math.sin(time * 2) * 0.05;
+            core.scale.set(breathe, breathe, breathe);
+
+            // Planet orbits
+            Object.values(planets).forEach(planet => {
+                if (!currentElement || currentElement !== planet.mesh.userData.element) {
+                    planet.angle += planet.config.orbitSpeed * 0.008;
+                    planet.mesh.position.x = Math.cos(planet.angle) * planet.config.orbitRadius;
+                    planet.mesh.position.z = Math.sin(planet.angle) * planet.config.orbitRadius;
+                }
+                planet.mesh.rotation.x += 0.005;
+                planet.mesh.rotation.y += 0.008;
+            });
+
+            // Particles
+            particles.rotation.y = time * 0.01;
+
+            // Ember particles
+            if (emberMat.opacity > 0) {
+                const emberPos = emberGeo.attributes.position.array;
+                for (let i = 0; i < emberCount; i++) {
+                    emberPos[i * 3] += emberVelocities[i].x;
+                    emberPos[i * 3 + 1] += emberVelocities[i].y;
+                    emberPos[i * 3 + 2] += emberVelocities[i].z;
+
+                    // Reset if too high
+                    if (emberPos[i * 3 + 1] > 15) {
+                        emberPos[i * 3 + 1] = -10;
+                        emberPos[i * 3] = (Math.random() - 0.5) * 20;
+                        emberPos[i * 3 + 2] = (Math.random() - 0.5) * 20;
+                    }
+                }
+                emberGeo.attributes.position.needsUpdate = true;
+            }
+
+            // Camera look at
+            if (currentElement) {
+                camera.lookAt(planets[currentElement].mesh.position);
+            } else {
+                camera.lookAt(0, 0, 0);
+            }
+
+            renderer.render(scene, camera);
+        }
+
+        animate();
+
+        // Resize
+        window.addEventListener('resize', () => {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        });
+
+        // Loading complete
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                document.getElementById('loadingScreen').classList.add('hidden');
+            }, 2200);
+        });
+
+        console.log('🔥 The Rike - Ngũ Hành Universe Loaded');
+    </script>
+</body>
+</html>

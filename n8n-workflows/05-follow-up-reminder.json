@@ -1,0 +1,148 @@
+{
+  "name": "05 - Proposal Follow-up Reminders",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "days",
+              "triggerAtHour": 9
+            }
+          ]
+        }
+      },
+      "id": "daily-check",
+      "name": "Daily 9 AM Check",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.1,
+      "position": [250, 300]
+    },
+    {
+      "parameters": {
+        "operation": "read",
+        "documentId": {
+          "__rl": true,
+          "value": "={{ $env.GOOGLE_SHEET_ID }}",
+          "mode": "id"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "Pipeline",
+          "mode": "list"
+        },
+        "options": {
+          "filters": {
+            "values": [
+              {
+                "lookupColumn": "Stage",
+                "lookupValue": "Proposal"
+              }
+            ]
+          }
+        }
+      },
+      "id": "get-proposals",
+      "name": "Get Open Proposals",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.1,
+      "position": [450, 300]
+    },
+    {
+      "parameters": {
+        "jsCode": "const proposals = $input.all();\nconst today = new Date();\nconst reminders = [];\n\nfor (const prop of proposals) {\n  const sentDate = new Date(prop.json['Proposal Sent Date']);\n  const daysSinceSent = Math.floor((today - sentDate) / (1000 * 60 * 60 * 24));\n  \n  // Day 2, 4, 7, 10 follow-ups\n  if ([2, 4, 7, 10].includes(daysSinceSent)) {\n    reminders.push({\n      json: {\n        ...prop.json,\n        daysSinceSent,\n        followUpType: daysSinceSent === 10 ? 'final' : 'standard'\n      }\n    });\n  }\n}\n\nreturn reminders;"
+      },
+      "id": "filter-followups",
+      "name": "Filter Due Follow-ups",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [650, 300]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "number": [
+            {
+              "value1": "={{ $json.daysSinceSent }}",
+              "operation": "isNotEmpty"
+            }
+          ]
+        }
+      },
+      "id": "has-followups",
+      "name": "Has Follow-ups?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [850, 300]
+    },
+    {
+      "parameters": {
+        "channel": "#sales",
+        "text": "=⏰ *Follow-up Reminder*\n\n*Deal:* {{ $json['Deal Name'] }}\n*Contact:* {{ $json.Contact }}\n*Email:* {{ $json.Email }}\n*Value:* ${{ $json.Value }}\n*Days since proposal:* {{ $json.daysSinceSent }}\n\n{{ $json.followUpType === 'final' ? '🔴 *FINAL FOLLOW-UP - Day 10*' : '🟡 Standard follow-up' }}\n\n<{{ $env.CRM_URL }}/deals/{{ $json.ID }}|View in CRM>",
+        "otherOptions": {}
+      },
+      "id": "slack-followup",
+      "name": "Send Reminder to Slack",
+      "type": "n8n-nodes-base.slack",
+      "typeVersion": 2.1,
+      "position": [1050, 300]
+    }
+  ],
+  "connections": {
+    "Daily 9 AM Check": {
+      "main": [
+        [
+          {
+            "node": "Get Open Proposals",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Open Proposals": {
+      "main": [
+        [
+          {
+            "node": "Filter Due Follow-ups",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Filter Due Follow-ups": {
+      "main": [
+        [
+          {
+            "node": "Has Follow-ups?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Has Follow-ups?": {
+      "main": [
+        [
+          {
+            "node": "Send Reminder to Slack",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "tags": [
+    {
+      "name": "Sales"
+    },
+    {
+      "name": "Follow-up"
+    }
+  ]
+}

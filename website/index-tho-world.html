@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>The Rike | THỔ · Earth - The System Architect</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700;900&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        :root { --earth-gold: #ffd700; --earth-amber: #ffbf00; --earth-brown: #8b6914; --earth-dark: #3d2914; --earth-glow: #daa520; --bg-dark: #1a1408; --bg-deep: #0d0a04; }
+        html, body { width: 100%; height: 100%; overflow: hidden; background: var(--bg-deep); font-family: 'Montserrat', sans-serif; color: #fff; }
+        .world-3d { position: fixed; top: 0; left: 0; width: 100%; height: 100%; perspective: 800px; perspective-origin: 50% 50%; }
+        .tunnel { position: absolute; top: 50%; left: 50%; width: 100%; height: 100%; transform-style: preserve-3d; transform: translate(-50%, -50%) translateZ(0px); }
+        .depth-bg { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; background: linear-gradient(180deg, #2a2010 0%, #1a1408 50%, #0d0a04 100%); }
+        .crystal-glow { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 150%; height: 150%; background: radial-gradient(ellipse at center, rgba(218,165,32,0.1) 0%, transparent 60%); pointer-events: none; z-index: 1; animation: crystalPulse 6s ease-in-out infinite; }
+        @keyframes crystalPulse { 0%, 100% { opacity: 0.6; } 50% { opacity: 1; } }
+        .dust-layer { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 2; pointer-events: none; }
+        .dust { position: absolute; width: 3px; height: 3px; background: rgba(218,165,32,0.6); border-radius: 50%; animation: dustFloat 15s linear infinite; }
+        @keyframes dustFloat { 0% { transform: translateY(100vh) rotate(0deg); opacity: 0; } 10% { opacity: 0.8; } 90% { opacity: 0.5; } 100% { transform: translateY(-100px) rotate(360deg); opacity: 0; } }
+        .ambient-glow { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 3; pointer-events: none; background: radial-gradient(ellipse at 50% 50%, var(--ambient-color, rgba(218,165,32,0.1)) 0%, transparent 60%); opacity: 0.5; transition: all 0.8s; }
+        .vignette { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 4; pointer-events: none; background: radial-gradient(ellipse at center, transparent 30%, rgba(13,10,4,0.8) 100%); opacity: 0.4; }
+        .checkpoint-glow { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 300px; height: 300px; border-radius: 50%; background: radial-gradient(circle, var(--checkpoint-color, rgba(218,165,32,0.3)) 0%, transparent 70%); z-index: 5; pointer-events: none; opacity: 0; }
+        .checkpoint-glow.active { opacity: 1; animation: earthPulse 2s ease-in-out infinite; }
+        @keyframes earthPulse { 0%, 100% { transform: translate(-50%, -50%) scale(1); } 50% { transform: translate(-50%, -50%) scale(1.15); opacity: 0.5; } }
+        .particle-3d { position: absolute; background: var(--earth-amber); border-radius: 50%; transform-style: preserve-3d; box-shadow: 0 0 8px var(--earth-glow); }
+        .depth-ring { position: absolute; top: 50%; left: 50%; border: 1px solid rgba(218,165,32,0.15); border-radius: 50%; transform-style: preserve-3d; transform: translate(-50%, -50%) translateZ(var(--z)) rotateX(85deg); pointer-events: none; }
+        .keyword-3d { position: absolute; top: 50%; left: 50%; transform-style: preserve-3d; transform: translate(-50%, -50%) translateZ(var(--z)) translateX(var(--x)) translateY(var(--y)); cursor: pointer; pointer-events: auto; }
+        .keyword-card { display: flex; align-items: center; gap: 16px; padding: 20px 28px; background: rgba(60,40,10,0.6); backdrop-filter: blur(20px); border: 1px solid rgba(218,165,32,0.3); border-radius: 16px; white-space: nowrap; transition: all 0.3s; box-shadow: 0 0 40px rgba(218,165,32,0.15); }
+        .keyword-card:hover { background: rgba(80,55,15,0.7); border-color: var(--earth-gold); box-shadow: 0 0 60px rgba(218,165,32,0.3); transform: scale(1.05); }
+        .keyword-icon { width: 52px; height: 52px; display: flex; align-items: center; justify-content: center; background: linear-gradient(135deg, rgba(218,165,32,0.25), rgba(139,105,20,0.15)); border-radius: 14px; border: 1px solid rgba(218,165,32,0.3); }
+        .keyword-icon svg { width: 28px; height: 28px; stroke: var(--earth-gold); fill: none; stroke-width: 1.5; filter: drop-shadow(0 0 8px rgba(218,165,32,0.6)); }
+        .keyword-text h3 { font-size: 1rem; font-weight: 700; margin-bottom: 4px; }
+        .keyword-text p { font-size: 0.75rem; opacity: 0.6; }
+        .keyword-3d.contact .keyword-card { background: rgba(100,70,20,0.6); border-color: var(--earth-gold); }
+        .ui-layer { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 100; pointer-events: none; }
+        .header { position: absolute; top: 0; left: 0; right: 0; padding: 24px 32px; display: flex; justify-content: space-between; align-items: center; pointer-events: auto; }
+        .logo { font-size: 0.85rem; font-weight: 700; letter-spacing: 4px; color: #fff; text-decoration: none; text-shadow: 0 0 20px rgba(218,165,32,0.5); }
+        .world-badge { display: flex; align-items: center; gap: 10px; padding: 10px 18px; background: rgba(60,40,10,0.5); backdrop-filter: blur(10px); border-radius: 24px; border: 1px solid rgba(218,165,32,0.3); }
+        .world-badge-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--earth-gold); box-shadow: 0 0 12px var(--earth-gold); animation: pulse 2s ease-in-out infinite; }
+        @keyframes pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.3); opacity: 0.7; } }
+        .world-badge-text { font-size: 0.7rem; font-weight: 600; letter-spacing: 2px; }
+        .depth-meter { position: absolute; right: 28px; top: 50%; transform: translateY(-50%); display: flex; flex-direction: column; align-items: center; gap: 10px; }
+        .depth-value { font-size: 0.8rem; font-weight: 700; color: var(--earth-gold); text-shadow: 0 0 10px var(--earth-gold); }
+        .depth-bar { width: 4px; height: 160px; background: rgba(218,165,32,0.15); border-radius: 4px; overflow: hidden; }
+        .depth-fill { width: 100%; background: linear-gradient(180deg, var(--earth-gold), var(--earth-amber), var(--earth-brown)); border-radius: 4px; box-shadow: 0 0 15px var(--earth-glow); }
+        .depth-label { font-size: 0.55rem; letter-spacing: 2px; opacity: 0.5; text-transform: uppercase; }
+        .scroll-hint { position: absolute; bottom: 130px; left: 50%; transform: translateX(-50%); display: flex; flex-direction: column; align-items: center; gap: 14px; opacity: 0.8; transition: opacity 0.5s; }
+        .scroll-hint.hidden { opacity: 0; }
+        .scroll-icon { width: 28px; height: 46px; border: 2px solid var(--earth-gold); border-radius: 14px; position: relative; box-shadow: 0 0 15px rgba(218,165,32,0.4); }
+        .scroll-icon::after { content: ''; position: absolute; top: 8px; left: 50%; transform: translateX(-50%); width: 5px; height: 10px; background: var(--earth-gold); border-radius: 3px; animation: scrollAnim 2s ease-in-out infinite; }
+        @keyframes scrollAnim { 0%, 100% { top: 8px; opacity: 1; } 50% { top: 26px; opacity: 0.3; } }
+        .scroll-text { font-size: 0.7rem; letter-spacing: 3px; text-transform: uppercase; color: var(--earth-gold); }
+        .nav-bottom { position: absolute; bottom: 28px; left: 50%; transform: translateX(-50%); display: flex; gap: 18px; padding: 14px 24px; background: rgba(40,25,8,0.7); backdrop-filter: blur(20px); border: 1px solid rgba(255,255,255,0.1); border-radius: 50px; pointer-events: auto; }
+        .nav-item { width: 44px; height: 44px; border-radius: 50%; border: 1.5px solid rgba(255,255,255,0.15); background: rgba(255,255,255,0.05); cursor: pointer; transition: all 0.3s; display: flex; align-items: center; justify-content: center; }
+        .nav-item svg { width: 20px; height: 20px; stroke: currentColor; fill: none; stroke-width: 2; filter: drop-shadow(0 0 4px currentColor); }
+        .nav-item:hover { transform: scale(1.15); border-color: currentColor; }
+        .nav-item.active { border-color: currentColor; box-shadow: 0 0 25px currentColor; }
+        .nav-item[data-agent="hoa"] { color: #ff6b6b; }
+        .nav-item[data-agent="tho"] { color: #ffd93d; }
+        .nav-item[data-agent="moc"] { color: #6bcb77; }
+        .nav-item[data-agent="kim"] { color: #e0e0f0; }
+        .nav-item[data-agent="thuy"] { color: #00d4ff; }
+        .modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 500; display: flex; justify-content: center; align-items: center; opacity: 0; visibility: hidden; transition: all 0.4s; pointer-events: none; }
+        .modal.visible { opacity: 1; visibility: visible; pointer-events: auto; }
+        .modal-backdrop { position: absolute; inset: 0; background: rgba(13,10,4,0.9); backdrop-filter: blur(15px); }
+        .modal-content { position: relative; width: 90%; max-width: 520px; max-height: 85vh; background: linear-gradient(135deg, rgba(60,40,10,0.95), rgba(30,20,5,0.98)); border: 1px solid rgba(218,165,32,0.3); border-radius: 20px; padding: 36px; overflow-y: auto; transform: translateY(40px); transition: transform 0.4s; }
+        .modal.visible .modal-content { transform: translateY(0); }
+        .modal-close { position: absolute; top: 18px; right: 18px; width: 40px; height: 40px; border: 1px solid rgba(218,165,32,0.3); border-radius: 50%; background: transparent; color: #fff; font-size: 1.3rem; cursor: pointer; transition: all 0.3s; display: flex; align-items: center; justify-content: center; }
+        .modal-close:hover { background: rgba(218,165,32,0.2); transform: rotate(90deg); }
+        .modal-icon { width: 68px; height: 68px; display: flex; align-items: center; justify-content: center; background: linear-gradient(135deg, rgba(218,165,32,0.25), rgba(139,105,20,0.15)); border-radius: 16px; margin-bottom: 20px; }
+        .modal-icon svg { width: 34px; height: 34px; stroke: var(--earth-gold); fill: none; stroke-width: 1.5; }
+        .modal-badge { display: inline-block; padding: 6px 14px; background: rgba(218,165,32,0.2); border-radius: 6px; font-size: 0.6rem; font-weight: 700; letter-spacing: 2px; color: var(--earth-gold); margin-bottom: 14px; }
+        .modal-title { font-size: 1.5rem; font-weight: 900; margin-bottom: 6px; }
+        .modal-subtitle { opacity: 0.5; margin-bottom: 22px; }
+        .modal-desc { font-size: 0.9rem; line-height: 1.8; opacity: 0.85; margin-bottom: 26px; }
+        .modal-features { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-bottom: 28px; }
+        .modal-feature { display: flex; align-items: center; gap: 10px; padding: 12px; background: rgba(218,165,32,0.1); border-radius: 8px; font-size: 0.8rem; }
+        .modal-feature-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--earth-gold); box-shadow: 0 0 8px var(--earth-gold); }
+        .modal-cta { padding: 16px 36px; background: linear-gradient(135deg, var(--earth-gold), var(--earth-amber)); border: none; border-radius: 10px; font-family: inherit; font-size: 0.8rem; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: #1a1408; cursor: pointer; transition: all 0.3s; }
+        .modal-cta:hover { transform: translateY(-3px); box-shadow: 0 15px 50px rgba(218,165,32,0.5); }
+        .contact-links { display: flex; justify-content: center; flex-wrap: wrap; gap: 14px; margin-top: 30px; }
+        .contact-link { width: 80px; height: 80px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; background: rgba(218,165,32,0.15); border: 1px solid rgba(218,165,32,0.3); border-radius: 14px; text-decoration: none; color: #fff; transition: all 0.3s; }
+        .contact-link:hover { background: rgba(218,165,32,0.25); transform: translateY(-5px); }
+        .contact-link svg { width: 26px; height: 26px; stroke: var(--earth-gold); fill: none; stroke-width: 1.5; }
+        .contact-link span { font-size: 0.55rem; letter-spacing: 1px; text-transform: uppercase; opacity: 0.7; }
+        .music-control { position: fixed; bottom: 100px; right: 28px; z-index: 200; display: flex; align-items: center; gap: 10px; padding: 10px 16px; background: rgba(60,40,10,0.6); backdrop-filter: blur(15px); border: 1px solid rgba(218,165,32,0.3); border-radius: 30px; cursor: pointer; }
+        .music-bars { display: flex; align-items: flex-end; gap: 2px; height: 16px; }
+        .music-bar { width: 3px; background: var(--earth-gold); border-radius: 2px; animation: musicBar 0.8s ease-in-out infinite; }
+        .music-bar:nth-child(1) { height: 8px; }
+        .music-bar:nth-child(2) { height: 14px; animation-delay: 0.2s; }
+        .music-bar:nth-child(3) { height: 10px; animation-delay: 0.4s; }
+        .music-bar:nth-child(4) { height: 16px; animation-delay: 0.1s; }
+        .music-control.paused .music-bar { animation: none; height: 4px; }
+        @keyframes musicBar { 0%, 100% { transform: scaleY(0.5); } 50% { transform: scaleY(1); } }
+        .music-text { font-size: 0.6rem; letter-spacing: 1px; text-transform: uppercase; color: rgba(255,255,255,0.7); }
+        .loading { position: fixed; inset: 0; background: var(--bg-deep); display: flex; flex-direction: column; justify-content: center; align-items: center; z-index: 10000; transition: opacity 1s; }
+        .loading.done { opacity: 0; pointer-events: none; }
+        .loading-text { font-size: 0.8rem; letter-spacing: 5px; color: var(--earth-gold); margin-bottom: 28px; }
+        .loading-dots { display: flex; gap: 10px; }
+        .loading-dots span { width: 12px; height: 12px; border-radius: 50%; background: var(--earth-gold); animation: loadDot 1.2s ease-in-out infinite; }
+        .loading-dots span:nth-child(2) { animation-delay: 0.2s; }
+        .loading-dots span:nth-child(3) { animation-delay: 0.4s; }
+        @keyframes loadDot { 0%, 100% { transform: scale(0.8); opacity: 0.4; } 50% { transform: scale(1.2); opacity: 1; } }
+        @media (max-width: 768px) { .keyword-card { padding: 14px 18px; } .modal-features { grid-template-columns: 1fr; } }
+    </style>
+</head>
+<body>
+    <audio id="bgMusic" loop preload="auto"><source src="https://cdn.pixabay.com/audio/2022/03/10/audio_c8c8a73467.mp3" type="audio/mpeg"></audio>
+    <div class="loading" id="loading"><div class="loading-text">BUILDING</div><div class="loading-dots"><span></span><span></span><span></span></div></div>
+    <div class="music-control paused" id="musicControl"><div class="music-bars"><div class="music-bar"></div><div class="music-bar"></div><div class="music-bar"></div><div class="music-bar"></div></div><span class="music-text">Sound</span></div>
+    <div class="depth-bg" id="depthBg"></div>
+    <div class="crystal-glow"></div>
+    <div class="dust-layer" id="dustLayer"></div>
+    <div class="ambient-glow" id="ambientGlow"></div>
+    <div class="vignette" id="vignette"></div>
+    <div class="checkpoint-glow" id="checkpointGlow"></div>
+    <div class="world-3d">
+        <div class="tunnel" id="tunnel">
+            <div class="depth-ring" style="--z: -200px; width: 600px; height: 600px;"></div>
+            <div class="depth-ring" style="--z: -500px; width: 500px; height: 500px;"></div>
+            <div class="depth-ring" style="--z: -800px; width: 400px; height: 400px;"></div>
+            <div class="keyword-3d" id="kw0" data-index="0" style="--z: -300px; --x: -150px; --y: -50px;"><div class="keyword-card"><div class="keyword-icon"><svg viewBox="0 0 24 24"><path d="M12 3v18M3 12h18M5.5 5.5l13 13M18.5 5.5l-13 13"/></svg></div><div class="keyword-text"><h3>CRM & Workflow Automation</h3><p>Replace 40+ hours/week</p></div></div></div>
+            <div class="keyword-3d" id="kw1" data-index="1" style="--z: -600px; --x: 120px; --y: 30px;"><div class="keyword-card"><div class="keyword-icon"><svg viewBox="0 0 24 24"><path d="M4 4h16v16H4z"/><path d="M9 9h6v6H9z"/><path d="M4 9h5M15 9h5M9 4v5M9 15v5"/></svg></div><div class="keyword-text"><h3>AI Follow-up Sequences</h3><p>Never miss a lead</p></div></div></div>
+            <div class="keyword-3d" id="kw2" data-index="2" style="--z: -900px; --x: -100px; --y: 60px;"><div class="keyword-card"><div class="keyword-icon"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg></div><div class="keyword-text"><h3>Booking & Retention</h3><p>Automated client journey</p></div></div></div>
+            <div class="keyword-3d" id="kw3" data-index="3" style="--z: -1200px; --x: 80px; --y: -40px;"><div class="keyword-card"><div class="keyword-icon"><svg viewBox="0 0 24 24"><circle cx="6" cy="6" r="3"/><circle cx="18" cy="18" r="3"/><path d="M6 21V9a9 9 0 0 0 9 9h6"/></svg></div><div class="keyword-text"><h3>Integration Setup</h3><p>Connect everything</p></div></div></div>
+            <div class="keyword-3d contact" id="kw4" data-index="4" style="--z: -1500px; --x: 0; --y: 0;"><div class="keyword-card"><div class="keyword-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4"/></svg></div><div class="keyword-text"><h3>Connect With Us</h3><p>Build your foundation</p></div></div></div>
+        </div>
+    </div>
+    <div class="ui-layer">
+        <header class="header"><a href="index-stage-v3.html" class="logo">THE RIKE</a><div class="world-badge"><span class="world-badge-dot"></span><span class="world-badge-text">THỔ · EARTH</span></div></header>
+        <div class="depth-meter"><span class="depth-value" id="depthValue">0%</span><div class="depth-bar"><div class="depth-fill" id="depthFill"></div></div><span class="depth-label">Progress</span></div>
+        <div class="scroll-hint" id="scrollHint"><div class="scroll-icon"></div><span class="scroll-text">Scroll to build</span></div>
+        <nav class="nav-bottom">
+            <div class="nav-item" data-agent="hoa"><svg viewBox="0 0 24 24"><path d="M12 2c-4 4-6 8-6 11a6 6 0 0 0 12 0c0-3-2-7-6-11z"/></svg></div>
+            <div class="nav-item active" data-agent="tho"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M2 12h20"/></svg></div>
+            <div class="nav-item" data-agent="moc"><svg viewBox="0 0 24 24"><path d="M12 22V8"/><path d="M5 12l7-7 7 7"/></svg></div>
+            <div class="nav-item" data-agent="kim"><svg viewBox="0 0 24 24"><polygon points="12 2 15 8 22 9 17 14 18 21 12 18 6 21 7 14 2 9 9 8"/></svg></div>
+            <div class="nav-item" data-agent="thuy"><svg viewBox="0 0 24 24"><path d="M12 2c-4 6-7 10-7 14a7 7 0 0 0 14 0c0-4-3-8-7-14z"/></svg></div>
+        </nav>
+    </div>
+    <div class="modal" id="serviceModal"><div class="modal-backdrop" id="serviceBackdrop"></div><div class="modal-content"><button class="modal-close" id="serviceClose">×</button><div class="modal-icon" id="modalIcon"></div><span class="modal-badge">THỔ · EARTH</span><h2 class="modal-title" id="modalTitle"></h2><p class="modal-subtitle" id="modalSubtitle"></p><p class="modal-desc" id="modalDesc"></p><div class="modal-features" id="modalFeatures"></div><button class="modal-cta">Build Now →</button></div></div>
+    <div class="modal" id="contactModal"><div class="modal-backdrop" id="contactBackdrop"></div><div class="modal-content" style="text-align:center;"><button class="modal-close" id="contactClose">×</button><h2 class="modal-title">Connect With Us</h2><p class="modal-subtitle">Choose your preferred channel</p><div class="contact-links"><a href="#" class="contact-link"><svg viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M22 6l-10 7L2 6"/></svg><span>Email</span></a><a href="#" class="contact-link"><svg viewBox="0 0 24 24"><path d="M9 12a4 4 0 1 0 4 4V4c1 2 3 3 5 3"/></svg><span>TikTok</span></a><a href="#" class="contact-link"><svg viewBox="0 0 24 24"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg><span>Facebook</span></a><a href="#" class="contact-link"><svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/></svg><span>Instagram</span></a><a href="#" class="contact-link"><svg viewBox="0 0 24 24"><circle cx="9" cy="12" r="1"/><circle cx="15" cy="12" r="1"/><rect x="2" y="6" width="20" height="12" rx="4"/></svg><span>Discord</span></a></div></div></div>
+    <script>
+    const SERVICES=[{icon:`<svg viewBox="0 0 24 24"><path d="M12 3v18M3 12h18M5.5 5.5l13 13M18.5 5.5l-13 13"/></svg>`,title:'CRM & Workflow Automation',subtitle:'Replace 40+ hours/week',desc:'Automate your entire workflow from lead capture to client onboarding. Save 40+ hours every week with intelligent automation.',features:['HubSpot/Salesforce setup','Zapier/Make flows','Custom integrations','Process mapping']},{icon:`<svg viewBox="0 0 24 24"><path d="M4 4h16v16H4z"/><path d="M9 9h6v6H9z"/></svg>`,title:'AI Follow-up Sequences',subtitle:'Never miss a lead',desc:'Smart email sequences with AI personalization. Automatically nurture leads 24/7 without manual work.',features:['Smart segmentation','Behavior triggers','AI copywriting','Multi-channel']},{icon:`<svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>`,title:'Booking & Retention Systems',subtitle:'Automated client journey',desc:'From booking calls to renewal reminders - everything automated. Smooth client experience throughout.',features:['Calendly integration','Reminder sequences','Review requests','Upsell triggers']},{icon:`<svg viewBox="0 0 24 24"><circle cx="6" cy="6" r="3"/><circle cx="18" cy="18" r="3"/><path d="M6 21V9a9 9 0 0 0 9 9h6"/></svg>`,title:'Integration Setup',subtitle:'Connect everything',desc:'Connect all your tools into one unified system. Data flows seamlessly between platforms.',features:['API connections','Webhook setup','Data sync','Error handling']}];
+    const CHECKPOINTS=[{z:300,color:'rgba(255,215,0,0.25)'},{z:600,color:'rgba(218,165,32,0.25)'},{z:900,color:'rgba(184,134,11,0.25)'},{z:1200,color:'rgba(139,105,20,0.3)'},{z:1500,color:'rgba(218,165,32,0.35)'}];
+    const dustLayer=document.getElementById('dustLayer');for(let i=0;i<30;i++){const d=document.createElement('div');d.className='dust';d.style.left=Math.random()*100+'%';d.style.animationDuration=(Math.random()*10+10)+'s';d.style.animationDelay=Math.random()*15+'s';dustLayer.appendChild(d);}
+    const tunnel=document.getElementById('tunnel'),keywords=document.querySelectorAll('.keyword-3d');let currentZ=0,targetZ=0,velocity=0;const MAX_Z=1600;
+    window.addEventListener('wheel',e=>{e.preventDefault();velocity+=e.deltaY*0.5},{passive:false});let touchY=0;window.addEventListener('touchstart',e=>touchY=e.touches[0].clientY);window.addEventListener('touchmove',e=>{e.preventDefault();velocity+=(touchY-e.touches[0].clientY)*2;touchY=e.touches[0].clientY},{passive:false});
+    for(let i=0;i<40;i++){const p=document.createElement('div');p.className='particle-3d';p.style.cssText=`left:${Math.random()*100}%;top:${Math.random()*100}%;width:${Math.random()*4+2}px;height:${Math.random()*4+2}px;transform:translateZ(${-Math.random()*1500}px);opacity:${Math.random()*0.5+0.3};`;tunnel.appendChild(p);}
+    function animate(){requestAnimationFrame(animate);velocity*=0.92;targetZ+=velocity*0.1;targetZ=Math.max(0,Math.min(MAX_Z,targetZ));currentZ+=(targetZ-currentZ)*0.08;tunnel.style.transform=`translate(-50%,-50%) translateZ(${currentZ}px)`;const progress=currentZ/MAX_Z;document.getElementById('depthValue').textContent=Math.floor(progress*100)+'%';document.getElementById('depthFill').style.height=(progress*100)+'%';let nearestCP=null,nearestDist=Infinity;CHECKPOINTS.forEach(cp=>{const dist=Math.abs(currentZ-cp.z);if(dist<200&&dist<nearestDist){nearestDist=dist;nearestCP=cp;}});const cpGlow=document.getElementById('checkpointGlow');if(nearestCP){cpGlow.classList.add('active');cpGlow.style.setProperty('--checkpoint-color',nearestCP.color);}else{cpGlow.classList.remove('active');}if(progress>0.02)document.getElementById('scrollHint').classList.add('hidden');keywords.forEach(kw=>{const kwZ=parseFloat(kw.style.getPropertyValue('--z')),relativeZ=kwZ+currentZ,scale=Math.max(0.2,Math.min(2,1+relativeZ/400));let opacity=1;if(relativeZ>100)opacity=Math.max(0,1-(relativeZ-100)/200);if(relativeZ<-300)opacity=Math.max(0,1+(relativeZ+300)/500);kw.style.opacity=opacity;kw.querySelector('.keyword-card').style.transform=`scale(${scale})`;kw.style.pointerEvents=opacity>0.3?'auto':'none';});}animate();
+    keywords.forEach((kw,i)=>{kw.addEventListener('click',()=>{if(i===4){document.getElementById('contactModal').classList.add('visible');}else{const s=SERVICES[i];document.getElementById('modalIcon').innerHTML=s.icon;document.getElementById('modalTitle').textContent=s.title;document.getElementById('modalSubtitle').textContent=s.subtitle;document.getElementById('modalDesc').textContent=s.desc;document.getElementById('modalFeatures').innerHTML=s.features.map(f=>`<div class="modal-feature"><span class="modal-feature-dot"></span>${f}</div>`).join('');document.getElementById('serviceModal').classList.add('visible');}});});
+    ['serviceClose','serviceBackdrop','contactClose','contactBackdrop'].forEach(id=>{document.getElementById(id).addEventListener('click',()=>{document.querySelectorAll('.modal').forEach(m=>m.classList.remove('visible'));});});document.addEventListener('keydown',e=>{if(e.key==='Escape')document.querySelectorAll('.modal').forEach(m=>m.classList.remove('visible'));});
+    document.querySelectorAll('.nav-item').forEach(item=>{item.addEventListener('click',()=>{const agent=item.dataset.agent;if(agent!=='tho')window.location.href=`index-${agent}-world.html`;});});
+    const bgMusic=document.getElementById('bgMusic'),musicControl=document.getElementById('musicControl');bgMusic.volume=0.25;musicControl.addEventListener('click',()=>{if(bgMusic.paused){bgMusic.play();musicControl.classList.remove('paused');}else{bgMusic.pause();musicControl.classList.add('paused');}});document.addEventListener('click',function init(){bgMusic.play().then(()=>musicControl.classList.remove('paused')).catch(()=>{});document.removeEventListener('click',init);},{once:true});
+    window.addEventListener('load',()=>setTimeout(()=>document.getElementById('loading').classList.add('done'),1500));console.log('🌍 THỔ World - The System Architect');
+    </script>
+</body>
+</html>

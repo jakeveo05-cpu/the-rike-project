@@ -1,0 +1,1291 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Rike | Ngũ Hành Universe</title>
+    <meta name="description" content="Experience the Five Elements of Business Growth">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700;900&family=Noto+Serif:ital@0;1&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --bg: #030308;
+            --text: #ffffff;
+            --text-dim: #666677;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html, body {
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            background: var(--bg);
+            font-family: 'Montserrat', sans-serif;
+            color: var(--text);
+            cursor: none;
+        }
+
+        /* Custom Cursor */
+        .cursor {
+            position: fixed;
+            width: 20px;
+            height: 20px;
+            border: 2px solid rgba(255,255,255,0.5);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 9999;
+            transition: transform 0.15s, border-color 0.3s, background 0.3s;
+            transform: translate(-50%, -50%);
+            mix-blend-mode: difference;
+        }
+
+        .cursor.hover {
+            transform: translate(-50%, -50%) scale(2.5);
+            background: rgba(255,255,255,0.1);
+        }
+
+        .cursor-dot {
+            position: fixed;
+            width: 4px;
+            height: 4px;
+            background: #fff;
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 9999;
+            transform: translate(-50%, -50%);
+        }
+
+        /* Canvas */
+        #universe {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+        }
+
+        /* Warp Overlay */
+        .warp-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 2;
+            pointer-events: none;
+            opacity: 0;
+            background: radial-gradient(ellipse at center, transparent 0%, rgba(0,0,0,0.8) 100%);
+            transition: opacity 0.5s;
+        }
+
+        .warp-overlay.active {
+            opacity: 1;
+        }
+
+        /* Speed Lines (CSS) */
+        .speed-lines {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            width: 200vmax;
+            height: 200vmax;
+            transform: translate(-50%, -50%);
+            pointer-events: none;
+            z-index: 3;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .speed-lines.active {
+            opacity: 1;
+        }
+
+        .speed-line {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 2px;
+            height: 0;
+            background: linear-gradient(to bottom, transparent, rgba(255,255,255,0.8), transparent);
+            transform-origin: center top;
+            animation: none;
+        }
+
+        .speed-lines.active .speed-line {
+            animation: speedLine 0.8s ease-out forwards;
+        }
+
+        @keyframes speedLine {
+            0% { height: 0; opacity: 1; }
+            100% { height: 50vmax; opacity: 0; }
+        }
+
+        /* UI Layer */
+        .ui-layer {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 100;
+            pointer-events: none;
+        }
+
+        /* Header */
+        .header {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            padding: 32px 48px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            pointer-events: auto;
+        }
+
+        .logo {
+            font-size: 0.9rem;
+            font-weight: 700;
+            letter-spacing: 4px;
+            color: var(--text);
+            text-decoration: none;
+            opacity: 0.7;
+            transition: opacity 0.3s;
+        }
+
+        .logo:hover {
+            opacity: 1;
+        }
+
+        .header-cta {
+            padding: 12px 24px;
+            background: transparent;
+            border: 1px solid rgba(255,255,255,0.2);
+            color: var(--text);
+            font-family: inherit;
+            font-size: 0.7rem;
+            font-weight: 600;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            cursor: none;
+            transition: all 0.3s;
+        }
+
+        .header-cta:hover {
+            background: var(--text);
+            color: var(--bg);
+        }
+
+        /* Stage Content */
+        .stage-content {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            pointer-events: none;
+            z-index: 10;
+            transition: opacity 0.5s, transform 0.5s;
+        }
+
+        .stage-content.hidden {
+            opacity: 0;
+            transform: translate(-50%, -50%) scale(0.9);
+        }
+
+        .stage-title {
+            font-size: clamp(3rem, 8vw, 6rem);
+            font-weight: 900;
+            letter-spacing: -2px;
+            line-height: 1;
+            margin-bottom: 16px;
+            background: linear-gradient(135deg, #ff6b6b, #ffd93d, #6bcb77, #4d96ff, #9b59b6);
+            background-size: 300% 300%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: gradientShift 8s ease infinite;
+        }
+
+        @keyframes gradientShift {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+
+        .stage-subtitle {
+            font-family: 'Noto Serif', serif;
+            font-style: italic;
+            font-size: clamp(1rem, 2vw, 1.3rem);
+            color: var(--text-dim);
+        }
+
+        /* Agent Panel */
+        .agent-panel {
+            position: absolute;
+            top: 50%;
+            right: 80px;
+            transform: translateY(-50%) translateX(100px);
+            width: 420px;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+            pointer-events: auto;
+            background: rgba(10, 10, 20, 0.6);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 16px;
+            padding: 40px;
+        }
+
+        .agent-panel.active {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(-50%) translateX(0);
+        }
+
+        .agent-badge {
+            display: inline-block;
+            padding: 8px 16px;
+            border-radius: 4px;
+            font-size: 0.65rem;
+            font-weight: 700;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            margin-bottom: 20px;
+        }
+
+        .agent-name {
+            font-size: 2.2rem;
+            font-weight: 900;
+            margin-bottom: 8px;
+            letter-spacing: -1px;
+        }
+
+        .agent-title {
+            font-family: 'Noto Serif', serif;
+            font-style: italic;
+            font-size: 1rem;
+            color: var(--text-dim);
+            margin-bottom: 20px;
+        }
+
+        .agent-desc {
+            font-size: 0.9rem;
+            line-height: 1.8;
+            color: rgba(255,255,255,0.7);
+            margin-bottom: 28px;
+        }
+
+        .agent-services {
+            list-style: none;
+            margin-bottom: 28px;
+        }
+
+        .agent-services li {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 10px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+            font-size: 0.85rem;
+            color: rgba(255,255,255,0.8);
+        }
+
+        .service-icon {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+        }
+
+        .agent-cta {
+            display: inline-block;
+            padding: 14px 28px;
+            border: none;
+            border-radius: 4px;
+            font-family: inherit;
+            font-size: 0.75rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            cursor: none;
+            transition: all 0.3s;
+        }
+
+        .agent-cta:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 40px rgba(0,0,0,0.4);
+        }
+
+        /* Agent-specific colors */
+        .agent-panel.hoa .agent-badge { background: rgba(255,107,107,0.2); color: #ff6b6b; }
+        .agent-panel.hoa .service-icon { background: #ff6b6b; box-shadow: 0 0 10px #ff6b6b; }
+        .agent-panel.hoa .agent-cta { background: linear-gradient(135deg, #ff6b6b, #ff8e53); color: white; }
+
+        .agent-panel.thuy .agent-badge { background: rgba(77,150,255,0.2); color: #4d96ff; }
+        .agent-panel.thuy .service-icon { background: #4d96ff; box-shadow: 0 0 10px #4d96ff; }
+        .agent-panel.thuy .agent-cta { background: linear-gradient(135deg, #4d96ff, #00d4ff); color: white; }
+
+        .agent-panel.tho .agent-badge { background: rgba(255,217,61,0.2); color: #ffd93d; }
+        .agent-panel.tho .service-icon { background: #ffd93d; box-shadow: 0 0 10px #ffd93d; }
+        .agent-panel.tho .agent-cta { background: linear-gradient(135deg, #ffd93d, #ff9f43); color: #1a1a2e; }
+
+        .agent-panel.kim .agent-badge { background: rgba(200,200,220,0.2); color: #c8c8dc; }
+        .agent-panel.kim .service-icon { background: #c8c8dc; box-shadow: 0 0 10px #c8c8dc; }
+        .agent-panel.kim .agent-cta { background: linear-gradient(135deg, #a8a8c8, #e8e8f8); color: #1a1a2e; }
+
+        .agent-panel.moc .agent-badge { background: rgba(107,203,119,0.2); color: #6bcb77; }
+        .agent-panel.moc .service-icon { background: #6bcb77; box-shadow: 0 0 10px #6bcb77; }
+        .agent-panel.moc .agent-cta { background: linear-gradient(135deg, #6bcb77, #38ef7d); color: #1a1a2e; }
+
+        /* Navigation */
+        .nav-hints {
+            position: absolute;
+            bottom: 48px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 40px;
+            pointer-events: auto;
+            padding: 16px 32px;
+            background: rgba(255,255,255,0.02);
+            border: 1px solid rgba(255,255,255,0.05);
+            border-radius: 40px;
+            backdrop-filter: blur(10px);
+        }
+
+        .nav-hint {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            cursor: none;
+            opacity: 0.4;
+            transition: opacity 0.3s, transform 0.3s;
+        }
+
+        .nav-hint:hover {
+            opacity: 1;
+            transform: translateY(-4px);
+        }
+
+        .nav-hint.active {
+            opacity: 1;
+        }
+
+        .hint-dot {
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+            border: 2px solid currentColor;
+            transition: all 0.3s;
+        }
+
+        .nav-hint:hover .hint-dot,
+        .nav-hint.active .hint-dot {
+            background: currentColor;
+            box-shadow: 0 0 20px currentColor, 0 0 40px currentColor;
+            transform: scale(1.2);
+        }
+
+        .nav-hint[data-agent="hoa"] { color: #ff6b6b; }
+        .nav-hint[data-agent="thuy"] { color: #4d96ff; }
+        .nav-hint[data-agent="tho"] { color: #ffd93d; }
+        .nav-hint[data-agent="kim"] { color: #c8c8dc; }
+        .nav-hint[data-agent="moc"] { color: #6bcb77; }
+
+        .hint-label {
+            font-size: 0.6rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        /* Back Button */
+        .back-btn {
+            position: absolute;
+            top: 50%;
+            left: 48px;
+            transform: translateY(-50%);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 16px 24px;
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 4px;
+            color: var(--text-dim);
+            font-family: inherit;
+            font-size: 0.7rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            cursor: none;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s;
+            pointer-events: auto;
+        }
+
+        .back-btn.visible {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .back-btn:hover {
+            background: rgba(255,255,255,0.08);
+            color: var(--text);
+        }
+
+        /* Loading */
+        .loading {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--bg);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 10000;
+            transition: opacity 1s, visibility 1s;
+        }
+
+        .loading.done {
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        .loading-text {
+            font-size: 0.8rem;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            color: var(--text-dim);
+            margin-bottom: 24px;
+        }
+
+        .loading-bar {
+            width: 200px;
+            height: 1px;
+            background: rgba(255,255,255,0.1);
+            overflow: hidden;
+        }
+
+        .loading-progress {
+            height: 100%;
+            background: linear-gradient(90deg, #ff6b6b, #ffd93d, #6bcb77, #4d96ff, #9b59b6);
+            animation: load 2.5s ease forwards;
+        }
+
+        @keyframes load {
+            from { width: 0; }
+            to { width: 100%; }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .header { padding: 20px 24px; }
+            .agent-panel {
+                right: 20px;
+                left: 20px;
+                width: auto;
+                top: auto;
+                bottom: 140px;
+                transform: translateY(50px);
+                padding: 28px;
+            }
+            .agent-panel.active { transform: translateY(0); }
+            .agent-name { font-size: 1.6rem; }
+            .nav-hints { gap: 20px; padding: 12px 20px; }
+            .hint-label { display: none; }
+            .back-btn { top: auto; bottom: 140px; left: 20px; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Loading -->
+    <div class="loading" id="loading">
+        <div class="loading-text">Entering Universe</div>
+        <div class="loading-bar">
+            <div class="loading-progress"></div>
+        </div>
+    </div>
+
+    <!-- Custom Cursor -->
+    <div class="cursor" id="cursor"></div>
+    <div class="cursor-dot" id="cursorDot"></div>
+
+    <!-- Warp Overlay -->
+    <div class="warp-overlay" id="warpOverlay"></div>
+
+    <!-- Speed Lines -->
+    <div class="speed-lines" id="speedLines"></div>
+
+    <!-- 3D Canvas -->
+    <canvas id="universe"></canvas>
+
+    <!-- UI Layer -->
+    <div class="ui-layer">
+        <header class="header">
+            <a href="#" class="logo" id="logoBtn">THE RIKE</a>
+            <button class="header-cta">Book Consultation</button>
+        </header>
+
+        <div class="stage-content" id="stageContent">
+            <h1 class="stage-title">NGŨ HÀNH</h1>
+            <p class="stage-subtitle">"Thuận theo vũ trụ để vận hành doanh nghiệp"</p>
+        </div>
+
+        <!-- Agent Panels (same as before but with updated styling) -->
+        <div class="agent-panel hoa" id="panelHoa">
+            <span class="agent-badge">🔥 Hỏa · Fire</span>
+            <h2 class="agent-name">The Viral Engine</h2>
+            <p class="agent-title">Creator / UGC Strategy</p>
+            <p class="agent-desc">Sáng tạo bùng nổ, lan tỏa như lửa. Biến ý tưởng thành content viral, đốt cháy sự chú ý.</p>
+            <ul class="agent-services">
+                <li><span class="service-icon"></span> AI Script Writing</li>
+                <li><span class="service-icon"></span> Video Production (5-20/month)</li>
+                <li><span class="service-icon"></span> Platform Optimization</li>
+                <li><span class="service-icon"></span> Viral Strategy</li>
+            </ul>
+            <button class="agent-cta">Ignite Your Content →</button>
+        </div>
+
+        <div class="agent-panel thuy" id="panelThuy">
+            <span class="agent-badge">💧 Thủy · Water</span>
+            <h2 class="agent-name">The Data Shapeshifter</h2>
+            <p class="agent-title">Performance Partner</p>
+            <p class="agent-desc">Linh hoạt như nước, thích ứng mọi môi trường. Tối ưu liên tục dựa trên data thực.</p>
+            <ul class="agent-services">
+                <li><span class="service-icon"></span> Conversion Optimization</li>
+                <li><span class="service-icon"></span> A/B Testing & Analytics</li>
+                <li><span class="service-icon"></span> Performance-based Pricing</li>
+                <li><span class="service-icon"></span> Revenue Tracking</li>
+            </ul>
+            <button class="agent-cta">Flow With Data →</button>
+        </div>
+
+        <div class="agent-panel tho" id="panelTho">
+            <span class="agent-badge">🌍 Thổ · Earth</span>
+            <h2 class="agent-name">The System Architect</h2>
+            <p class="agent-title">AI Automation</p>
+            <p class="agent-desc">Vững chắc như đất, nền tảng mọi tăng trưởng. Hệ thống tự động thay 40+ giờ thủ công.</p>
+            <ul class="agent-services">
+                <li><span class="service-icon"></span> CRM & Workflow Automation</li>
+                <li><span class="service-icon"></span> AI Follow-up Sequences</li>
+                <li><span class="service-icon"></span> Booking & Retention Systems</li>
+                <li><span class="service-icon"></span> Integration Setup</li>
+            </ul>
+            <button class="agent-cta">Build Your Foundation →</button>
+        </div>
+
+        <div class="agent-panel kim" id="panelKim">
+            <span class="agent-badge">⚪ Kim · Metal</span>
+            <h2 class="agent-name">The Strategic Commander</h2>
+            <p class="agent-title">Fractional CMO</p>
+            <p class="agent-desc">Sắc bén như kim loại, quyết đoán từng chiến lược. Điều khiển AI agents chính xác tuyệt đối.</p>
+            <ul class="agent-services">
+                <li><span class="service-icon"></span> Marketing Strategy</li>
+                <li><span class="service-icon"></span> AI Stack Management</li>
+                <li><span class="service-icon"></span> Team Coordination</li>
+                <li><span class="service-icon"></span> ROI Optimization</li>
+            </ul>
+            <button class="agent-cta">Command Your Growth →</button>
+        </div>
+
+        <div class="agent-panel moc" id="panelMoc">
+            <span class="agent-badge">🌿 Mộc · Wood</span>
+            <h2 class="agent-name">The Knowledge Weaver</h2>
+            <p class="agent-title">AI-Native SEO</p>
+            <p class="agent-desc">Sinh sôi như cây cối, lan tỏa tự nhiên. Được AI cite trong Google AI Overview và ChatGPT.</p>
+            <ul class="agent-services">
+                <li><span class="service-icon"></span> AI Overview Optimization</li>
+                <li><span class="service-icon"></span> Entity SEO & Knowledge Graph</li>
+                <li><span class="service-icon"></span> Content Clusters</li>
+                <li><span class="service-icon"></span> 4-8 Articles/month</li>
+            </ul>
+            <button class="agent-cta">Grow Your Presence →</button>
+        </div>
+
+        <nav class="nav-hints">
+            <div class="nav-hint" data-agent="hoa"><div class="hint-dot"></div><span class="hint-label">Hỏa</span></div>
+            <div class="nav-hint" data-agent="tho"><div class="hint-dot"></div><span class="hint-label">Thổ</span></div>
+            <div class="nav-hint" data-agent="moc"><div class="hint-dot"></div><span class="hint-label">Mộc</span></div>
+            <div class="nav-hint" data-agent="kim"><div class="hint-dot"></div><span class="hint-label">Kim</span></div>
+            <div class="nav-hint" data-agent="thuy"><div class="hint-dot"></div><span class="hint-label">Thủy</span></div>
+        </nav>
+
+        <button class="back-btn" id="backBtn"><span>←</span> Return to Universe</button>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    
+    <script>
+    // ============================================
+    // CONFIGURATION - More vibrant planet colors
+    // ============================================
+    const AGENTS = {
+        hoa: {
+            name: 'HỎA',
+            colors: {
+                core: 0xffdd44,
+                mid: 0xff6b6b,
+                outer: 0xff3333,
+                glow: 0xff4500,
+                particle: 0xff6600
+            },
+            position: { x: -8, y: 3, z: -8 },
+            cameraTarget: { x: -5, y: 2, z: 4 }
+        },
+        thuy: {
+            name: 'THỦY',
+            colors: {
+                core: 0x00ffff,
+                mid: 0x4d96ff,
+                outer: 0x0044aa,
+                glow: 0x00aaff,
+                particle: 0x00ddff
+            },
+            position: { x: 8, y: -2, z: -10 },
+            cameraTarget: { x: 5, y: -1, z: 4 }
+        },
+        tho: {
+            name: 'THỔ',
+            colors: {
+                core: 0xffffff,
+                mid: 0xffd93d,
+                outer: 0xcc8800,
+                glow: 0xffaa00,
+                particle: 0xffcc44
+            },
+            position: { x: 0, y: -5, z: -12 },
+            cameraTarget: { x: 0, y: -3, z: 4 }
+        },
+        kim: {
+            name: 'KIM',
+            colors: {
+                core: 0xffffff,
+                mid: 0xddddee,
+                outer: 0x8888aa,
+                glow: 0xccccff,
+                particle: 0xeeeeff
+            },
+            position: { x: 7, y: 4, z: -9 },
+            cameraTarget: { x: 4, y: 3, z: 4 }
+        },
+        moc: {
+            name: 'MỘC',
+            colors: {
+                core: 0xaaffaa,
+                mid: 0x6bcb77,
+                outer: 0x228833,
+                glow: 0x44ff88,
+                particle: 0x66ff99
+            },
+            position: { x: -7, y: -3, z: -11 },
+            cameraTarget: { x: -4, y: -2, z: 4 }
+        }
+    };
+
+    let currentAgent = null;
+    let isAnimating = false;
+
+    // ============================================
+    // THREE.JS SETUP
+    // ============================================
+    const canvas = document.getElementById('universe');
+    const scene = new THREE.Scene();
+
+    const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 1000);
+    camera.position.set(0, 0, 12);
+
+    const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    renderer.setClearColor(0x030308);
+
+    // ============================================
+    // FOG LAYERS (Depth)
+    // ============================================
+    scene.fog = new THREE.FogExp2(0x030308, 0.025);
+
+    // ============================================
+    // AMBIENT LIGHT (Pulsing)
+    // ============================================
+    const ambientLight = new THREE.AmbientLight(0x222244, 0.3);
+    scene.add(ambientLight);
+
+    // Colored ambient that shifts
+    const colorLight1 = new THREE.PointLight(0x4400ff, 0.3, 100);
+    colorLight1.position.set(-20, 10, -20);
+    scene.add(colorLight1);
+
+    const colorLight2 = new THREE.PointLight(0xff4400, 0.2, 100);
+    colorLight2.position.set(20, -10, -30);
+    scene.add(colorLight2);
+
+    // ============================================
+    // NEBULA / DUST CLOUDS
+    // ============================================
+    function createNebula() {
+        const nebulaGroup = new THREE.Group();
+        
+        for (let i = 0; i < 8; i++) {
+            const geometry = new THREE.PlaneGeometry(30 + Math.random() * 20, 30 + Math.random() * 20);
+            const material = new THREE.MeshBasicMaterial({
+                color: new THREE.Color().setHSL(Math.random(), 0.5, 0.15),
+                transparent: true,
+                opacity: 0.03 + Math.random() * 0.03,
+                side: THREE.DoubleSide,
+                depthWrite: false
+            });
+            
+            const plane = new THREE.Mesh(geometry, material);
+            plane.position.set(
+                (Math.random() - 0.5) * 60,
+                (Math.random() - 0.5) * 40,
+                -30 - Math.random() * 40
+            );
+            plane.rotation.set(
+                Math.random() * Math.PI,
+                Math.random() * Math.PI,
+                Math.random() * Math.PI
+            );
+            
+            nebulaGroup.add(plane);
+        }
+        
+        return nebulaGroup;
+    }
+
+    const nebula = createNebula();
+    scene.add(nebula);
+
+    // ============================================
+    // STAR FIELD (Multi-layer for parallax)
+    // ============================================
+    function createStarLayer(count, size, distance, brightness) {
+        const geometry = new THREE.BufferGeometry();
+        const positions = new Float32Array(count * 3);
+        const colors = new Float32Array(count * 3);
+        const sizes = new Float32Array(count);
+
+        for (let i = 0; i < count; i++) {
+            positions[i * 3] = (Math.random() - 0.5) * distance;
+            positions[i * 3 + 1] = (Math.random() - 0.5) * distance;
+            positions[i * 3 + 2] = -Math.random() * distance;
+
+            const starBrightness = brightness * (0.5 + Math.random() * 0.5);
+            const hue = Math.random() * 0.1 + 0.55; // Blue-ish white
+            const color = new THREE.Color().setHSL(hue, 0.2, starBrightness);
+            colors[i * 3] = color.r;
+            colors[i * 3 + 1] = color.g;
+            colors[i * 3 + 2] = color.b;
+
+            sizes[i] = size * (0.5 + Math.random());
+        }
+
+        geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+        geometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
+        geometry.setAttribute('size', new THREE.BufferAttribute(sizes, 1));
+
+        const material = new THREE.PointsMaterial({
+            size: size,
+            vertexColors: true,
+            transparent: true,
+            opacity: 0.9,
+            sizeAttenuation: true
+        });
+
+        return new THREE.Points(geometry, material);
+    }
+
+    // Multiple star layers for depth
+    const starLayerFar = createStarLayer(3000, 0.08, 150, 0.4);
+    const starLayerMid = createStarLayer(1500, 0.12, 80, 0.6);
+    const starLayerNear = createStarLayer(500, 0.15, 40, 0.8);
+
+    scene.add(starLayerFar);
+    scene.add(starLayerMid);
+    scene.add(starLayerNear);
+
+    // ============================================
+    // WARP PARTICLES (Speed effect)
+    // ============================================
+    const warpParticleCount = 300;
+    const warpGeometry = new THREE.BufferGeometry();
+    const warpPositions = new Float32Array(warpParticleCount * 3);
+    const warpVelocities = [];
+
+    for (let i = 0; i < warpParticleCount; i++) {
+        warpPositions[i * 3] = (Math.random() - 0.5) * 30;
+        warpPositions[i * 3 + 1] = (Math.random() - 0.5) * 30;
+        warpPositions[i * 3 + 2] = (Math.random() - 0.5) * 50 - 10;
+        warpVelocities.push(Math.random() * 2 + 1);
+    }
+
+    warpGeometry.setAttribute('position', new THREE.BufferAttribute(warpPositions, 3));
+    const warpMaterial = new THREE.PointsMaterial({
+        color: 0xffffff,
+        size: 0.1,
+        transparent: true,
+        opacity: 0
+    });
+    const warpParticles = new THREE.Points(warpGeometry, warpMaterial);
+    scene.add(warpParticles);
+
+    // ============================================
+    // CREATE PLANET-LIKE AGENTS
+    // ============================================
+    const agents = {};
+
+    function createPlanetAgent(key, config) {
+        const group = new THREE.Group();
+        group.userData = { key, config };
+
+        // Inner core (brightest)
+        const coreGeo = new THREE.IcosahedronGeometry(0.4, 3);
+        const coreMat = new THREE.MeshBasicMaterial({
+            color: config.colors.core,
+            transparent: true,
+            opacity: 0.95
+        });
+        const core = new THREE.Mesh(coreGeo, coreMat);
+        group.add(core);
+
+        // Mid layer (main color)
+        const midGeo = new THREE.IcosahedronGeometry(0.7, 2);
+        const midMat = new THREE.MeshStandardMaterial({
+            color: config.colors.mid,
+            emissive: config.colors.mid,
+            emissiveIntensity: 0.3,
+            transparent: true,
+            opacity: 0.7,
+            roughness: 0.4,
+            metalness: 0.3
+        });
+        const mid = new THREE.Mesh(midGeo, midMat);
+        group.add(mid);
+
+        // Outer atmosphere (glow)
+        const outerGeo = new THREE.IcosahedronGeometry(1.0, 1);
+        const outerMat = new THREE.MeshBasicMaterial({
+            color: config.colors.outer,
+            transparent: true,
+            opacity: 0.2,
+            wireframe: true
+        });
+        const outer = new THREE.Mesh(outerGeo, outerMat);
+        group.add(outer);
+
+        // Glow sphere (additive)
+        const glowGeo = new THREE.SphereGeometry(1.3, 32, 32);
+        const glowMat = new THREE.MeshBasicMaterial({
+            color: config.colors.glow,
+            transparent: true,
+            opacity: 0.08,
+            side: THREE.BackSide
+        });
+        const glow = new THREE.Mesh(glowGeo, glowMat);
+        group.add(glow);
+
+        // Orbital ring
+        const ringGeo = new THREE.TorusGeometry(1.5, 0.02, 8, 64);
+        const ringMat = new THREE.MeshBasicMaterial({
+            color: config.colors.glow,
+            transparent: true,
+            opacity: 0.4
+        });
+        const ring = new THREE.Mesh(ringGeo, ringMat);
+        ring.rotation.x = Math.PI / 2 + Math.random() * 0.5;
+        ring.rotation.y = Math.random() * 0.5;
+        group.add(ring);
+
+        // Moons/Satellites
+        const moonCount = 2 + Math.floor(Math.random() * 2);
+        const moons = [];
+        for (let i = 0; i < moonCount; i++) {
+            const moonGeo = new THREE.SphereGeometry(0.08 + Math.random() * 0.06, 8, 8);
+            const moonMat = new THREE.MeshBasicMaterial({
+                color: config.colors.particle,
+                transparent: true,
+                opacity: 0.8
+            });
+            const moon = new THREE.Mesh(moonGeo, moonMat);
+            moon.userData = {
+                orbitRadius: 1.8 + Math.random() * 0.8,
+                orbitSpeed: 0.5 + Math.random() * 0.5,
+                orbitOffset: Math.random() * Math.PI * 2,
+                orbitTilt: (Math.random() - 0.5) * 0.5
+            };
+            moons.push(moon);
+            group.add(moon);
+        }
+
+        // Particle cloud
+        const particleCount = 80;
+        const particleGeo = new THREE.BufferGeometry();
+        const particlePositions = new Float32Array(particleCount * 3);
+        const particleData = [];
+
+        for (let i = 0; i < particleCount; i++) {
+            const r = 1.2 + Math.random() * 1.5;
+            const theta = Math.random() * Math.PI * 2;
+            const phi = Math.random() * Math.PI;
+
+            particlePositions[i * 3] = r * Math.sin(phi) * Math.cos(theta);
+            particlePositions[i * 3 + 1] = r * Math.sin(phi) * Math.sin(theta);
+            particlePositions[i * 3 + 2] = r * Math.cos(phi);
+
+            particleData.push({
+                speed: Math.random() * 0.3 + 0.1,
+                offset: Math.random() * Math.PI * 2
+            });
+        }
+
+        particleGeo.setAttribute('position', new THREE.BufferAttribute(particlePositions, 3));
+        const particleMat = new THREE.PointsMaterial({
+            color: config.colors.particle,
+            size: 0.06,
+            transparent: true,
+            opacity: 0.7
+        });
+        const particles = new THREE.Points(particleGeo, particleMat);
+        group.add(particles);
+
+        // Point light
+        const light = new THREE.PointLight(config.colors.glow, 0.8, 15);
+        group.add(light);
+
+        // Position
+        group.position.set(config.position.x, config.position.y, config.position.z);
+
+        agents[key] = {
+            group,
+            core,
+            mid,
+            outer,
+            glow,
+            ring,
+            moons,
+            particles,
+            particlePositions,
+            particleData,
+            light,
+            config
+        };
+
+        scene.add(group);
+    }
+
+    Object.entries(AGENTS).forEach(([key, config]) => {
+        createPlanetAgent(key, config);
+    });
+
+    // ============================================
+    // SPEED LINES (CSS generation)
+    // ============================================
+    const speedLinesContainer = document.getElementById('speedLines');
+    for (let i = 0; i < 50; i++) {
+        const line = document.createElement('div');
+        line.className = 'speed-line';
+        const angle = (i / 50) * 360;
+        line.style.transform = `rotate(${angle}deg)`;
+        line.style.animationDelay = `${Math.random() * 0.3}s`;
+        speedLinesContainer.appendChild(line);
+    }
+
+    // ============================================
+    // MOUSE INTERACTION
+    // ============================================
+    const cursor = document.getElementById('cursor');
+    const cursorDot = document.getElementById('cursorDot');
+    const raycaster = new THREE.Raycaster();
+    const mouse = new THREE.Vector2();
+    let mouseX = 0, mouseY = 0;
+    let targetCameraX = 0, targetCameraY = 0;
+
+    document.addEventListener('mousemove', (e) => {
+        cursor.style.left = e.clientX + 'px';
+        cursor.style.top = e.clientY + 'px';
+        cursorDot.style.left = e.clientX + 'px';
+        cursorDot.style.top = e.clientY + 'px';
+
+        mouseX = (e.clientX / window.innerWidth - 0.5) * 2;
+        mouseY = (e.clientY / window.innerHeight - 0.5) * 2;
+
+        mouse.x = (e.clientX / window.innerWidth) * 2 - 1;
+        mouse.y = -(e.clientY / window.innerHeight) * 2 + 1;
+
+        if (!currentAgent) {
+            raycaster.setFromCamera(mouse, camera);
+            const meshes = Object.values(agents).map(a => a.mid);
+            const intersects = raycaster.intersectObjects(meshes);
+            cursor.classList.toggle('hover', intersects.length > 0);
+        }
+    });
+
+    // Click to select
+    canvas.addEventListener('click', () => {
+        if (isAnimating) return;
+
+        raycaster.setFromCamera(mouse, camera);
+        const meshes = Object.values(agents).map(a => a.mid);
+        const intersects = raycaster.intersectObjects(meshes);
+
+        if (intersects.length > 0) {
+            const mesh = intersects[0].object;
+            const agent = Object.values(agents).find(a => a.mid === mesh);
+            if (agent) {
+                selectAgent(Object.keys(agents).find(k => agents[k] === agent));
+            }
+        }
+    });
+
+    // Nav hints
+    document.querySelectorAll('.nav-hint').forEach(hint => {
+        hint.addEventListener('click', () => {
+            if (isAnimating) return;
+            selectAgent(hint.dataset.agent);
+        });
+    });
+
+    document.getElementById('backBtn').addEventListener('click', returnToUniverse);
+    document.getElementById('logoBtn').addEventListener('click', (e) => {
+        e.preventDefault();
+        returnToUniverse();
+    });
+
+    // ============================================
+    // AGENT SELECTION WITH WARP EFFECT
+    // ============================================
+    function selectAgent(key) {
+        if (isAnimating || currentAgent === key) return;
+        isAnimating = true;
+        currentAgent = key;
+
+        const agent = agents[key];
+        const config = agent.config;
+
+        // UI updates
+        document.getElementById('stageContent').classList.add('hidden');
+        document.querySelectorAll('.nav-hint').forEach(h => h.classList.toggle('active', h.dataset.agent === key));
+        document.getElementById('backBtn').classList.add('visible');
+
+        // WARP EFFECT
+        document.getElementById('warpOverlay').classList.add('active');
+        document.getElementById('speedLines').classList.add('active');
+        
+        gsap.to(warpMaterial, { opacity: 0.6, duration: 0.3 });
+
+        // Animate warp particles
+        const warpTl = gsap.timeline();
+        warpTl.to({}, {
+            duration: 1.5,
+            onUpdate: function() {
+                const positions = warpGeometry.attributes.position.array;
+                for (let i = 0; i < warpParticleCount; i++) {
+                    positions[i * 3 + 2] += warpVelocities[i] * 2;
+                    if (positions[i * 3 + 2] > 20) {
+                        positions[i * 3 + 2] = -30;
+                    }
+                }
+                warpGeometry.attributes.position.needsUpdate = true;
+            }
+        });
+
+        // Camera animation
+        gsap.to(camera.position, {
+            x: config.cameraTarget.x,
+            y: config.cameraTarget.y,
+            z: config.cameraTarget.z,
+            duration: 2,
+            ease: 'power2.inOut',
+            onComplete: () => {
+                isAnimating = false;
+                document.getElementById('warpOverlay').classList.remove('active');
+                document.getElementById('speedLines').classList.remove('active');
+                gsap.to(warpMaterial, { opacity: 0, duration: 0.5 });
+            }
+        });
+
+        // Dim others, highlight selected
+        Object.entries(agents).forEach(([k, a]) => {
+            const isSelected = k === key;
+            gsap.to(a.core.material, { opacity: isSelected ? 1 : 0.2, duration: 0.8 });
+            gsap.to(a.mid.material, { opacity: isSelected ? 0.9 : 0.2, emissiveIntensity: isSelected ? 0.5 : 0.1, duration: 0.8 });
+            gsap.to(a.outer.material, { opacity: isSelected ? 0.3 : 0.05, duration: 0.8 });
+            gsap.to(a.glow.material, { opacity: isSelected ? 0.15 : 0.02, duration: 0.8 });
+            gsap.to(a.light, { intensity: isSelected ? 1.5 : 0.1, duration: 0.8 });
+        });
+
+        gsap.to(agent.group.scale, { x: 1.8, y: 1.8, z: 1.8, duration: 1.2, ease: 'back.out(1.5)' });
+
+        // Show panel
+        document.querySelectorAll('.agent-panel').forEach(p => p.classList.remove('active'));
+        setTimeout(() => {
+            document.getElementById(`panel${key.charAt(0).toUpperCase() + key.slice(1)}`).classList.add('active');
+        }, 1200);
+    }
+
+    function returnToUniverse() {
+        if (isAnimating || !currentAgent) return;
+        isAnimating = true;
+
+        document.querySelectorAll('.agent-panel').forEach(p => p.classList.remove('active'));
+        document.getElementById('warpOverlay').classList.add('active');
+        document.getElementById('speedLines').classList.add('active');
+        gsap.to(warpMaterial, { opacity: 0.4, duration: 0.3 });
+
+        gsap.to(camera.position, {
+            x: 0, y: 0, z: 12,
+            duration: 1.8,
+            ease: 'power2.inOut',
+            onComplete: () => {
+                isAnimating = false;
+                currentAgent = null;
+                document.getElementById('warpOverlay').classList.remove('active');
+                document.getElementById('speedLines').classList.remove('active');
+                gsap.to(warpMaterial, { opacity: 0, duration: 0.5 });
+            }
+        });
+
+        Object.values(agents).forEach(a => {
+            gsap.to(a.core.material, { opacity: 0.95, duration: 0.8 });
+            gsap.to(a.mid.material, { opacity: 0.7, emissiveIntensity: 0.3, duration: 0.8 });
+            gsap.to(a.outer.material, { opacity: 0.2, duration: 0.8 });
+            gsap.to(a.glow.material, { opacity: 0.08, duration: 0.8 });
+            gsap.to(a.group.scale, { x: 1, y: 1, z: 1, duration: 0.8 });
+            gsap.to(a.light, { intensity: 0.8, duration: 0.8 });
+        });
+
+        document.querySelectorAll('.nav-hint').forEach(h => h.classList.remove('active'));
+        document.getElementById('backBtn').classList.remove('visible');
+        document.getElementById('stageContent').classList.remove('hidden');
+    }
+
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') returnToUniverse();
+    });
+
+    // ============================================
+    // ANIMATION LOOP
+    // ============================================
+    const clock = new THREE.Clock();
+
+    function animate() {
+        requestAnimationFrame(animate);
+        const time = clock.getElapsedTime();
+
+        // Ambient light pulse
+        colorLight1.intensity = 0.2 + Math.sin(time * 0.5) * 0.1;
+        colorLight2.intensity = 0.15 + Math.sin(time * 0.7 + 1) * 0.08;
+        colorLight1.position.x = Math.sin(time * 0.2) * 25;
+        colorLight2.position.y = Math.cos(time * 0.3) * 15;
+
+        // Nebula drift
+        nebula.rotation.z = time * 0.01;
+        nebula.children.forEach((plane, i) => {
+            plane.material.opacity = 0.02 + Math.sin(time * 0.3 + i) * 0.01;
+        });
+
+        // Star layers parallax
+        starLayerFar.rotation.y = time * 0.003;
+        starLayerMid.rotation.y = time * 0.006;
+        starLayerNear.rotation.y = time * 0.01;
+
+        // Camera parallax
+        if (!currentAgent && !isAnimating) {
+            targetCameraX = mouseX * 1.5;
+            targetCameraY = -mouseY * 1;
+            camera.position.x += (targetCameraX - camera.position.x) * 0.02;
+            camera.position.y += (targetCameraY - camera.position.y) * 0.02;
+            camera.lookAt(0, 0, -10);
+        } else if (currentAgent) {
+            const target = agents[currentAgent].group.position;
+            camera.lookAt(target);
+        }
+
+        // Animate agents
+        Object.values(agents).forEach((agent, idx) => {
+            const offset = idx * 1.2;
+
+            // Core pulse
+            const pulse = 1 + Math.sin(time * 2 + offset) * 0.15;
+            agent.core.scale.set(pulse, pulse, pulse);
+
+            // Mid rotation
+            agent.mid.rotation.x = time * 0.2 + offset;
+            agent.mid.rotation.y = time * 0.3 + offset;
+
+            // Outer rotation (opposite)
+            agent.outer.rotation.x = -time * 0.15 + offset;
+            agent.outer.rotation.z = time * 0.1;
+
+            // Ring rotation
+            agent.ring.rotation.z = time * 0.4 + offset;
+
+            // Glow pulse
+            agent.glow.scale.setScalar(1 + Math.sin(time * 1.5 + offset) * 0.1);
+
+            // Float
+            agent.group.position.y = agent.config.position.y + Math.sin(time * 0.6 + offset) * 0.3;
+
+            // Moons orbit
+            agent.moons.forEach((moon) => {
+                const d = moon.userData;
+                const angle = time * d.orbitSpeed + d.orbitOffset;
+                moon.position.x = Math.cos(angle) * d.orbitRadius;
+                moon.position.y = Math.sin(angle) * d.orbitRadius * d.orbitTilt;
+                moon.position.z = Math.sin(angle) * d.orbitRadius * 0.5;
+            });
+
+            // Particles swirl
+            const positions = agent.particles.geometry.attributes.position.array;
+            for (let i = 0; i < agent.particleData.length; i++) {
+                const pd = agent.particleData[i];
+                const angle = time * pd.speed + pd.offset;
+                const r = 1.2 + Math.sin(time * 0.5 + i * 0.1) * 0.3;
+                positions[i * 3] = Math.cos(angle + i * 0.2) * r;
+                positions[i * 3 + 1] = Math.sin(angle * 0.8 + i * 0.15) * r;
+                positions[i * 3 + 2] = Math.sin(angle + i * 0.3) * r * 0.5;
+            }
+            agent.particles.geometry.attributes.position.needsUpdate = true;
+        });
+
+        renderer.render(scene, camera);
+    }
+
+    animate();
+
+    // ============================================
+    // RESIZE
+    // ============================================
+    window.addEventListener('resize', () => {
+        camera.aspect = window.innerWidth / window.innerHeight;
+        camera.updateProjectionMatrix();
+        renderer.setSize(window.innerWidth, window.innerHeight);
+    });
+
+    // ============================================
+    // LOADING
+    // ============================================
+    window.addEventListener('load', () => {
+        setTimeout(() => {
+            document.getElementById('loading').classList.add('done');
+        }, 3000);
+    });
+
+    console.log('🌌 The Rike Universe v2 - Enhanced Visuals');
+    </script>
+</body>
+</html>

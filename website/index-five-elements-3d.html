@@ -1,0 +1,1890 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>The Rike | Five Elements - 3D Experience</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700;900&display=swap"
+        rel="stylesheet">
+
+    <!-- Three.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+
+    <!-- Post-processing for Bloom -->
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/postprocessing/EffectComposer.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/postprocessing/RenderPass.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/postprocessing/UnrealBloomPass.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/shaders/LuminosityHighPassShader.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/shaders/CopyShader.js"></script>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html,
+        body {
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            background: #0a0e1a;
+            font-family: 'Montserrat', sans-serif;
+            color: #fff;
+        }
+
+        /* WebGL Canvas */
+        #canvas-container {
+            position: fixed;
+            inset: 0;
+            z-index: 1;
+        }
+
+        canvas {
+            display: block;
+        }
+
+        /* UI Overlay */
+        .ui-layer {
+            position: fixed;
+            inset: 0;
+            z-index: 10;
+            pointer-events: none;
+        }
+
+        .ui-layer * {
+            pointer-events: auto;
+        }
+
+        /* Header */
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            padding: 24px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 100;
+        }
+
+        .logo {
+            font-size: 0.85rem;
+            font-weight: 700;
+            letter-spacing: 4px;
+            color: #fff;
+            text-decoration: none;
+            opacity: 0.9;
+        }
+
+        .book-btn {
+            padding: 12px 24px;
+            background: transparent;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 4px;
+            color: #fff;
+            font-family: inherit;
+            font-size: 0.7rem;
+            font-weight: 600;
+            letter-spacing: 2px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .book-btn:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: rgba(255, 255, 255, 0.5);
+        }
+
+        /* Control Buttons */
+        .control-buttons {
+            display: flex;
+            gap: 10px;
+        }
+
+        .control-btn {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            background: rgba(0, 0, 0, 0.3);
+            color: #fff;
+            font-size: 1rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+            backdrop-filter: blur(5px);
+        }
+
+        .control-btn:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: rgba(255, 255, 255, 0.5);
+            transform: scale(1.1);
+        }
+
+        /* Center Content */
+        .center-content {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.5s;
+        }
+
+        .center-content.visible {
+            opacity: 1;
+        }
+
+        .main-title {
+            font-size: clamp(3rem, 10vw, 7rem);
+            font-weight: 900;
+            line-height: 1;
+            margin-bottom: 20px;
+            background: linear-gradient(180deg, #00d4ff 0%, #6b8cff 50%, #a855f7 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 60px rgba(0, 212, 255, 0.3);
+        }
+
+        .main-subtitle {
+            font-size: 1rem;
+            font-weight: 300;
+            font-style: italic;
+            opacity: 0.6;
+            letter-spacing: 1px;
+        }
+
+        /* Planet Info Panel */
+        .planet-info {
+            position: fixed;
+            bottom: 100px;
+            left: 50%;
+            transform: translateX(-50%);
+            text-align: center;
+            opacity: 0;
+            transition: all 0.5s;
+            pointer-events: none;
+        }
+
+        .planet-info.visible {
+            opacity: 1;
+        }
+
+        .planet-name {
+            font-size: 2rem;
+            font-weight: 700;
+            letter-spacing: 8px;
+            text-transform: uppercase;
+            margin-bottom: 10px;
+            text-shadow: 0 0 30px currentColor;
+        }
+
+        .planet-subtitle {
+            font-size: 0.8rem;
+            opacity: 0.7;
+            letter-spacing: 2px;
+        }
+
+        .enter-btn {
+            margin-top: 20px;
+            padding: 15px 40px;
+            background: linear-gradient(135deg, currentColor 0%, rgba(255, 255, 255, 0.2) 100%);
+            border: 1px solid currentColor;
+            border-radius: 30px;
+            color: #fff;
+            font-family: inherit;
+            font-size: 0.75rem;
+            font-weight: 600;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: all 0.3s;
+            pointer-events: auto;
+        }
+
+        .enter-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 40px currentColor;
+        }
+
+        /* Scroll Progress Indicator */
+        .scroll-progress {
+            position: fixed;
+            right: 40px;
+            top: 50%;
+            transform: translateY(-50%);
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            z-index: 100;
+        }
+
+        .progress-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            cursor: pointer;
+            transition: all 0.3s;
+            position: relative;
+        }
+
+        .progress-dot::before {
+            content: attr(data-name);
+            position: absolute;
+            right: 25px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 0.6rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            white-space: nowrap;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .progress-dot:hover::before {
+            opacity: 1;
+        }
+
+        .progress-dot.active {
+            background: var(--dot-color);
+            border-color: var(--dot-color);
+            box-shadow: 0 0 15px var(--dot-color);
+            transform: scale(1.3);
+        }
+
+        /* Warp Effect Overlay - Hyperspace tunnel */
+        .warp-overlay {
+            position: fixed;
+            inset: 0;
+            z-index: 50;
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.3s;
+            background: radial-gradient(ellipse at center,
+                    transparent 0%,
+                    transparent 20%,
+                    rgba(0, 160, 255, 0.1) 40%,
+                    rgba(100, 50, 200, 0.15) 60%,
+                    rgba(50, 0, 100, 0.3) 80%,
+                    rgba(0, 0, 20, 0.6) 100%);
+        }
+
+        .warp-overlay.active {
+            opacity: 1;
+            animation: warpPulse 0.3s ease-in-out infinite alternate;
+        }
+
+        .warp-overlay::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(circle at center,
+                    transparent 0%,
+                    transparent 30%,
+                    rgba(0, 212, 255, 0.05) 50%,
+                    rgba(168, 85, 247, 0.1) 70%,
+                    transparent 100%);
+            animation: warpRing 0.5s ease-out infinite;
+        }
+
+        .warp-overlay::after {
+            content: '';
+            position: absolute;
+            inset: -50%;
+            background: conic-gradient(from 0deg at 50% 50%,
+                    transparent 0deg,
+                    rgba(0, 212, 255, 0.1) 30deg,
+                    transparent 60deg,
+                    rgba(168, 85, 247, 0.1) 120deg,
+                    transparent 180deg,
+                    rgba(0, 212, 255, 0.1) 240deg,
+                    transparent 300deg,
+                    rgba(168, 85, 247, 0.1) 330deg,
+                    transparent 360deg);
+            animation: warpSpin 2s linear infinite;
+        }
+
+        @keyframes warpPulse {
+            from {
+                opacity: 0.8;
+                transform: scale(1);
+            }
+
+            to {
+                opacity: 1;
+                transform: scale(1.02);
+            }
+        }
+
+        @keyframes warpRing {
+            from {
+                transform: scale(0.5);
+                opacity: 0.5;
+            }
+
+            to {
+                transform: scale(2);
+                opacity: 0;
+            }
+        }
+
+        @keyframes warpSpin {
+            from {
+                transform: rotate(0deg);
+            }
+
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        /* Loading Screen */
+        .loading-screen {
+            position: fixed;
+            inset: 0;
+            background: #0a0e1a;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 10000;
+            transition: opacity 0.8s, visibility 0.8s;
+        }
+
+        .loading-screen.done {
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+        }
+
+        .loading-bar-container {
+            width: 200px;
+            height: 3px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 2px;
+            overflow: hidden;
+            margin-bottom: 20px;
+        }
+
+        .loading-bar {
+            width: 0%;
+            height: 100%;
+            background: linear-gradient(90deg, #00d4ff, #a855f7);
+            transition: width 0.3s;
+        }
+
+        .loading-text {
+            font-size: 0.7rem;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            opacity: 0.7;
+        }
+
+        .loading-percent {
+            font-size: 0.6rem;
+            opacity: 0.5;
+            margin-top: 10px;
+        }
+
+        /* Low-end fallback message */
+        .fallback-message {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 0.6rem;
+            opacity: 0.4;
+            text-align: center;
+        }
+
+        /* Scroll instruction */
+        .scroll-instruction {
+            position: fixed;
+            bottom: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 0.6rem;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            opacity: 0.5;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            animation: fadeInOut 3s ease-in-out infinite;
+        }
+
+        @keyframes fadeInOut {
+
+            0%,
+            100% {
+                opacity: 0.3;
+            }
+
+            50% {
+                opacity: 0.7;
+            }
+        }
+
+        .scroll-arrow {
+            animation: bounce 1.5s ease-in-out infinite;
+        }
+
+        @keyframes bounce {
+
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(5px);
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Loading Screen -->
+    <div class="loading-screen" id="loadingScreen">
+        <div class="loading-bar-container">
+            <div class="loading-bar" id="loadingBar"></div>
+        </div>
+        <div class="loading-text">Initializing Universe</div>
+        <div class="loading-percent" id="loadingPercent">0%</div>
+    </div>
+
+    <!-- WebGL Canvas Container -->
+    <div id="canvas-container"></div>
+
+    <!-- Warp Effect Overlay -->
+    <div class="warp-overlay" id="warpOverlay"></div>
+
+    <!-- UI Layer -->
+    <div class="ui-layer">
+        <!-- Header -->
+        <header>
+            <a href="#" class="logo">THE RIKE</a>
+            <div class="control-buttons">
+                <button class="control-btn" id="soundToggle" title="Toggle Sound">🔊</button>
+                <button class="control-btn" id="helpToggle" title="Help">?</button>
+                <button class="control-btn" id="qualityToggle" title="Quality">⚙️</button>
+            </div>
+            <button class="book-btn">BOOK CONSULTATION</button>
+        </header>
+
+        <!-- Center Content (shown at start) -->
+        <div class="center-content visible" id="centerContent">
+            <h1 class="main-title">FIVE<br>ELEMENTS</h1>
+            <p class="main-subtitle">"Harmonize with the universe to run your business"</p>
+        </div>
+
+        <!-- Planet Info (shown when focused) -->
+        <div class="planet-info" id="planetInfo">
+            <div class="planet-name" id="planetName">FIRE</div>
+            <div class="planet-subtitle" id="planetSubtitle">Passion & Energy Marketing</div>
+            <button class="enter-btn" id="enterBtn">Enter World</button>
+        </div>
+
+        <!-- Scroll Progress -->
+        <div class="scroll-progress" id="scrollProgress">
+            <div class="progress-dot" data-index="0" data-name="Fire" style="--dot-color: #ff6b35;"></div>
+            <div class="progress-dot" data-index="1" data-name="Earth" style="--dot-color: #ffd93d;"></div>
+            <div class="progress-dot" data-index="2" data-name="Wood" style="--dot-color: #6bcb77;"></div>
+            <div class="progress-dot" data-index="3" data-name="Metal" style="--dot-color: #c0c0e0;"></div>
+            <div class="progress-dot" data-index="4" data-name="Water" style="--dot-color: #00d4ff;"></div>
+        </div>
+
+        <!-- Scroll Instruction -->
+        <div class="scroll-instruction" id="scrollInstruction">
+            <span class="scroll-arrow">↓</span>
+            <span>Scroll to explore the cosmos</span>
+            <span class="scroll-arrow">↓</span>
+        </div>
+    </div>
+
+    <script>
+        // ========================================
+        // PERFORMANCE DETECTION
+        // ========================================
+        const performanceLevel = detectPerformance();
+
+        function detectPerformance() {
+            // Check for user preference first
+            const savedQuality = localStorage.getItem('rike-quality');
+            if (savedQuality && ['high', 'medium', 'low'].includes(savedQuality)) {
+                return savedQuality;
+            }
+
+            // Auto-detect based on hardware
+            const canvas = document.createElement('canvas');
+            const gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
+
+            if (!gl) return 'low';
+
+            const debugInfo = gl.getExtension('WEBGL_debug_renderer_info');
+            const renderer = debugInfo ? gl.getParameter(debugInfo.UNMASKED_RENDERER_WEBGL) : '';
+
+            // Check for mobile or integrated graphics
+            const isLowEnd = /Intel|Mali|Adreno 3|Adreno 4|Adreno 5|PowerVR/i.test(renderer);
+            const isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+
+            if (isMobile || isLowEnd) return 'medium';
+
+            // Check available memory (if accessible)
+            const memory = navigator.deviceMemory || 4;
+            if (memory < 4) return 'medium';
+
+            return 'high';
+        }
+
+        console.log('🎮 Performance level:', performanceLevel);
+
+        // ========================================
+        // CONFIGURATION
+        // ========================================
+        const CONFIG = {
+            high: {
+                starCount: 5000,
+                warpParticles: 2000,
+                bloomStrength: 1.5,
+                bloomRadius: 0.4,
+                bloomThreshold: 0.2,
+                planetSegments: 64,
+                enableRefraction: true,
+                enableVolumetric: true
+            },
+            medium: {
+                starCount: 2000,
+                warpParticles: 800,
+                bloomStrength: 1.0,
+                bloomRadius: 0.3,
+                bloomThreshold: 0.3,
+                planetSegments: 32,
+                enableRefraction: false,
+                enableVolumetric: false
+            },
+            low: {
+                starCount: 500,
+                warpParticles: 200,
+                bloomStrength: 0.5,
+                bloomRadius: 0.2,
+                bloomThreshold: 0.5,
+                planetSegments: 16,
+                enableRefraction: false,
+                enableVolumetric: false
+            }
+        };
+
+        const config = CONFIG[performanceLevel];
+
+        // Planet data
+        const PLANETS = [
+            {
+                name: 'Fire',
+                element: 'fire',
+                color: 0xff6b35,
+                emissive: 0xff3300,
+                position: new THREE.Vector3(0, 0, 0),
+                subtitle: 'Passion & Energy Marketing',
+                href: 'index-hoa-world-v2.html'
+            },
+            {
+                name: 'Earth',
+                element: 'earth',
+                color: 0xffd93d,
+                emissive: 0xcc9900,
+                position: new THREE.Vector3(80, 20, -100),
+                subtitle: 'Stability & Trust Building',
+                href: 'index-tho-world-v2.html'
+            },
+            {
+                name: 'Wood',
+                element: 'wood',
+                color: 0x6bcb77,
+                emissive: 0x228822,
+                position: new THREE.Vector3(-60, -30, -200),
+                subtitle: 'Growth & Organic Expansion',
+                href: 'index-moc-world-v2.html'
+            },
+            {
+                name: 'Metal',
+                element: 'metal',
+                color: 0xc0c0e0,
+                emissive: 0x8080aa,
+                position: new THREE.Vector3(100, 10, -350),
+                subtitle: 'Precision & Premium Quality',
+                href: 'index-kim-world-v2.html'
+            },
+            {
+                name: 'Water',
+                element: 'water',
+                color: 0x00d4ff,
+                emissive: 0x0066cc,
+                position: new THREE.Vector3(-40, 40, -500),
+                subtitle: 'Flow & Adaptive Strategy',
+                href: 'index-thuy-world-v4.html'
+            }
+        ];
+
+        // ========================================
+        // THREE.JS SETUP
+        // ========================================
+        let scene, camera, renderer, composer;
+        let planets = [];
+        let stars, warpParticles;
+        let raycaster, mouse;
+        let currentPlanetIndex = 0;
+        let targetCameraZ = 50;
+        let cameraZ = 50;
+        let isWarping = false;
+        let hoveredPlanet = null;
+
+        // Camera path points
+        const CAMERA_PATH = [
+            { z: 50, focusPlanet: -1 },      // Start - overview
+            { z: 10, focusPlanet: 0 },       // Fire
+            { z: -80, focusPlanet: 1 },      // Earth
+            { z: -180, focusPlanet: 2 },     // Wood
+            { z: -330, focusPlanet: 3 },     // Metal
+            { z: -480, focusPlanet: 4 }      // Water
+        ];
+
+        // Camera shake for warp effect
+        let cameraShakeIntensity = 0;
+        let cameraShakeDecay = 0.95;
+        let baseCameraX = 0;
+        let baseCameraY = 0;
+
+        // ========================================
+        // AUDIO SYSTEM - Web Audio API
+        // ========================================
+        let audioContext = null;
+        let audioEnabled = true;
+
+        function initAudio() {
+            if (audioContext) return;
+            try {
+                audioContext = new (window.AudioContext || window.webkitAudioContext)();
+            } catch (e) {
+                console.log('Web Audio not supported');
+            }
+        }
+
+        function playWarpSound() {
+            if (!audioContext || !audioEnabled) return;
+
+            // Create warp whoosh sound
+            const duration = 1.5;
+            const oscillator = audioContext.createOscillator();
+            const gainNode = audioContext.createGain();
+            const filter = audioContext.createBiquadFilter();
+
+            oscillator.type = 'sawtooth';
+            oscillator.frequency.setValueAtTime(100, audioContext.currentTime);
+            oscillator.frequency.exponentialRampToValueAtTime(2000, audioContext.currentTime + 0.3);
+            oscillator.frequency.exponentialRampToValueAtTime(50, audioContext.currentTime + duration);
+
+            filter.type = 'lowpass';
+            filter.frequency.setValueAtTime(5000, audioContext.currentTime);
+            filter.frequency.exponentialRampToValueAtTime(200, audioContext.currentTime + duration);
+
+            gainNode.gain.setValueAtTime(0.15, audioContext.currentTime);
+            gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + duration);
+
+            oscillator.connect(filter);
+            filter.connect(gainNode);
+            gainNode.connect(audioContext.destination);
+
+            oscillator.start();
+            oscillator.stop(audioContext.currentTime + duration);
+
+            // Add whoosh noise
+            const bufferSize = audioContext.sampleRate * duration;
+            const noiseBuffer = audioContext.createBuffer(1, bufferSize, audioContext.sampleRate);
+            const output = noiseBuffer.getChannelData(0);
+            for (let i = 0; i < bufferSize; i++) {
+                output[i] = Math.random() * 2 - 1;
+            }
+
+            const noise = audioContext.createBufferSource();
+            noise.buffer = noiseBuffer;
+
+            const noiseGain = audioContext.createGain();
+            const noiseFilter = audioContext.createBiquadFilter();
+
+            noiseFilter.type = 'bandpass';
+            noiseFilter.frequency.setValueAtTime(1000, audioContext.currentTime);
+            noiseFilter.Q.value = 0.5;
+
+            noiseGain.gain.setValueAtTime(0, audioContext.currentTime);
+            noiseGain.gain.linearRampToValueAtTime(0.1, audioContext.currentTime + 0.2);
+            noiseGain.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + duration);
+
+            noise.connect(noiseFilter);
+            noiseFilter.connect(noiseGain);
+            noiseGain.connect(audioContext.destination);
+
+            noise.start();
+            noise.stop(audioContext.currentTime + duration);
+        }
+
+        function playArrivalChime(planetElement) {
+            if (!audioContext || !audioEnabled) return;
+
+            // Different frequencies for each element
+            const elementFreqs = {
+                fire: [523, 659, 784],      // C5, E5, G5 - energetic
+                earth: [392, 494, 587],     // G4, B4, D5 - stable
+                wood: [440, 554, 659],      // A4, C#5, E5 - growth
+                metal: [523, 698, 880],     // C5, F5, A5 - bright
+                water: [349, 440, 523]      // F4, A4, C5 - flowing
+            };
+
+            const freqs = elementFreqs[planetElement] || [440, 554, 659];
+
+            freqs.forEach((freq, i) => {
+                setTimeout(() => {
+                    const osc = audioContext.createOscillator();
+                    const gain = audioContext.createGain();
+
+                    osc.type = 'sine';
+                    osc.frequency.value = freq;
+
+                    gain.gain.setValueAtTime(0.1, audioContext.currentTime);
+                    gain.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.5);
+
+                    osc.connect(gain);
+                    gain.connect(audioContext.destination);
+
+                    osc.start();
+                    osc.stop(audioContext.currentTime + 0.5);
+                }, i * 100);
+            });
+        }
+
+        function playHoverSound() {
+            if (!audioContext || !audioEnabled) return;
+
+            const osc = audioContext.createOscillator();
+            const gain = audioContext.createGain();
+
+            osc.type = 'sine';
+            osc.frequency.setValueAtTime(800, audioContext.currentTime);
+            osc.frequency.exponentialRampToValueAtTime(1200, audioContext.currentTime + 0.1);
+
+            gain.gain.setValueAtTime(0.05, audioContext.currentTime);
+            gain.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.1);
+
+            osc.connect(gain);
+            gain.connect(audioContext.destination);
+
+            osc.start();
+            osc.stop(audioContext.currentTime + 0.1);
+        }
+
+        function init() {
+            // Scene
+            scene = new THREE.Scene();
+            scene.background = new THREE.Color(0x0a0e1a);
+            scene.fog = new THREE.FogExp2(0x0a0e1a, 0.002);
+
+            // Camera
+            camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 2000);
+            camera.position.set(0, 0, 50);
+
+            // Renderer
+            renderer = new THREE.WebGLRenderer({
+                antialias: performanceLevel === 'high',
+                powerPreference: 'high-performance'
+            });
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            renderer.setPixelRatio(Math.min(window.devicePixelRatio, performanceLevel === 'high' ? 2 : 1));
+            renderer.toneMapping = THREE.ACESFilmicToneMapping;
+            renderer.toneMappingExposure = 1.2;
+            document.getElementById('canvas-container').appendChild(renderer.domElement);
+
+            // Post-processing (Bloom)
+            if (performanceLevel !== 'low') {
+                setupPostProcessing();
+            }
+
+            // Raycaster for mouse interaction
+            raycaster = new THREE.Raycaster();
+            mouse = new THREE.Vector2();
+
+            // Create scene elements
+            createStars();
+            createPlanets();
+            createWarpParticles();
+            createAmbientLights();
+            createNebula();  // Animated gradient nebula background
+
+            // Event listeners
+            window.addEventListener('resize', onWindowResize);
+            window.addEventListener('wheel', onScroll, { passive: false });
+            window.addEventListener('mousemove', onMouseMove);
+            window.addEventListener('click', onClick);
+            window.addEventListener('keydown', onKeyDown);
+
+            // Touch events for mobile
+            let touchStartY = 0;
+            window.addEventListener('touchstart', (e) => {
+                touchStartY = e.touches[0].clientY;
+            }, { passive: true });
+
+            window.addEventListener('touchmove', (e) => {
+                const deltaY = touchStartY - e.touches[0].clientY;
+                handleScroll(deltaY * 2);
+                touchStartY = e.touches[0].clientY;
+            }, { passive: true });
+
+            // Progress dots click
+            document.querySelectorAll('.progress-dot').forEach(dot => {
+                dot.addEventListener('click', () => {
+                    const index = parseInt(dot.dataset.index);
+                    navigateToPlanet(index);
+                });
+            });
+
+            // Enter button
+            document.getElementById('enterBtn').addEventListener('click', enterPlanet);
+
+            // Sound toggle
+            const soundBtn = document.getElementById('soundToggle');
+            soundBtn.addEventListener('click', () => {
+                initAudio();
+                audioEnabled = !audioEnabled;
+                soundBtn.textContent = audioEnabled ? '🔊' : '🔇';
+            });
+
+            // Quality toggle
+            const qualityBtn = document.getElementById('qualityToggle');
+            const qualityLevels = ['high', 'medium', 'low'];
+            const qualityIcons = { high: '✨', medium: '⚙️', low: '🔋' };
+            let currentQualityIdx = qualityLevels.indexOf(performanceLevel);
+
+            qualityBtn.title = `Quality: ${performanceLevel}`;
+            qualityBtn.textContent = qualityIcons[performanceLevel];
+
+            qualityBtn.addEventListener('click', () => {
+                currentQualityIdx = (currentQualityIdx + 1) % qualityLevels.length;
+                const newQuality = qualityLevels[currentQualityIdx];
+
+                // Show quality change notification
+                const notification = document.createElement('div');
+                notification.style.cssText = `
+                    position: fixed;
+                    top: 80px;
+                    right: 40px;
+                    background: rgba(0,0,0,0.8);
+                    color: white;
+                    padding: 10px 20px;
+                    border-radius: 20px;
+                    font-size: 0.75rem;
+                    z-index: 1000;
+                    animation: fadeInOut 2s forwards;
+                `;
+                notification.textContent = `Quality: ${newQuality.toUpperCase()} - Reloading...`;
+                document.body.appendChild(notification);
+
+                // Store preference and reload
+                localStorage.setItem('rike-quality', newQuality);
+                setTimeout(() => location.reload(), 1000);
+            });
+
+            // Start animation
+            updateLoadingProgress(100);
+            setTimeout(() => {
+                document.getElementById('loadingScreen').classList.add('done');
+                animate();
+            }, 500);
+        }
+
+        function setupPostProcessing() {
+            const renderPass = new THREE.RenderPass(scene, camera);
+
+            const bloomPass = new THREE.UnrealBloomPass(
+                new THREE.Vector2(window.innerWidth, window.innerHeight),
+                config.bloomStrength,
+                config.bloomRadius,
+                config.bloomThreshold
+            );
+
+            composer = new THREE.EffectComposer(renderer);
+            composer.addPass(renderPass);
+            composer.addPass(bloomPass);
+        }
+
+        // ========================================
+        // STARS - Background star field
+        // ========================================
+        function createStars() {
+            const geometry = new THREE.BufferGeometry();
+            const positions = new Float32Array(config.starCount * 3);
+            const colors = new Float32Array(config.starCount * 3);
+            const sizes = new Float32Array(config.starCount);
+
+            const colorOptions = [
+                new THREE.Color(0xffffff),
+                new THREE.Color(0xaaddff),
+                new THREE.Color(0xffddaa),
+                new THREE.Color(0xddffdd)
+            ];
+
+            for (let i = 0; i < config.starCount; i++) {
+                const i3 = i * 3;
+
+                // Spread stars in a large sphere around the camera path
+                const radius = 200 + Math.random() * 800;
+                const theta = Math.random() * Math.PI * 2;
+                const phi = Math.acos(2 * Math.random() - 1);
+
+                positions[i3] = radius * Math.sin(phi) * Math.cos(theta);
+                positions[i3 + 1] = radius * Math.sin(phi) * Math.sin(theta);
+                positions[i3 + 2] = (Math.random() - 0.5) * 1500 - 200; // Spread along z
+
+                // Random color
+                const color = colorOptions[Math.floor(Math.random() * colorOptions.length)];
+                colors[i3] = color.r;
+                colors[i3 + 1] = color.g;
+                colors[i3 + 2] = color.b;
+
+                sizes[i] = Math.random() * 2 + 0.5;
+            }
+
+            geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+            geometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
+            geometry.setAttribute('size', new THREE.BufferAttribute(sizes, 1));
+
+            const material = new THREE.PointsMaterial({
+                size: 1.5,
+                vertexColors: true,
+                transparent: true,
+                opacity: 0.8,
+                sizeAttenuation: true
+            });
+
+            stars = new THREE.Points(geometry, material);
+            scene.add(stars);
+        }
+
+        // ========================================
+        // PLANETS - Five element planets with GLSL shaders
+        // ========================================
+
+        // Custom GLSL Shader for gradient color effect
+        const planetVertexShader = `
+            varying vec3 vNormal;
+            varying vec3 vPosition;
+            varying vec2 vUv;
+            
+            void main() {
+                vNormal = normalize(normalMatrix * normal);
+                vPosition = position;
+                vUv = uv;
+                gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+            }
+        `;
+
+        const planetFragmentShader = `
+            uniform vec3 uColor1;
+            uniform vec3 uColor2;
+            uniform vec3 uColor3;
+            uniform float uTime;
+            uniform float uGlowIntensity;
+            
+            varying vec3 vNormal;
+            varying vec3 vPosition;
+            varying vec2 vUv;
+            
+            void main() {
+                // Animated gradient based on position and time
+                float gradientPos = (vPosition.y + 8.0) / 16.0;
+                gradientPos += sin(uTime * 0.5 + vPosition.x * 0.3) * 0.1;
+                gradientPos = clamp(gradientPos, 0.0, 1.0);
+                
+                // Three-color gradient (cyan -> green -> magenta style)
+                vec3 color;
+                if (gradientPos < 0.5) {
+                    color = mix(uColor1, uColor2, gradientPos * 2.0);
+                } else {
+                    color = mix(uColor2, uColor3, (gradientPos - 0.5) * 2.0);
+                }
+                
+                // Fresnel rim lighting
+                vec3 viewDirection = normalize(cameraPosition - vPosition);
+                float fresnel = pow(1.0 - max(dot(vNormal, viewDirection), 0.0), 3.0);
+                
+                // Add glow at edges
+                color += fresnel * uColor2 * uGlowIntensity;
+                
+                // Subtle pulsing
+                color *= 0.9 + sin(uTime * 2.0) * 0.1;
+                
+                gl_FragColor = vec4(color, 1.0);
+            }
+        `;
+
+        // Atmosphere glow shader
+        const glowVertexShader = `
+            varying vec3 vNormal;
+            
+            void main() {
+                vNormal = normalize(normalMatrix * normal);
+                gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+            }
+        `;
+
+        const glowFragmentShader = `
+            uniform vec3 uGlowColor;
+            uniform float uIntensity;
+            uniform float uTime;
+            
+            varying vec3 vNormal;
+            
+            void main() {
+                float intensity = pow(0.7 - dot(vNormal, vec3(0.0, 0.0, 1.0)), 2.0);
+                intensity *= uIntensity;
+                intensity *= 0.8 + sin(uTime * 1.5) * 0.2;
+                
+                gl_FragColor = vec4(uGlowColor, intensity);
+            }
+        `;
+
+        // Planet color schemes (cyan-green-magenta palette inspired)
+        const PLANET_GRADIENTS = {
+            fire: {
+                color1: new THREE.Color(0xff6b35),
+                color2: new THREE.Color(0xff3366),
+                color3: new THREE.Color(0xffaa00)
+            },
+            earth: {
+                color1: new THREE.Color(0xffd93d),
+                color2: new THREE.Color(0x88cc44),
+                color3: new THREE.Color(0xcc8833)
+            },
+            wood: {
+                color1: new THREE.Color(0x00d4aa),  // Cyan
+                color2: new THREE.Color(0x6bcb77),  // Green
+                color3: new THREE.Color(0x22aa88)   // Teal
+            },
+            metal: {
+                color1: new THREE.Color(0xc0c0e0),
+                color2: new THREE.Color(0x8080cc),
+                color3: new THREE.Color(0xe0e0ff)
+            },
+            water: {
+                color1: new THREE.Color(0x00d4ff),  // Cyan
+                color2: new THREE.Color(0x6666ff),  // Blue-purple
+                color3: new THREE.Color(0xaa55ff)   // Magenta-ish
+            }
+        };
+
+        function createPlanets() {
+            PLANETS.forEach((planetData, index) => {
+                const group = new THREE.Group();
+                const gradient = PLANET_GRADIENTS[planetData.element];
+
+                // Main planet with custom shader
+                const geometry = new THREE.SphereGeometry(8, config.planetSegments, config.planetSegments);
+
+                let material;
+                if (performanceLevel === 'high') {
+                    // Custom GLSL shader material
+                    material = new THREE.ShaderMaterial({
+                        vertexShader: planetVertexShader,
+                        fragmentShader: planetFragmentShader,
+                        uniforms: {
+                            uColor1: { value: gradient.color1 },
+                            uColor2: { value: gradient.color2 },
+                            uColor3: { value: gradient.color3 },
+                            uTime: { value: 0 },
+                            uGlowIntensity: { value: 0.5 }
+                        }
+                    });
+                } else {
+                    // Fallback to standard material
+                    material = new THREE.MeshStandardMaterial({
+                        color: planetData.color,
+                        emissive: planetData.emissive,
+                        emissiveIntensity: 0.3,
+                        metalness: 0.3,
+                        roughness: 0.7
+                    });
+                }
+
+                const planet = new THREE.Mesh(geometry, material);
+                planet.userData = { index, ...planetData };
+                group.add(planet);
+
+                // Inner atmosphere glow with shader
+                const glowGeometry = new THREE.SphereGeometry(10, 32, 32);
+                let glowMaterial;
+
+                if (performanceLevel === 'high') {
+                    glowMaterial = new THREE.ShaderMaterial({
+                        vertexShader: glowVertexShader,
+                        fragmentShader: glowFragmentShader,
+                        uniforms: {
+                            uGlowColor: { value: new THREE.Color(planetData.color) },
+                            uIntensity: { value: 0.4 },
+                            uTime: { value: 0 }
+                        },
+                        transparent: true,
+                        side: THREE.BackSide,
+                        blending: THREE.AdditiveBlending
+                    });
+                } else {
+                    glowMaterial = new THREE.MeshBasicMaterial({
+                        color: planetData.color,
+                        transparent: true,
+                        opacity: 0.15,
+                        side: THREE.BackSide
+                    });
+                }
+
+                const glow = new THREE.Mesh(glowGeometry, glowMaterial);
+                group.add(glow);
+
+                // Outer atmosphere
+                const outerGlowGeometry = new THREE.SphereGeometry(12, 32, 32);
+                const outerGlowMaterial = new THREE.MeshBasicMaterial({
+                    color: planetData.color,
+                    transparent: true,
+                    opacity: 0.05,
+                    side: THREE.BackSide
+                });
+                const outerGlow = new THREE.Mesh(outerGlowGeometry, outerGlowMaterial);
+                group.add(outerGlow);
+
+                // Orbital ring for some planets
+                if (index === 3) { // Metal planet gets rings
+                    const ringGeometry = new THREE.RingGeometry(12, 16, 64);
+                    const ringMaterial = new THREE.MeshBasicMaterial({
+                        color: 0xc0c0e0,
+                        transparent: true,
+                        opacity: 0.3,
+                        side: THREE.DoubleSide
+                    });
+                    const ring = new THREE.Mesh(ringGeometry, ringMaterial);
+                    ring.rotation.x = Math.PI / 3;
+                    group.add(ring);
+                }
+
+                // Point light at planet
+                const light = new THREE.PointLight(planetData.color, 0.5, 50);
+                group.add(light);
+
+                group.position.copy(planetData.position);
+                scene.add(group);
+                planets.push({ group, planet, glow, outerGlow, light, data: planetData, material });
+            });
+        }
+
+        // Create nebula background with animated colors
+        function createNebula() {
+            const nebulaGeometry = new THREE.PlaneGeometry(2000, 2000);
+            const nebulaVertexShader = `
+                varying vec2 vUv;
+                void main() {
+                    vUv = uv;
+                    gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+                }
+            `;
+
+            const nebulaFragmentShader = `
+                uniform float uTime;
+                varying vec2 vUv;
+                
+                // Simplex noise function
+                vec3 mod289(vec3 x) { return x - floor(x * (1.0 / 289.0)) * 289.0; }
+                vec4 mod289(vec4 x) { return x - floor(x * (1.0 / 289.0)) * 289.0; }
+                vec4 permute(vec4 x) { return mod289(((x*34.0)+1.0)*x); }
+                vec4 taylorInvSqrt(vec4 r) { return 1.79284291400159 - 0.85373472095314 * r; }
+                
+                float snoise(vec3 v) {
+                    const vec2 C = vec2(1.0/6.0, 1.0/3.0);
+                    const vec4 D = vec4(0.0, 0.5, 1.0, 2.0);
+                    
+                    vec3 i = floor(v + dot(v, C.yyy));
+                    vec3 x0 = v - i + dot(i, C.xxx);
+                    
+                    vec3 g = step(x0.yzx, x0.xyz);
+                    vec3 l = 1.0 - g;
+                    vec3 i1 = min(g.xyz, l.zxy);
+                    vec3 i2 = max(g.xyz, l.zxy);
+                    
+                    vec3 x1 = x0 - i1 + C.xxx;
+                    vec3 x2 = x0 - i2 + C.yyy;
+                    vec3 x3 = x0 - D.yyy;
+                    
+                    i = mod289(i);
+                    vec4 p = permute(permute(permute(
+                        i.z + vec4(0.0, i1.z, i2.z, 1.0))
+                        + i.y + vec4(0.0, i1.y, i2.y, 1.0))
+                        + i.x + vec4(0.0, i1.x, i2.x, 1.0));
+                    
+                    float n_ = 0.142857142857;
+                    vec3 ns = n_ * D.wyz - D.xzx;
+                    
+                    vec4 j = p - 49.0 * floor(p * ns.z * ns.z);
+                    
+                    vec4 x_ = floor(j * ns.z);
+                    vec4 y_ = floor(j - 7.0 * x_);
+                    
+                    vec4 x = x_ *ns.x + ns.yyyy;
+                    vec4 y = y_ *ns.x + ns.yyyy;
+                    vec4 h = 1.0 - abs(x) - abs(y);
+                    
+                    vec4 b0 = vec4(x.xy, y.xy);
+                    vec4 b1 = vec4(x.zw, y.zw);
+                    
+                    vec4 s0 = floor(b0)*2.0 + 1.0;
+                    vec4 s1 = floor(b1)*2.0 + 1.0;
+                    vec4 sh = -step(h, vec4(0.0));
+                    
+                    vec4 a0 = b0.xzyw + s0.xzyw*sh.xxyy;
+                    vec4 a1 = b1.xzyw + s1.xzyw*sh.zzww;
+                    
+                    vec3 p0 = vec3(a0.xy, h.x);
+                    vec3 p1 = vec3(a0.zw, h.y);
+                    vec3 p2 = vec3(a1.xy, h.z);
+                    vec3 p3 = vec3(a1.zw, h.w);
+                    
+                    vec4 norm = taylorInvSqrt(vec4(dot(p0,p0), dot(p1,p1), dot(p2,p2), dot(p3,p3)));
+                    p0 *= norm.x;
+                    p1 *= norm.y;
+                    p2 *= norm.z;
+                    p3 *= norm.w;
+                    
+                    vec4 m = max(0.6 - vec4(dot(x0,x0), dot(x1,x1), dot(x2,x2), dot(x3,x3)), 0.0);
+                    m = m * m;
+                    return 42.0 * dot(m*m, vec4(dot(p0,x0), dot(p1,x1), dot(p2,x2), dot(p3,x3)));
+                }
+                
+                void main() {
+                    vec2 uv = vUv;
+                    
+                    // Animated noise
+                    float noise1 = snoise(vec3(uv * 2.0, uTime * 0.1));
+                    float noise2 = snoise(vec3(uv * 4.0 + 100.0, uTime * 0.15));
+                    
+                    // Gradient colors (cyan -> green -> magenta)
+                    vec3 colorCyan = vec3(0.0, 0.83, 1.0);
+                    vec3 colorGreen = vec3(0.42, 0.8, 0.47);
+                    vec3 colorMagenta = vec3(0.66, 0.33, 0.97);
+                    
+                    // Mix based on position and noise
+                    float t1 = uv.x + noise1 * 0.3;
+                    float t2 = uv.y + noise2 * 0.2;
+                    
+                    vec3 color = mix(colorCyan, colorGreen, smoothstep(0.0, 0.5, t1));
+                    color = mix(color, colorMagenta, smoothstep(0.5, 1.0, t2));
+                    
+                    // Fade to dark at edges
+                    float vignette = 1.0 - length(uv - 0.5) * 1.5;
+                    vignette = clamp(vignette, 0.0, 1.0);
+                    
+                    // Very subtle
+                    color *= vignette * 0.1;
+                    
+                    gl_FragColor = vec4(color, 0.3);
+                }
+            `;
+
+            if (performanceLevel === 'high') {
+                const nebulaMaterial = new THREE.ShaderMaterial({
+                    vertexShader: nebulaVertexShader,
+                    fragmentShader: nebulaFragmentShader,
+                    uniforms: {
+                        uTime: { value: 0 }
+                    },
+                    transparent: true,
+                    side: THREE.DoubleSide,
+                    depthWrite: false
+                });
+
+                const nebula = new THREE.Mesh(nebulaGeometry, nebulaMaterial);
+                nebula.position.z = -800;
+                nebula.userData.isNebula = true;
+                scene.add(nebula);
+            }
+        }
+
+        // ========================================
+        // WARP EFFECT - Enhanced speed lines
+        // ========================================
+        let warpLines = null;
+        let warpTunnel = null;
+
+        function createWarpParticles() {
+            // Speed lines - elongated particles that stretch during warp
+            const lineCount = config.warpParticles;
+            const geometry = new THREE.BufferGeometry();
+
+            const positions = new Float32Array(lineCount * 6); // 2 points per line
+            const colors = new Float32Array(lineCount * 6);    // RGB for each point
+            const velocities = new Float32Array(lineCount);
+
+            for (let i = 0; i < lineCount; i++) {
+                resetSpeedLine(positions, colors, velocities, i);
+            }
+
+            geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+            geometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
+            geometry.setAttribute('velocity', new THREE.BufferAttribute(velocities, 1));
+
+            const material = new THREE.LineBasicMaterial({
+                vertexColors: true,
+                transparent: true,
+                opacity: 0,
+                blending: THREE.AdditiveBlending
+            });
+
+            warpParticles = new THREE.LineSegments(geometry, material);
+            warpParticles.visible = false;
+            scene.add(warpParticles);
+
+            // Create warp tunnel effect (rings)
+            createWarpTunnel();
+        }
+
+        function resetSpeedLine(positions, colors, velocities, index) {
+            const i6 = index * 6;
+
+            // Random position in a ring around the camera path
+            const radius = 5 + Math.random() * 60;
+            const theta = Math.random() * Math.PI * 2;
+            const zOffset = Math.random() * 200 - 100;
+
+            const x = radius * Math.cos(theta);
+            const y = radius * Math.sin(theta);
+            const z = camera.position.z + zOffset;
+
+            // Line start (further from camera)
+            positions[i6] = x;
+            positions[i6 + 1] = y;
+            positions[i6 + 2] = z;
+
+            // Line end (closer, creating streak)
+            const lineLength = 2 + Math.random() * 8;
+            positions[i6 + 3] = x * 0.95;
+            positions[i6 + 4] = y * 0.95;
+            positions[i6 + 5] = z + lineLength;
+
+            // Color gradient: white at front, cyan at back
+            const colorOptions = [
+                [1, 1, 1],           // White
+                [0, 0.83, 1],        // Cyan
+                [0.4, 0.6, 1],       // Blue
+                [0.7, 0.5, 1]        // Purple
+            ];
+            const colorIdx = Math.floor(Math.random() * colorOptions.length);
+            const color = colorOptions[colorIdx];
+
+            // Start color (brighter)
+            colors[i6] = color[0];
+            colors[i6 + 1] = color[1];
+            colors[i6 + 2] = color[2];
+
+            // End color (dimmer)
+            colors[i6 + 3] = color[0] * 0.3;
+            colors[i6 + 4] = color[1] * 0.3;
+            colors[i6 + 5] = color[2] * 0.3;
+
+            velocities[index] = 1 + Math.random() * 4;
+        }
+
+        function createWarpTunnel() {
+            const tunnelGroup = new THREE.Group();
+
+            // Create concentric rings that expand outward
+            for (let i = 0; i < 8; i++) {
+                const ringGeometry = new THREE.RingGeometry(
+                    3 + i * 8,
+                    5 + i * 8,
+                    32
+                );
+
+                const ringMaterial = new THREE.MeshBasicMaterial({
+                    color: new THREE.Color().setHSL(0.55 + i * 0.02, 0.8, 0.5),
+                    transparent: true,
+                    opacity: 0,
+                    side: THREE.DoubleSide,
+                    blending: THREE.AdditiveBlending
+                });
+
+                const ring = new THREE.Mesh(ringGeometry, ringMaterial);
+                ring.position.z = -20 - i * 15;
+                ring.userData.baseZ = ring.position.z;
+                ring.userData.ringIndex = i;
+                tunnelGroup.add(ring);
+            }
+
+            warpTunnel = tunnelGroup;
+            warpTunnel.visible = false;
+            scene.add(warpTunnel);
+        }
+
+        function updateWarpEffect(time, intensity) {
+            if (!warpParticles || !warpTunnel) return;
+
+            // Update speed lines
+            const positions = warpParticles.geometry.attributes.position.array;
+            const velocities = warpParticles.geometry.attributes.velocity.array;
+            const colors = warpParticles.geometry.attributes.color.array;
+            const lineCount = config.warpParticles;
+
+            for (let i = 0; i < lineCount; i++) {
+                const i6 = i * 6;
+                const speed = velocities[i] * intensity * 8;
+
+                // Move lines toward camera
+                positions[i6 + 2] += speed;
+                positions[i6 + 5] += speed;
+
+                // Stretch lines based on speed
+                const stretch = speed * 2;
+                positions[i6 + 5] = positions[i6 + 2] + stretch;
+
+                // Reset if passed camera
+                if (positions[i6 + 2] > camera.position.z + 50) {
+                    resetSpeedLine(positions, colors, velocities, i);
+                    positions[i6 + 2] = camera.position.z - 200;
+                    positions[i6 + 5] = positions[i6 + 2] + 5;
+                }
+            }
+
+            warpParticles.geometry.attributes.position.needsUpdate = true;
+
+            // Update tunnel rings
+            warpTunnel.children.forEach((ring, i) => {
+                // Expand and move forward
+                const phase = (time * 2 + i * 0.5) % (Math.PI * 2);
+                const scale = 1 + Math.sin(phase) * 0.3;
+                ring.scale.set(scale, scale, 1);
+
+                ring.position.z = ring.userData.baseZ + camera.position.z + Math.sin(time * 3 + i) * 5;
+                ring.rotation.z = time * 0.5 + i * 0.2;
+
+                // Pulse opacity
+                ring.material.opacity = 0.1 + Math.sin(phase) * 0.1;
+            });
+        }
+
+        // ========================================
+        // LIGHTS
+        // ========================================
+        function createAmbientLights() {
+            // Ambient light
+            const ambient = new THREE.AmbientLight(0x404060, 0.5);
+            scene.add(ambient);
+
+            // Directional light (sun-like)
+            const directional = new THREE.DirectionalLight(0xffffff, 0.8);
+            directional.position.set(100, 50, 100);
+            scene.add(directional);
+        }
+
+        // ========================================
+        // SCROLL HANDLING - Camera path movement
+        // ========================================
+        let scrollAccumulator = 0;
+        const scrollThreshold = 100;
+
+        function onScroll(e) {
+            e.preventDefault();
+            initAudio();
+            handleScroll(e.deltaY);
+        }
+
+        function handleScroll(deltaY) {
+            scrollAccumulator += deltaY;
+
+            // Smooth camera movement
+            const scrollFactor = deltaY * 0.5;
+            targetCameraZ = Math.max(-530, Math.min(50, targetCameraZ - scrollFactor));
+
+            // Check for planet navigation threshold
+            if (Math.abs(scrollAccumulator) > scrollThreshold) {
+                const direction = scrollAccumulator > 0 ? 1 : -1;
+                const newIndex = Math.max(-1, Math.min(PLANETS.length - 1, currentPlanetIndex + direction));
+
+                if (newIndex !== currentPlanetIndex) {
+                    navigateToPlanet(newIndex);
+                }
+                scrollAccumulator = 0;
+            }
+
+            // Hide scroll instruction
+            document.getElementById('scrollInstruction').style.opacity = '0';
+        }
+
+        function navigateToPlanet(index) {
+            if (index === currentPlanetIndex) return;
+
+            const prevIndex = currentPlanetIndex;
+            currentPlanetIndex = index;
+
+            // Start warp effect for big jumps
+            if (Math.abs(index - prevIndex) > 1) {
+                startWarpEffect();
+            }
+
+            // Set target camera position
+            if (index < 0) {
+                targetCameraZ = CAMERA_PATH[0].z;
+            } else {
+                targetCameraZ = CAMERA_PATH[index + 1].z;
+            }
+
+            // Update UI
+            updateUI(index);
+        }
+
+        function startWarpEffect() {
+            isWarping = true;
+            warpParticles.visible = true;
+            warpTunnel.visible = true;
+
+            // Start camera shake
+            cameraShakeIntensity = 3;
+
+            // Play warp sound
+            playWarpSound();
+
+            // Fade in
+            warpParticles.material.opacity = 0;
+            let fadeIn = 0;
+            const fadeInInterval = setInterval(() => {
+                fadeIn += 0.1;
+                warpParticles.material.opacity = Math.min(fadeIn, 0.9);
+                if (fadeIn >= 0.9) clearInterval(fadeInInterval);
+            }, 30);
+
+            document.getElementById('warpOverlay').classList.add('active');
+
+            setTimeout(() => {
+                // Fade out
+                let fadeOut = 0.9;
+                const fadeOutInterval = setInterval(() => {
+                    fadeOut -= 0.1;
+                    warpParticles.material.opacity = Math.max(fadeOut, 0);
+                    warpTunnel.children.forEach(ring => {
+                        ring.material.opacity = Math.max(ring.material.opacity - 0.02, 0);
+                    });
+                    if (fadeOut <= 0) {
+                        clearInterval(fadeOutInterval);
+                        isWarping = false;
+                        warpParticles.visible = false;
+                        warpTunnel.visible = false;
+                        document.getElementById('warpOverlay').classList.remove('active');
+
+                        // Play arrival chime
+                        if (currentPlanetIndex >= 0) {
+                            playArrivalChime(PLANETS[currentPlanetIndex].element);
+                        }
+                    }
+                }, 30);
+            }, 1200);
+        }
+
+        function updateUI(planetIndex) {
+            // Update progress dots
+            document.querySelectorAll('.progress-dot').forEach((dot, i) => {
+                dot.classList.toggle('active', i === planetIndex);
+            });
+
+            // Show/hide center content
+            const centerContent = document.getElementById('centerContent');
+            const planetInfo = document.getElementById('planetInfo');
+
+            if (planetIndex < 0) {
+                centerContent.classList.add('visible');
+                planetInfo.classList.remove('visible');
+            } else {
+                centerContent.classList.remove('visible');
+                planetInfo.classList.add('visible');
+
+                const planet = PLANETS[planetIndex];
+                document.getElementById('planetName').textContent = planet.name.toUpperCase();
+                document.getElementById('planetName').style.color = '#' + planet.color.toString(16).padStart(6, '0');
+                document.getElementById('planetSubtitle').textContent = planet.subtitle;
+                document.getElementById('enterBtn').style.color = '#' + planet.color.toString(16).padStart(6, '0');
+            }
+        }
+
+        // ========================================
+        // MOUSE INTERACTION - Raycasting
+        // ========================================
+        function onMouseMove(e) {
+            mouse.x = (e.clientX / window.innerWidth) * 2 - 1;
+            mouse.y = -(e.clientY / window.innerHeight) * 2 + 1;
+
+            // Raycast to planets
+            raycaster.setFromCamera(mouse, camera);
+
+            const planetMeshes = planets.map(p => p.planet);
+            const intersects = raycaster.intersectObjects(planetMeshes);
+
+            if (intersects.length > 0) {
+                const intersectedPlanet = planets.find(p => p.planet === intersects[0].object);
+                if (hoveredPlanet !== intersectedPlanet) {
+                    if (hoveredPlanet) {
+                        // Reset previous hover
+                        hoveredPlanet.glow.material.opacity = 0.15;
+                    }
+                    hoveredPlanet = intersectedPlanet;
+                    hoveredPlanet.glow.material.opacity = 0.3;
+                    document.body.style.cursor = 'pointer';
+
+                    // Play hover sound
+                    playHoverSound();
+                }
+            } else {
+                if (hoveredPlanet) {
+                    hoveredPlanet.glow.material.opacity = 0.15;
+                    hoveredPlanet = null;
+                }
+                document.body.style.cursor = 'default';
+            }
+
+            // Update base camera position (for shake effect)
+            baseCameraX = mouse.x * 5;
+            baseCameraY = mouse.y * 3;
+        }
+
+        function onClick() {
+            if (hoveredPlanet) {
+                const index = hoveredPlanet.data.index;
+                navigateToPlanet(index);
+            }
+        }
+
+        function enterPlanet() {
+            if (currentPlanetIndex >= 0 && currentPlanetIndex < PLANETS.length) {
+                const planet = PLANETS[currentPlanetIndex];
+
+                // Trigger intense warp effect
+                isWarping = true;
+                warpParticles.visible = true;
+                warpTunnel.visible = true;
+
+                // Intense camera shake
+                cameraShakeIntensity = 5;
+
+                // Play warp sound
+                playWarpSound();
+
+                // Fade in warp effect
+                let intensity = 0;
+                const intensifyInterval = setInterval(() => {
+                    intensity += 0.05;
+                    warpParticles.material.opacity = Math.min(intensity, 1);
+
+                    // Zoom camera towards planet
+                    const targetZ = PLANETS[currentPlanetIndex].position.z - 5;
+                    targetCameraZ += (targetZ - targetCameraZ) * 0.1;
+
+                    if (intensity >= 1) clearInterval(intensifyInterval);
+                }, 30);
+
+                document.getElementById('warpOverlay').classList.add('active');
+
+                // Create flash overlay for transition
+                const flash = document.createElement('div');
+                flash.style.cssText = `
+                    position: fixed;
+                    inset: 0;
+                    background: radial-gradient(circle at center, 
+                        ${planet.element === 'fire' ? '#ff6b35' :
+                        planet.element === 'earth' ? '#ffd93d' :
+                            planet.element === 'wood' ? '#6bcb77' :
+                                planet.element === 'metal' ? '#c0c0e0' : '#00d4ff'} 0%, 
+                        white 50%, 
+                        white 100%);
+                    z-index: 9999;
+                    opacity: 0;
+                    transition: opacity 0.5s;
+                    pointer-events: none;
+                `;
+                document.body.appendChild(flash);
+
+                // Flash and navigate
+                setTimeout(() => {
+                    flash.style.opacity = '1';
+
+                    // Play arrival chime
+                    playArrivalChime(planet.element);
+
+                    setTimeout(() => {
+                        window.location.href = planet.href;
+                    }, 500);
+                }, 800);
+            }
+        }
+
+        // ========================================
+        // KEYBOARD
+        // ========================================
+        function onKeyDown(e) {
+            switch (e.key) {
+                case 'ArrowDown':
+                case 's':
+                    e.preventDefault();
+                    navigateToPlanet(Math.min(PLANETS.length - 1, currentPlanetIndex + 1));
+                    break;
+                case 'ArrowUp':
+                case 'w':
+                    e.preventDefault();
+                    navigateToPlanet(Math.max(-1, currentPlanetIndex - 1));
+                    break;
+                case 'Enter':
+                case ' ':
+                    e.preventDefault();
+                    enterPlanet();
+                    break;
+                case '1': case '2': case '3': case '4': case '5':
+                    navigateToPlanet(parseInt(e.key) - 1);
+                    break;
+            }
+        }
+
+        // ========================================
+        // ANIMATION LOOP
+        // ========================================
+        function animate() {
+            requestAnimationFrame(animate);
+
+            const time = performance.now() * 0.001;
+
+            // Smooth camera movement
+            cameraZ += (targetCameraZ - cameraZ) * 0.05;
+            camera.position.z = cameraZ;
+
+            // Camera shake effect
+            if (cameraShakeIntensity > 0.01) {
+                const shakeX = (Math.random() - 0.5) * cameraShakeIntensity;
+                const shakeY = (Math.random() - 0.5) * cameraShakeIntensity;
+                camera.position.x = baseCameraX + shakeX;
+                camera.position.y = baseCameraY + shakeY;
+                cameraShakeIntensity *= cameraShakeDecay;
+            } else {
+                // Smooth return to base position (also handles mouse movement)
+                camera.position.x += (baseCameraX - camera.position.x) * 0.1;
+                camera.position.y += (baseCameraY - camera.position.y) * 0.1;
+            }
+
+            // Animate planets
+            planets.forEach((p, i) => {
+                // Gentle rotation
+                p.group.rotation.y = time * 0.1 * (i % 2 === 0 ? 1 : -1);
+
+                // Floating motion
+                p.group.position.y = p.data.position.y + Math.sin(time * 0.5 + i) * 2;
+
+                // Update shader uniforms (for high performance mode)
+                if (performanceLevel === 'high') {
+                    // Update planet shader
+                    if (p.material && p.material.uniforms) {
+                        p.material.uniforms.uTime.value = time;
+
+                        // Increase glow when hovered
+                        if (p === hoveredPlanet) {
+                            p.material.uniforms.uGlowIntensity.value = 0.8;
+                        } else {
+                            p.material.uniforms.uGlowIntensity.value = 0.5;
+                        }
+                    }
+
+                    // Update glow shader
+                    if (p.glow.material.uniforms) {
+                        p.glow.material.uniforms.uTime.value = time;
+                        if (p === hoveredPlanet) {
+                            p.glow.material.uniforms.uIntensity.value = 0.6;
+                        } else {
+                            p.glow.material.uniforms.uIntensity.value = 0.4;
+                        }
+                    }
+                } else {
+                    // Fallback: Pulse glow
+                    const pulse = 0.15 + Math.sin(time * 2 + i * 0.5) * 0.05;
+                    if (p !== hoveredPlanet) {
+                        p.glow.material.opacity = pulse;
+                    }
+                }
+            });
+
+            // Update nebula shader
+            if (performanceLevel === 'high') {
+                scene.traverse(obj => {
+                    if (obj.userData && obj.userData.isNebula && obj.material.uniforms) {
+                        obj.material.uniforms.uTime.value = time;
+                    }
+                });
+            }
+
+            // Animate warp effect
+            if (isWarping) {
+                updateWarpEffect(time, 1.0);
+            }
+
+            // Render
+            if (composer && performanceLevel !== 'low') {
+                composer.render();
+            } else {
+                renderer.render(scene, camera);
+            }
+        }
+
+        // ========================================
+        // RESIZE
+        // ========================================
+        function onWindowResize() {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+
+            if (composer) {
+                composer.setSize(window.innerWidth, window.innerHeight);
+            }
+        }
+
+        // ========================================
+        // LOADING
+        // ========================================
+        function updateLoadingProgress(percent) {
+            document.getElementById('loadingBar').style.width = percent + '%';
+            document.getElementById('loadingPercent').textContent = Math.round(percent) + '%';
+        }
+
+        // Simulate loading progress
+        let loadProgress = 0;
+        const loadInterval = setInterval(() => {
+            loadProgress += Math.random() * 15 + 5;
+            if (loadProgress >= 100) {
+                loadProgress = 100;
+                clearInterval(loadInterval);
+                init();
+            }
+            updateLoadingProgress(loadProgress);
+        }, 100);
+
+        console.log('🌌 Five Elements 3D Portal Loading...');
+    </script>
+</body>
+
+</html>

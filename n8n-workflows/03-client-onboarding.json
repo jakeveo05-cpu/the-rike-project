@@ -1,0 +1,209 @@
+{
+  "name": "03 - Client Onboarding (Contract Signed)",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "client-onboarding",
+        "responseMode": "onReceived",
+        "options": {}
+      },
+      "id": "webhook-onboard",
+      "name": "Webhook - Contract Signed",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1.1,
+      "position": [250, 300],
+      "notes": "Trigger when contract is signed (from Stripe/Payment or manual)"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "client_name",
+              "name": "client_name",
+              "value": "={{ $json.client_name }}",
+              "type": "string"
+            },
+            {
+              "id": "client_email",
+              "name": "client_email",
+              "value": "={{ $json.client_email }}",
+              "type": "string"
+            },
+            {
+              "id": "package",
+              "name": "package",
+              "value": "={{ $json.package || 'Standard' }}",
+              "type": "string"
+            },
+            {
+              "id": "services",
+              "name": "services",
+              "value": "={{ $json.services || 'Automation' }}",
+              "type": "string"
+            },
+            {
+              "id": "monthly_value",
+              "name": "monthly_value",
+              "value": "={{ $json.monthly_value || 0 }}",
+              "type": "number"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "set-client",
+      "name": "Set Client Data",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.2,
+      "position": [450, 300]
+    },
+    {
+      "parameters": {
+        "channel": "#clients",
+        "text": "=🎉 *New Client Signed!*\n\n*Client:* {{ $json.client_name }}\n*Email:* {{ $json.client_email }}\n*Package:* {{ $json.package }}\n*Services:* {{ $json.services }}\n*Monthly Value:* ${{ $json.monthly_value }}\n\n📋 Onboarding workflow started!",
+        "otherOptions": {}
+      },
+      "id": "slack-new-client",
+      "name": "Notify Team - New Client",
+      "type": "n8n-nodes-base.slack",
+      "typeVersion": 2.1,
+      "position": [650, 200]
+    },
+    {
+      "parameters": {
+        "fromEmail": "={{ $env.FROM_EMAIL }}",
+        "toEmail": "={{ $json.client_email }}",
+        "subject": "Welcome to The Rike! 🎉 Let's Get Started",
+        "emailType": "html",
+        "html": "=<html>\n<body style=\"font-family: Arial, sans-serif; line-height: 1.6; color: #333;\">\n<h2>Welcome aboard, {{ $json.client_name }}! 🎉</h2>\n\n<p>We're thrilled to have you as a client. Here's what happens next:</p>\n\n<h3>📋 Step 1: Complete Your Onboarding Form</h3>\n<p>Please fill out this quick form so we can hit the ground running:</p>\n<p><a href=\"{{ $env.ONBOARDING_FORM_URL }}\" style=\"background: #2563EB; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px;\">Complete Onboarding Form</a></p>\n\n<h3>📞 Step 2: Kickoff Call</h3>\n<p>We'll schedule a kickoff call within 48 hours to:</p>\n<ul>\n  <li>Review your goals and KPIs</li>\n  <li>Confirm the scope of work</li>\n  <li>Meet your dedicated team</li>\n  <li>Set expectations for the first 30 days</li>\n</ul>\n\n<h3>👥 Your Team</h3>\n<ul>\n  <li><strong>Account Lead:</strong> [Strategist Name] - Your main point of contact</li>\n  <li><strong>Tech Lead:</strong> [Architect Name] - Automation & technical setup</li>\n  <li><strong>Content Lead:</strong> [Creator Name] - Content & creative</li>\n</ul>\n\n<h3>💬 Communication</h3>\n<p>You can reach us anytime at:</p>\n<ul>\n  <li>Email: hello@therike.com</li>\n  <li>Slack: We'll invite you to a shared channel</li>\n</ul>\n\n<p>Questions? Just reply to this email.</p>\n\n<p>Excited to help {{ $json.client_name }} grow! 🚀</p>\n\n<p>Best,<br>The Rike Team</p>\n</body>\n</html>",
+        "options": {}
+      },
+      "id": "email-welcome",
+      "name": "Send Welcome Email",
+      "type": "n8n-nodes-base.emailSend",
+      "typeVersion": 2.1,
+      "position": [650, 400]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "={{ $env.CLICKUP_API_URL }}/list/{{ $env.CLICKUP_CLIENTS_LIST }}/task",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"name\": \"[ONBOARDING] {{ $json.client_name }}\",\n  \"description\": \"## Client Information\\n- **Email:** {{ $json.client_email }}\\n- **Package:** {{ $json.package }}\\n- **Services:** {{ $json.services }}\\n- **Monthly Value:** ${{ $json.monthly_value }}\\n\\n## Onboarding Checklist\\n\\n### Day 0-1: Admin\\n- [ ] Welcome email sent ✓\\n- [ ] Onboarding form sent ✓\\n- [ ] Create client Slack channel\\n- [ ] Schedule kickoff call\\n\\n### Day 1-2: Information\\n- [ ] Onboarding form completed\\n- [ ] Collect all credentials\\n- [ ] Verify access works\\n\\n### Day 2-3: Kickoff\\n- [ ] Kickoff call completed\\n- [ ] Goals & KPIs documented\\n- [ ] Team assigned\\n\\n### Day 3-7: Setup\\n- [ ] Initial audit completed\\n- [ ] Strategy document created\\n- [ ] First deliverables in progress\\n\\n### Day 7-14: Launch\\n- [ ] First deliverables delivered\\n- [ ] Client feedback collected\\n- [ ] Ongoing schedule confirmed\",\n  \"priority\": 1,\n  \"due_date\": {{ $now.plus({days: 14}).toMillis() }},\n  \"tags\": [\"onboarding\", \"new-client\"]\n}",
+        "options": {}
+      },
+      "id": "clickup-onboard",
+      "name": "Create Onboarding Project",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [850, 300]
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "={{ $env.GOOGLE_SHEET_ID }}",
+          "mode": "id"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "Clients",
+          "mode": "list"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Start Date": "={{ $now.format('yyyy-MM-dd') }}",
+            "Client Name": "={{ $json.client_name }}",
+            "Email": "={{ $json.client_email }}",
+            "Package": "={{ $json.package }}",
+            "Services": "={{ $json.services }}",
+            "Monthly Value": "={{ $json.monthly_value }}",
+            "Status": "Onboarding",
+            "Health Score": "100"
+          }
+        },
+        "options": {}
+      },
+      "id": "gsheet-client",
+      "name": "Add to Clients Sheet",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.1,
+      "position": [850, 500]
+    },
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "days",
+              "daysInterval": 2
+            }
+          ]
+        }
+      },
+      "id": "schedule-followup",
+      "name": "Schedule: Day 2 Follow-up",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.1,
+      "position": [1050, 400],
+      "notes": "Separate workflow for follow-up reminders"
+    }
+  ],
+  "connections": {
+    "Webhook - Contract Signed": {
+      "main": [
+        [
+          {
+            "node": "Set Client Data",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set Client Data": {
+      "main": [
+        [
+          {
+            "node": "Notify Team - New Client",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Send Welcome Email",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Create Onboarding Project",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Add to Clients Sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "tags": [
+    {
+      "name": "Client Management"
+    },
+    {
+      "name": "Onboarding"
+    }
+  ]
+}

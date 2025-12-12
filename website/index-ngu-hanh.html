@@ -1,0 +1,763 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Rike | Ngũ Hành - Five Elements of AI Marketing</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700;900&display=swap"
+        rel="stylesheet">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html,
+        body {
+            width: 100%;
+            min-height: 100vh;
+            background: #0a0a0f;
+            font-family: 'Montserrat', sans-serif;
+            color: #fff;
+            overflow-x: hidden;
+        }
+
+        /* Animated Background */
+        .bg-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            overflow: hidden;
+        }
+
+        .bg-gradient {
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(ellipse at 50% 30%, #1a1a2e 0%, #0a0a0f 70%);
+        }
+
+        .bg-orb {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(80px);
+            opacity: 0.4;
+            animation: orbFloat 20s ease-in-out infinite;
+        }
+
+        .bg-orb.thuy {
+            width: 400px;
+            height: 400px;
+            background: #00d4ff;
+            top: 10%;
+            left: 10%;
+            animation-delay: 0s;
+        }
+
+        .bg-orb.hoa {
+            width: 350px;
+            height: 350px;
+            background: #ff6b35;
+            top: 60%;
+            right: 5%;
+            animation-delay: -5s;
+        }
+
+        .bg-orb.moc {
+            width: 300px;
+            height: 300px;
+            background: #6bcb77;
+            bottom: 20%;
+            left: 20%;
+            animation-delay: -10s;
+        }
+
+        .bg-orb.kim {
+            width: 280px;
+            height: 280px;
+            background: #c0c0d8;
+            top: 30%;
+            right: 25%;
+            animation-delay: -15s;
+        }
+
+        .bg-orb.tho {
+            width: 320px;
+            height: 320px;
+            background: #ffd93d;
+            bottom: 10%;
+            right: 30%;
+            animation-delay: -8s;
+        }
+
+        @keyframes orbFloat {
+
+            0%,
+            100% {
+                transform: translate(0, 0) scale(1);
+            }
+
+            25% {
+                transform: translate(30px, -20px) scale(1.05);
+            }
+
+            50% {
+                transform: translate(-20px, 30px) scale(0.95);
+            }
+
+            75% {
+                transform: translate(20px, 20px) scale(1.02);
+            }
+        }
+
+        /* Stars */
+        .stars {
+            position: absolute;
+            inset: 0;
+            overflow: hidden;
+        }
+
+        .star {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: #fff;
+            border-radius: 50%;
+            animation: twinkle 4s ease-in-out infinite;
+        }
+
+        @keyframes twinkle {
+
+            0%,
+            100% {
+                opacity: 0.2;
+                transform: scale(1);
+            }
+
+            50% {
+                opacity: 1;
+                transform: scale(1.5);
+            }
+        }
+
+        /* Header */
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            padding: 24px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 100;
+            background: linear-gradient(180deg, rgba(10, 10, 15, 0.9) 0%, transparent 100%);
+        }
+
+        .logo {
+            font-size: 1.2rem;
+            font-weight: 900;
+            letter-spacing: 6px;
+            color: #fff;
+            text-decoration: none;
+            text-shadow: 0 0 30px rgba(255, 255, 255, 0.3);
+        }
+
+        .header-badge {
+            padding: 8px 20px;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 30px;
+            font-size: 0.65rem;
+            font-weight: 600;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 120px 40px 80px;
+            text-align: center;
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 24px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 30px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            margin-bottom: 32px;
+        }
+
+        .hero-badge::before {
+            content: '';
+            width: 8px;
+            height: 8px;
+            background: linear-gradient(135deg, #00d4ff, #ff6b35, #6bcb77, #ffd93d, #c0c0d8);
+            border-radius: 50%;
+            animation: colorCycle 5s linear infinite;
+        }
+
+        @keyframes colorCycle {
+            0% {
+                box-shadow: 0 0 15px #00d4ff;
+            }
+
+            20% {
+                box-shadow: 0 0 15px #ff6b35;
+            }
+
+            40% {
+                box-shadow: 0 0 15px #6bcb77;
+            }
+
+            60% {
+                box-shadow: 0 0 15px #ffd93d;
+            }
+
+            80% {
+                box-shadow: 0 0 15px #c0c0d8;
+            }
+
+            100% {
+                box-shadow: 0 0 15px #00d4ff;
+            }
+        }
+
+        .hero h1 {
+            font-size: clamp(2.5rem, 6vw, 4.5rem);
+            font-weight: 900;
+            line-height: 1.1;
+            margin-bottom: 24px;
+            background: linear-gradient(135deg, #fff 0%, rgba(255, 255, 255, 0.7) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero h1 span {
+            background: linear-gradient(135deg, #00d4ff, #ff6b35);
+            -webkit-background-clip: text;
+            background-clip: text;
+        }
+
+        .hero p {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            opacity: 0.7;
+            max-width: 600px;
+            margin-bottom: 48px;
+        }
+
+        .hero-subtitle {
+            font-size: 0.85rem;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            opacity: 0.5;
+            margin-bottom: 60px;
+        }
+
+        /* Ngũ Hành Selector */
+        .ngu-hanh-container {
+            width: 100%;
+            max-width: 1200px;
+            padding: 0 20px;
+        }
+
+        .ngu-hanh-title {
+            font-size: 0.75rem;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            opacity: 0.5;
+            margin-bottom: 40px;
+        }
+
+        .ngu-hanh-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 20px;
+        }
+
+        @media (max-width: 1024px) {
+            .ngu-hanh-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
+        @media (max-width: 600px) {
+            .ngu-hanh-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        .element-card {
+            position: relative;
+            aspect-ratio: 1;
+            border-radius: 24px;
+            overflow: hidden;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            text-decoration: none;
+            color: #fff;
+        }
+
+        .element-card::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: var(--card-bg);
+            opacity: 0.15;
+            transition: opacity 0.4s;
+        }
+
+        .element-card::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border: 1px solid var(--card-color);
+            border-radius: 24px;
+            opacity: 0.3;
+            transition: opacity 0.4s;
+        }
+
+        .element-card:hover {
+            transform: translateY(-10px) scale(1.02);
+        }
+
+        .element-card:hover::before {
+            opacity: 0.25;
+        }
+
+        .element-card:hover::after {
+            opacity: 0.6;
+        }
+
+        .element-card:hover .element-glow {
+            opacity: 0.6;
+            transform: scale(1.2);
+        }
+
+        .element-card:hover .element-icon {
+            transform: scale(1.1);
+        }
+
+        .element-glow {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 120%;
+            height: 120%;
+            background: radial-gradient(circle, var(--card-color) 0%, transparent 70%);
+            opacity: 0.2;
+            transition: all 0.4s;
+            pointer-events: none;
+        }
+
+        .element-content {
+            position: relative;
+            z-index: 2;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 24px;
+            text-align: center;
+        }
+
+        .element-icon {
+            width: 64px;
+            height: 64px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 16px;
+            transition: transform 0.3s;
+        }
+
+        .element-icon svg {
+            width: 48px;
+            height: 48px;
+            stroke: var(--card-color);
+            fill: none;
+            stroke-width: 1.5;
+            filter: drop-shadow(0 0 15px var(--card-color));
+        }
+
+        .element-viet {
+            font-size: 1.5rem;
+            font-weight: 900;
+            margin-bottom: 4px;
+            text-shadow: 0 0 20px var(--card-color);
+        }
+
+        .element-eng {
+            font-size: 0.7rem;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            opacity: 0.6;
+            margin-bottom: 12px;
+        }
+
+        .element-desc {
+            font-size: 0.65rem;
+            opacity: 0.5;
+            line-height: 1.5;
+        }
+
+        /* Element Colors */
+        .element-card.thuy {
+            --card-color: #00d4ff;
+            --card-bg: linear-gradient(135deg, #00d4ff, #0066cc);
+        }
+
+        .element-card.hoa {
+            --card-color: #ff6b35;
+            --card-bg: linear-gradient(135deg, #ff6b35, #d62828);
+        }
+
+        .element-card.moc {
+            --card-color: #6bcb77;
+            --card-bg: linear-gradient(135deg, #6bcb77, #2d5a27);
+        }
+
+        .element-card.kim {
+            --card-color: #e0e0f0;
+            --card-bg: linear-gradient(135deg, #e0e0f0, #8080a0);
+        }
+
+        .element-card.tho {
+            --card-color: #ffd93d;
+            --card-bg: linear-gradient(135deg, #ffd93d, #daa520);
+        }
+
+        /* Footer tagline */
+        .footer-tagline {
+            margin-top: 80px;
+            padding: 40px;
+            text-align: center;
+        }
+
+        .footer-tagline p {
+            font-size: 0.8rem;
+            opacity: 0.4;
+            letter-spacing: 2px;
+        }
+
+        /* Loading Animation */
+        .loading-overlay {
+            position: fixed;
+            inset: 0;
+            background: #0a0a0f;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 10000;
+            transition: opacity 0.8s, visibility 0.8s;
+        }
+
+        .loading-overlay.done {
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+        }
+
+        .loading-symbol {
+            width: 80px;
+            height: 80px;
+            position: relative;
+            margin-bottom: 30px;
+        }
+
+        .loading-ring {
+            position: absolute;
+            inset: 0;
+            border: 2px solid transparent;
+            border-radius: 50%;
+            animation: loadRing 2s linear infinite;
+        }
+
+        .loading-ring:nth-child(1) {
+            border-top-color: #00d4ff;
+            animation-delay: 0s;
+        }
+
+        .loading-ring:nth-child(2) {
+            border-right-color: #ff6b35;
+            animation-delay: 0.2s;
+            inset: 8px;
+        }
+
+        .loading-ring:nth-child(3) {
+            border-bottom-color: #6bcb77;
+            animation-delay: 0.4s;
+            inset: 16px;
+        }
+
+        .loading-ring:nth-child(4) {
+            border-left-color: #ffd93d;
+            animation-delay: 0.6s;
+            inset: 24px;
+        }
+
+        .loading-ring:nth-child(5) {
+            border-top-color: #e0e0f0;
+            animation-delay: 0.8s;
+            inset: 32px;
+        }
+
+        @keyframes loadRing {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        .loading-text {
+            font-size: 0.8rem;
+            letter-spacing: 6px;
+            text-transform: uppercase;
+            opacity: 0.7;
+        }
+
+        /* Scroll indicator */
+        .scroll-indicator {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+            opacity: 0.5;
+            animation: fadeInUp 1s ease-out 2s both;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateX(-50%) translateY(20px);
+            }
+
+            to {
+                opacity: 0.5;
+                transform: translateX(-50%) translateY(0);
+            }
+        }
+
+        .scroll-indicator span {
+            font-size: 0.6rem;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+        }
+
+        .scroll-arrow {
+            width: 20px;
+            height: 20px;
+            border-right: 2px solid rgba(255, 255, 255, 0.5);
+            border-bottom: 2px solid rgba(255, 255, 255, 0.5);
+            transform: rotate(45deg);
+            animation: scrollBounce 2s ease-in-out infinite;
+        }
+
+        @keyframes scrollBounce {
+
+            0%,
+            100% {
+                transform: rotate(45deg) translateY(0);
+            }
+
+            50% {
+                transform: rotate(45deg) translateY(5px);
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Loading -->
+    <div class="loading-overlay" id="loading">
+        <div class="loading-symbol">
+            <div class="loading-ring"></div>
+            <div class="loading-ring"></div>
+            <div class="loading-ring"></div>
+            <div class="loading-ring"></div>
+            <div class="loading-ring"></div>
+        </div>
+        <div class="loading-text">Ngũ Hành</div>
+    </div>
+
+    <!-- Background -->
+    <div class="bg-container">
+        <div class="bg-gradient"></div>
+        <div class="bg-orb thuy"></div>
+        <div class="bg-orb hoa"></div>
+        <div class="bg-orb moc"></div>
+        <div class="bg-orb kim"></div>
+        <div class="bg-orb tho"></div>
+        <div class="stars" id="stars"></div>
+    </div>
+
+    <!-- Header -->
+    <header>
+        <a href="#" class="logo">THE RIKE</a>
+        <div class="header-badge">AI Marketing</div>
+    </header>
+
+    <!-- Hero -->
+    <section class="hero">
+        <div class="hero-badge">Five Elements System</div>
+
+        <h1>Ngũ Hành<br><span>AI Marketing</span></h1>
+
+        <p>Five specialized AI agents working in harmony. Each element brings unique strengths to create balanced,
+            powerful marketing that adapts and evolves.</p>
+
+        <p class="hero-subtitle">Choose Your Element</p>
+
+        <div class="ngu-hanh-container">
+            <div class="ngu-hanh-grid">
+                <!-- THỦY - Water -->
+                <a href="index-thuy-world-v4.html" class="element-card thuy">
+                    <div class="element-glow"></div>
+                    <div class="element-content">
+                        <div class="element-icon">
+                            <svg viewBox="0 0 24 24">
+                                <path d="M12 2c-4 6-7 10-7 14a7 7 0 0 0 14 0c0-4-3-8-7-14z" />
+                            </svg>
+                        </div>
+                        <div class="element-viet">THỦY</div>
+                        <div class="element-eng">Water</div>
+                        <div class="element-desc">Data & Conversion</div>
+                    </div>
+                </a>
+
+                <!-- HỎA - Fire -->
+                <a href="index-hoa-world-v2.html" class="element-card hoa">
+                    <div class="element-glow"></div>
+                    <div class="element-content">
+                        <div class="element-icon">
+                            <svg viewBox="0 0 24 24">
+                                <path d="M12 2c-4 4-6 8-6 11a6 6 0 0 0 12 0c0-3-2-7-6-11z" />
+                            </svg>
+                        </div>
+                        <div class="element-viet">HỎA</div>
+                        <div class="element-eng">Fire</div>
+                        <div class="element-desc">Creative & Viral</div>
+                    </div>
+                </a>
+
+                <!-- MỘC - Wood -->
+                <a href="index-moc-world-v2.html" class="element-card moc">
+                    <div class="element-glow"></div>
+                    <div class="element-content">
+                        <div class="element-icon">
+                            <svg viewBox="0 0 24 24">
+                                <path d="M12 22V8" />
+                                <path d="M5 12l7-7 7 7" />
+                            </svg>
+                        </div>
+                        <div class="element-viet">MỘC</div>
+                        <div class="element-eng">Wood</div>
+                        <div class="element-desc">Growth & SEO</div>
+                    </div>
+                </a>
+
+                <!-- KIM - Metal -->
+                <a href="index-kim-world-v2.html" class="element-card kim">
+                    <div class="element-glow"></div>
+                    <div class="element-content">
+                        <div class="element-icon">
+                            <svg viewBox="0 0 24 24">
+                                <polygon points="12 2 15 8 22 9 17 14 18 21 12 18 6 21 7 14 2 9 9 8" />
+                            </svg>
+                        </div>
+                        <div class="element-viet">KIM</div>
+                        <div class="element-eng">Metal</div>
+                        <div class="element-desc">Strategy & Command</div>
+                    </div>
+                </a>
+
+                <!-- THỔ - Earth -->
+                <a href="index-tho-world-v2.html" class="element-card tho">
+                    <div class="element-glow"></div>
+                    <div class="element-content">
+                        <div class="element-icon">
+                            <svg viewBox="0 0 24 24">
+                                <circle cx="12" cy="12" r="10" />
+                                <path d="M2 12h20" />
+                            </svg>
+                        </div>
+                        <div class="element-viet">THỔ</div>
+                        <div class="element-eng">Earth</div>
+                        <div class="element-desc">Operations & Foundation</div>
+                    </div>
+                </a>
+            </div>
+        </div>
+
+        <div class="footer-tagline">
+            <p>Balanced Elements · Unified Power · Infinite Possibilities</p>
+        </div>
+    </section>
+
+    <script>
+        // Generate stars
+        const starsContainer = document.getElementById('stars');
+        for (let i = 0; i < 100; i++) {
+            const star = document.createElement('div');
+            star.className = 'star';
+            star.style.left = Math.random() * 100 + '%';
+            star.style.top = Math.random() * 100 + '%';
+            star.style.animationDuration = (Math.random() * 3 + 2) + 's';
+            star.style.animationDelay = Math.random() * 5 + 's';
+            starsContainer.appendChild(star);
+        }
+
+        // Loading
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                document.getElementById('loading').classList.add('done');
+            }, 1500);
+        });
+
+        // Element card hover sound effect (optional visual feedback)
+        document.querySelectorAll('.element-card').forEach(card => {
+            card.addEventListener('mouseenter', () => {
+                card.style.zIndex = '10';
+            });
+            card.addEventListener('mouseleave', () => {
+                card.style.zIndex = '1';
+            });
+        });
+
+        console.log('☯️ Ngũ Hành Portal - Five Elements of AI Marketing');
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,146 @@
+{
+  "name": "04 - Weekly Team Report (Every Monday)",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "weeks",
+              "triggerAtDay": [1],
+              "triggerAtHour": 9
+            }
+          ]
+        }
+      },
+      "id": "schedule-weekly",
+      "name": "Every Monday 9 AM",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.1,
+      "position": [250, 300]
+    },
+    {
+      "parameters": {
+        "operation": "read",
+        "documentId": {
+          "__rl": true,
+          "value": "={{ $env.GOOGLE_SHEET_ID }}",
+          "mode": "id"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "Clients",
+          "mode": "list"
+        },
+        "options": {}
+      },
+      "id": "get-clients",
+      "name": "Get All Clients",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.1,
+      "position": [450, 200]
+    },
+    {
+      "parameters": {
+        "operation": "read",
+        "documentId": {
+          "__rl": true,
+          "value": "={{ $env.GOOGLE_SHEET_ID }}",
+          "mode": "id"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "Pipeline",
+          "mode": "list"
+        },
+        "options": {}
+      },
+      "id": "get-pipeline",
+      "name": "Get Pipeline",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.1,
+      "position": [450, 400]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Process clients data\nconst clients = $('Get All Clients').all();\nconst pipeline = $('Get Pipeline').all();\n\n// Count active clients\nconst activeClients = clients.filter(c => c.json.Status === 'Active').length;\nconst totalMRR = clients\n  .filter(c => c.json.Status === 'Active')\n  .reduce((sum, c) => sum + (parseFloat(c.json['Monthly Value']) || 0), 0);\n\n// Count health scores\nconst healthyClients = clients.filter(c => parseInt(c.json['Health Score']) >= 80).length;\nconst atRiskClients = clients.filter(c => {\n  const score = parseInt(c.json['Health Score']);\n  return score >= 50 && score < 80;\n}).length;\nconst criticalClients = clients.filter(c => parseInt(c.json['Health Score']) < 50).length;\n\n// Pipeline stats\nconst leads = pipeline.filter(p => p.json.Stage === 'Lead').length;\nconst discovery = pipeline.filter(p => p.json.Stage === 'Discovery').length;\nconst proposal = pipeline.filter(p => p.json.Stage === 'Proposal').length;\nconst pipelineValue = pipeline\n  .filter(p => ['Lead', 'Discovery', 'Proposal'].includes(p.json.Stage))\n  .reduce((sum, p) => sum + (parseFloat(p.json.Value) || 0), 0);\n\nreturn [{\n  json: {\n    activeClients,\n    totalMRR,\n    healthyClients,\n    atRiskClients,\n    criticalClients,\n    leads,\n    discovery,\n    proposal,\n    pipelineValue,\n    reportDate: new Date().toISOString().split('T')[0]\n  }\n}];"
+      },
+      "id": "code-calc",
+      "name": "Calculate Metrics",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [650, 300]
+    },
+    {
+      "parameters": {
+        "channel": "#general",
+        "text": "=📊 *Weekly Report - {{ $json.reportDate }}*\n\n*💰 Revenue*\n• MRR: ${{ $json.totalMRR.toLocaleString() }}\n• Active Clients: {{ $json.activeClients }}\n\n*👥 Client Health*\n• 🟢 Healthy: {{ $json.healthyClients }}\n• 🟡 At Risk: {{ $json.atRiskClients }}\n• 🔴 Critical: {{ $json.criticalClients }}\n\n*📈 Pipeline*\n• Leads: {{ $json.leads }}\n• Discovery: {{ $json.discovery }}\n• Proposals: {{ $json.proposal }}\n• Pipeline Value: ${{ $json.pipelineValue.toLocaleString() }}\n\n_Generated automatically every Monday 9 AM_",
+        "otherOptions": {}
+      },
+      "id": "slack-report",
+      "name": "Post Weekly Report",
+      "type": "n8n-nodes-base.slack",
+      "typeVersion": 2.1,
+      "position": [850, 300]
+    }
+  ],
+  "connections": {
+    "Every Monday 9 AM": {
+      "main": [
+        [
+          {
+            "node": "Get All Clients",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Get Pipeline",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get All Clients": {
+      "main": [
+        [
+          {
+            "node": "Calculate Metrics",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Pipeline": {
+      "main": [
+        [
+          {
+            "node": "Calculate Metrics",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Calculate Metrics": {
+      "main": [
+        [
+          {
+            "node": "Post Weekly Report",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "tags": [
+    {
+      "name": "Reporting"
+    }
+  ]
+}

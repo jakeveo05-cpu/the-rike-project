@@ -1,0 +1,1423 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Rike | Ngũ Hành - Five Elements of AI Marketing</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700;900&display=swap"
+        rel="stylesheet">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html,
+        body {
+            width: 100%;
+            min-height: 100vh;
+            background: #0a0a0f;
+            font-family: 'Montserrat', sans-serif;
+            color: #fff;
+            overflow-x: hidden;
+        }
+
+        /* Animated Background */
+        .bg-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            overflow: hidden;
+        }
+
+        .bg-gradient {
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(ellipse at 50% 30%, #1a1a2e 0%, #0a0a0f 70%);
+        }
+
+        .bg-orb {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(80px);
+            opacity: 0.4;
+            animation: orbFloat 20s ease-in-out infinite;
+        }
+
+        .bg-orb.thuy {
+            width: 400px;
+            height: 400px;
+            background: #00d4ff;
+            top: 10%;
+            left: 10%;
+            animation-delay: 0s;
+        }
+
+        .bg-orb.hoa {
+            width: 350px;
+            height: 350px;
+            background: #ff6b35;
+            top: 60%;
+            right: 5%;
+            animation-delay: -5s;
+        }
+
+        .bg-orb.moc {
+            width: 300px;
+            height: 300px;
+            background: #6bcb77;
+            bottom: 20%;
+            left: 20%;
+            animation-delay: -10s;
+        }
+
+        .bg-orb.kim {
+            width: 280px;
+            height: 280px;
+            background: #c0c0d8;
+            top: 30%;
+            right: 25%;
+            animation-delay: -15s;
+        }
+
+        .bg-orb.tho {
+            width: 320px;
+            height: 320px;
+            background: #ffd93d;
+            bottom: 10%;
+            right: 30%;
+            animation-delay: -8s;
+        }
+
+        @keyframes orbFloat {
+
+            0%,
+            100% {
+                transform: translate(0, 0) scale(1);
+            }
+
+            25% {
+                transform: translate(30px, -20px) scale(1.05);
+            }
+
+            50% {
+                transform: translate(-20px, 30px) scale(0.95);
+            }
+
+            75% {
+                transform: translate(20px, 20px) scale(1.02);
+            }
+        }
+
+        /* Stars */
+        .stars {
+            position: absolute;
+            inset: 0;
+            overflow: hidden;
+        }
+
+        .star {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: #fff;
+            border-radius: 50%;
+            animation: twinkle 4s ease-in-out infinite;
+        }
+
+        @keyframes twinkle {
+
+            0%,
+            100% {
+                opacity: 0.2;
+                transform: scale(1);
+            }
+
+            50% {
+                opacity: 1;
+                transform: scale(1.5);
+            }
+        }
+
+        /* Header */
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            padding: 24px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 100;
+            background: linear-gradient(180deg, rgba(10, 10, 15, 0.9) 0%, transparent 100%);
+        }
+
+        .logo {
+            font-size: 1.2rem;
+            font-weight: 900;
+            letter-spacing: 6px;
+            color: #fff;
+            text-decoration: none;
+            text-shadow: 0 0 30px rgba(255, 255, 255, 0.3);
+        }
+
+        .header-badge {
+            padding: 8px 20px;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 30px;
+            font-size: 0.65rem;
+            font-weight: 600;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 120px 40px 80px;
+            text-align: center;
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 24px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 30px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            margin-bottom: 32px;
+        }
+
+        .hero-badge::before {
+            content: '';
+            width: 8px;
+            height: 8px;
+            background: linear-gradient(135deg, #00d4ff, #ff6b35, #6bcb77, #ffd93d, #c0c0d8);
+            border-radius: 50%;
+            animation: colorCycle 5s linear infinite;
+        }
+
+        @keyframes colorCycle {
+            0% {
+                box-shadow: 0 0 15px #00d4ff;
+            }
+
+            20% {
+                box-shadow: 0 0 15px #ff6b35;
+            }
+
+            40% {
+                box-shadow: 0 0 15px #6bcb77;
+            }
+
+            60% {
+                box-shadow: 0 0 15px #ffd93d;
+            }
+
+            80% {
+                box-shadow: 0 0 15px #c0c0d8;
+            }
+
+            100% {
+                box-shadow: 0 0 15px #00d4ff;
+            }
+        }
+
+        .hero h1 {
+            font-size: clamp(2.5rem, 6vw, 4.5rem);
+            font-weight: 900;
+            line-height: 1.1;
+            margin-bottom: 24px;
+            background: linear-gradient(135deg, #fff 0%, rgba(255, 255, 255, 0.7) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero h1 span {
+            background: linear-gradient(135deg, #00d4ff, #ff6b35);
+            -webkit-background-clip: text;
+            background-clip: text;
+        }
+
+        .hero p {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            opacity: 0.7;
+            max-width: 600px;
+            margin-bottom: 48px;
+        }
+
+        .hero-subtitle {
+            font-size: 0.85rem;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            opacity: 0.5;
+            margin-bottom: 60px;
+        }
+
+        /* Ngũ Hành Selector */
+        .ngu-hanh-container {
+            width: 100%;
+            max-width: 1200px;
+            padding: 0 20px;
+        }
+
+        .ngu-hanh-title {
+            font-size: 0.75rem;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            opacity: 0.5;
+            margin-bottom: 40px;
+        }
+
+        .ngu-hanh-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 20px;
+        }
+
+        @media (max-width: 1024px) {
+            .ngu-hanh-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
+        @media (max-width: 600px) {
+            .ngu-hanh-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        .element-card {
+            position: relative;
+            aspect-ratio: 1;
+            border-radius: 24px;
+            overflow: hidden;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            text-decoration: none;
+            color: #fff;
+        }
+
+        .element-card::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: var(--card-bg);
+            opacity: 0.15;
+            transition: opacity 0.4s;
+        }
+
+        .element-card::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border: 1px solid var(--card-color);
+            border-radius: 24px;
+            opacity: 0.3;
+            transition: opacity 0.4s;
+        }
+
+        .element-card:hover {
+            transform: translateY(-10px) scale(1.02);
+        }
+
+        .element-card:hover::before {
+            opacity: 0.25;
+        }
+
+        .element-card:hover::after {
+            opacity: 0.6;
+        }
+
+        .element-card:hover .element-glow {
+            opacity: 0.6;
+            transform: scale(1.2);
+        }
+
+        .element-card:hover .element-icon {
+            transform: scale(1.1);
+        }
+
+        .element-glow {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 120%;
+            height: 120%;
+            background: radial-gradient(circle, var(--card-color) 0%, transparent 70%);
+            opacity: 0.2;
+            transition: all 0.4s;
+            pointer-events: none;
+        }
+
+        .element-content {
+            position: relative;
+            z-index: 2;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 24px;
+            text-align: center;
+        }
+
+        .element-icon {
+            width: 64px;
+            height: 64px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 16px;
+            transition: transform 0.3s;
+        }
+
+        .element-icon svg {
+            width: 48px;
+            height: 48px;
+            stroke: var(--card-color);
+            fill: none;
+            stroke-width: 1.5;
+            filter: drop-shadow(0 0 15px var(--card-color));
+        }
+
+        .element-viet {
+            font-size: 1.5rem;
+            font-weight: 900;
+            margin-bottom: 4px;
+            text-shadow: 0 0 20px var(--card-color);
+        }
+
+        .element-eng {
+            font-size: 0.7rem;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            opacity: 0.6;
+            margin-bottom: 12px;
+        }
+
+        .element-desc {
+            font-size: 0.65rem;
+            opacity: 0.5;
+            line-height: 1.5;
+        }
+
+        /* Element Colors */
+        .element-card.thuy {
+            --card-color: #00d4ff;
+            --card-bg: linear-gradient(135deg, #00d4ff, #0066cc);
+        }
+
+        .element-card.hoa {
+            --card-color: #ff6b35;
+            --card-bg: linear-gradient(135deg, #ff6b35, #d62828);
+        }
+
+        .element-card.moc {
+            --card-color: #6bcb77;
+            --card-bg: linear-gradient(135deg, #6bcb77, #2d5a27);
+        }
+
+        .element-card.kim {
+            --card-color: #e0e0f0;
+            --card-bg: linear-gradient(135deg, #e0e0f0, #8080a0);
+        }
+
+        .element-card.tho {
+            --card-color: #ffd93d;
+            --card-bg: linear-gradient(135deg, #ffd93d, #daa520);
+        }
+
+        /* Footer tagline */
+        .footer-tagline {
+            margin-top: 80px;
+            padding: 40px;
+            text-align: center;
+        }
+
+        .footer-tagline p {
+            font-size: 0.8rem;
+            opacity: 0.4;
+            letter-spacing: 2px;
+        }
+
+        /* Loading Animation */
+        .loading-overlay {
+            position: fixed;
+            inset: 0;
+            background: #0a0a0f;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 10000;
+            transition: opacity 0.8s, visibility 0.8s;
+        }
+
+        .loading-overlay.done {
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+        }
+
+        .loading-symbol {
+            width: 80px;
+            height: 80px;
+            position: relative;
+            margin-bottom: 30px;
+        }
+
+        .loading-ring {
+            position: absolute;
+            inset: 0;
+            border: 2px solid transparent;
+            border-radius: 50%;
+            animation: loadRing 2s linear infinite;
+        }
+
+        .loading-ring:nth-child(1) {
+            border-top-color: #00d4ff;
+            animation-delay: 0s;
+        }
+
+        .loading-ring:nth-child(2) {
+            border-right-color: #ff6b35;
+            animation-delay: 0.2s;
+            inset: 8px;
+        }
+
+        .loading-ring:nth-child(3) {
+            border-bottom-color: #6bcb77;
+            animation-delay: 0.4s;
+            inset: 16px;
+        }
+
+        .loading-ring:nth-child(4) {
+            border-left-color: #ffd93d;
+            animation-delay: 0.6s;
+            inset: 24px;
+        }
+
+        .loading-ring:nth-child(5) {
+            border-top-color: #e0e0f0;
+            animation-delay: 0.8s;
+            inset: 32px;
+        }
+
+        @keyframes loadRing {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        .loading-text {
+            font-size: 0.8rem;
+            letter-spacing: 6px;
+            text-transform: uppercase;
+            opacity: 0.7;
+        }
+
+        /* ========================================
+           MULTI-LAYER PAGE TRANSITION SYSTEM
+           ======================================== */
+
+        .transition-container {
+            position: fixed;
+            inset: 0;
+            z-index: 9999;
+            pointer-events: none;
+            overflow: hidden;
+        }
+
+        .transition-container.active {
+            pointer-events: all;
+        }
+
+        /* Layer 1: Center Glow Pulse */
+        .transition-glow {
+            position: absolute;
+            top: var(--origin-y, 50%);
+            left: var(--origin-x, 50%);
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: radial-gradient(circle, var(--trans-color, #00d4ff) 0%, transparent 70%);
+            transform: translate(-50%, -50%);
+            opacity: 0;
+            transition: none;
+        }
+
+        .transition-glow.animate {
+            animation: glowPulse 1.2s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+        }
+
+        @keyframes glowPulse {
+            0% {
+                width: 0;
+                height: 0;
+                opacity: 0.8;
+            }
+
+            50% {
+                opacity: 0.6;
+            }
+
+            100% {
+                width: 300vmax;
+                height: 300vmax;
+                opacity: 0;
+            }
+        }
+
+        /* Layer 2: Geometric Shapes */
+        .transition-shapes {
+            position: absolute;
+            inset: 0;
+        }
+
+        .geo-shape {
+            position: absolute;
+            opacity: 0;
+            filter: drop-shadow(0 0 20px var(--trans-color, #00d4ff));
+        }
+
+        .geo-shape svg {
+            width: 100%;
+            height: 100%;
+            stroke: var(--trans-color, #00d4ff);
+            fill: none;
+            stroke-width: 2;
+        }
+
+        .geo-shape.animate {
+            animation: shapeFloat 1.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+        }
+
+        .geo-shape:nth-child(1) {
+            top: -100px;
+            left: 10%;
+            width: 80px;
+            height: 80px;
+            animation-delay: 0.1s;
+        }
+
+        .geo-shape:nth-child(2) {
+            top: -100px;
+            right: 15%;
+            width: 60px;
+            height: 60px;
+            animation-delay: 0.15s;
+        }
+
+        .geo-shape:nth-child(3) {
+            bottom: -100px;
+            left: 20%;
+            width: 70px;
+            height: 70px;
+            animation-delay: 0.2s;
+        }
+
+        .geo-shape:nth-child(4) {
+            bottom: -100px;
+            right: 10%;
+            width: 90px;
+            height: 90px;
+            animation-delay: 0.25s;
+        }
+
+        .geo-shape:nth-child(5) {
+            top: 30%;
+            left: -100px;
+            width: 50px;
+            height: 50px;
+            animation-delay: 0.12s;
+        }
+
+        .geo-shape:nth-child(6) {
+            top: 60%;
+            right: -100px;
+            width: 65px;
+            height: 65px;
+            animation-delay: 0.18s;
+        }
+
+        @keyframes shapeFloat {
+            0% {
+                opacity: 0;
+                transform: scale(0) rotate(0deg);
+            }
+
+            30% {
+                opacity: 1;
+                transform: scale(1.2) rotate(90deg);
+            }
+
+            60% {
+                opacity: 0.8;
+                transform: scale(1) rotate(180deg) translateY(-20vh);
+            }
+
+            100% {
+                opacity: 0;
+                transform: scale(0.5) rotate(360deg) translateY(-40vh);
+            }
+        }
+
+        /* Layer 3: Particle Explosion */
+        .transition-particles {
+            position: absolute;
+            top: var(--origin-y, 50%);
+            left: var(--origin-x, 50%);
+            width: 0;
+            height: 0;
+        }
+
+        .particle {
+            position: absolute;
+            width: 8px;
+            height: 8px;
+            background: var(--trans-color, #00d4ff);
+            border-radius: 50%;
+            box-shadow: 0 0 20px var(--trans-color, #00d4ff), 0 0 40px var(--trans-color, #00d4ff);
+            opacity: 0;
+        }
+
+        .particle.animate {
+            animation: particleExplode var(--duration, 1.2s) cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+            animation-delay: var(--delay, 0s);
+        }
+
+        @keyframes particleExplode {
+            0% {
+                opacity: 1;
+                transform: translate(0, 0) scale(1);
+            }
+
+            20% {
+                opacity: 1;
+            }
+
+            100% {
+                opacity: 0;
+                transform: translate(var(--tx, 100px), var(--ty, 100px)) scale(0);
+            }
+        }
+
+        /* Layer 4: Ripple Waves */
+        .transition-ripples {
+            position: absolute;
+            top: var(--origin-y, 50%);
+            left: var(--origin-x, 50%);
+            transform: translate(-50%, -50%);
+        }
+
+        .ripple {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            border: 3px solid var(--trans-color, #00d4ff);
+            border-radius: 50%;
+            width: 0;
+            height: 0;
+            opacity: 0;
+        }
+
+        .ripple.animate {
+            animation: rippleWave 1.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+        }
+
+        .ripple:nth-child(1) {
+            animation-delay: 0.3s;
+        }
+
+        .ripple:nth-child(2) {
+            animation-delay: 0.45s;
+            border-width: 2px;
+        }
+
+        .ripple:nth-child(3) {
+            animation-delay: 0.6s;
+            border-width: 1px;
+        }
+
+        @keyframes rippleWave {
+            0% {
+                width: 0;
+                height: 0;
+                opacity: 1;
+            }
+
+            100% {
+                width: 200vmax;
+                height: 200vmax;
+                opacity: 0;
+            }
+        }
+
+        /* Layer 5: Final Overlay */
+        .transition-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, var(--trans-color, #00d4ff) 0%, var(--trans-color-dark, #0066cc) 100%);
+            transform: scaleY(0);
+            transform-origin: bottom center;
+            opacity: 0;
+        }
+
+        .transition-overlay.animate {
+            animation: overlayWipe 0.8s cubic-bezier(0.77, 0, 0.175, 1) forwards;
+            animation-delay: 0.5s;
+        }
+
+        @keyframes overlayWipe {
+            0% {
+                transform: scaleY(0);
+                opacity: 1;
+            }
+
+            50% {
+                transform: scaleY(1);
+                opacity: 1;
+            }
+
+            100% {
+                transform: scaleY(1);
+                opacity: 1;
+            }
+        }
+
+        /* Element Name Display */
+        .transition-text {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            opacity: 0;
+            z-index: 10;
+        }
+
+        .transition-text.animate {
+            animation: textReveal 0.6s ease-out forwards;
+            animation-delay: 0.7s;
+        }
+
+        .transition-text h2 {
+            font-size: 4rem;
+            font-weight: 900;
+            letter-spacing: 10px;
+            margin-bottom: 10px;
+            color: #fff;
+            text-shadow: 0 0 40px rgba(255, 255, 255, 0.5);
+        }
+
+        .transition-text p {
+            font-size: 1rem;
+            letter-spacing: 5px;
+            text-transform: uppercase;
+            opacity: 0.8;
+            color: #fff;
+        }
+
+        @keyframes textReveal {
+            0% {
+                opacity: 0;
+                transform: translate(-50%, -50%) scale(0.8);
+            }
+
+            100% {
+                opacity: 1;
+                transform: translate(-50%, -50%) scale(1);
+            }
+        }
+
+        /* Extra: Floating Orbs during transition */
+        .transition-orbs {
+            position: absolute;
+            inset: 0;
+            overflow: hidden;
+        }
+
+        .trans-orb {
+            position: absolute;
+            border-radius: 50%;
+            background: var(--trans-color, #00d4ff);
+            filter: blur(30px);
+            opacity: 0;
+        }
+
+        .trans-orb.animate {
+            animation: orbDrift 2s ease-out forwards;
+        }
+
+        .trans-orb:nth-child(1) {
+            width: 200px;
+            height: 200px;
+            bottom: -100px;
+            left: 10%;
+            animation-delay: 0.2s;
+        }
+
+        .trans-orb:nth-child(2) {
+            width: 150px;
+            height: 150px;
+            bottom: -75px;
+            right: 20%;
+            animation-delay: 0.3s;
+        }
+
+        .trans-orb:nth-child(3) {
+            width: 100px;
+            height: 100px;
+            top: -50px;
+            left: 30%;
+            animation-delay: 0.35s;
+        }
+
+        .trans-orb:nth-child(4) {
+            width: 180px;
+            height: 180px;
+            top: -90px;
+            right: 15%;
+            animation-delay: 0.25s;
+        }
+
+        @keyframes orbDrift {
+            0% {
+                opacity: 0;
+                transform: translateY(0) scale(0.5);
+            }
+
+            30% {
+                opacity: 0.6;
+            }
+
+            100% {
+                opacity: 0;
+                transform: translateY(-50vh) scale(1.5);
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Loading -->
+    <div class="loading-overlay" id="loading">
+        <div class="loading-symbol">
+            <div class="loading-ring"></div>
+            <div class="loading-ring"></div>
+            <div class="loading-ring"></div>
+            <div class="loading-ring"></div>
+            <div class="loading-ring"></div>
+        </div>
+        <div class="loading-text">Ngũ Hành</div>
+    </div>
+
+    <!-- Multi-Layer Transition Container -->
+    <div class="transition-container" id="transitionContainer">
+        <!-- Layer 1: Glow -->
+        <div class="transition-glow" id="transGlow"></div>
+
+        <!-- Layer 4: Ripples -->
+        <div class="transition-ripples" id="transRipples">
+            <div class="ripple"></div>
+            <div class="ripple"></div>
+            <div class="ripple"></div>
+        </div>
+
+        <!-- Layer 2: Geometric Shapes -->
+        <div class="transition-shapes" id="transShapes">
+            <div class="geo-shape"><svg viewBox="0 0 24 24">
+                    <polygon points="12 2 22 20 2 20" />
+                </svg></div>
+            <div class="geo-shape"><svg viewBox="0 0 24 24">
+                    <rect x="3" y="3" width="18" height="18" rx="2" />
+                </svg></div>
+            <div class="geo-shape"><svg viewBox="0 0 24 24">
+                    <circle cx="12" cy="12" r="10" />
+                </svg></div>
+            <div class="geo-shape"><svg viewBox="0 0 24 24">
+                    <polygon points="12 2 15 8 22 9 17 14 18 21 12 18 6 21 7 14 2 9 9 8" />
+                </svg></div>
+            <div class="geo-shape"><svg viewBox="0 0 24 24">
+                    <path d="M12 2l3 6 6 1-4 4 1 6-6-3-6 3 1-6-4-4 6-1z" />
+                </svg></div>
+            <div class="geo-shape"><svg viewBox="0 0 24 24">
+                    <polygon points="12 2 22 12 12 22 2 12" />
+                </svg></div>
+        </div>
+
+        <!-- Layer 3: Particles -->
+        <div class="transition-particles" id="transParticles"></div>
+
+        <!-- Floating Orbs -->
+        <div class="transition-orbs" id="transOrbs">
+            <div class="trans-orb"></div>
+            <div class="trans-orb"></div>
+            <div class="trans-orb"></div>
+            <div class="trans-orb"></div>
+        </div>
+
+        <!-- Layer 5: Overlay -->
+        <div class="transition-overlay" id="transOverlay"></div>
+
+        <!-- Element Name -->
+        <div class="transition-text" id="transText">
+            <h2 id="transTitle">THỦY</h2>
+            <p id="transSubtitle">Entering Water World</p>
+        </div>
+    </div>
+
+    <!-- Background -->
+    <div class="bg-container">
+        <div class="bg-gradient"></div>
+        <div class="bg-orb thuy"></div>
+        <div class="bg-orb hoa"></div>
+        <div class="bg-orb moc"></div>
+        <div class="bg-orb kim"></div>
+        <div class="bg-orb tho"></div>
+        <div class="stars" id="stars"></div>
+    </div>
+
+    <!-- Header -->
+    <header>
+        <a href="#" class="logo">THE RIKE</a>
+        <div class="header-badge">AI Marketing</div>
+    </header>
+
+    <!-- Hero -->
+    <section class="hero">
+        <div class="hero-badge">Five Elements System</div>
+
+        <h1>Ngũ Hành<br><span>AI Marketing</span></h1>
+
+        <p>Five specialized AI agents working in harmony. Each element brings unique strengths to create balanced,
+            powerful marketing that adapts and evolves.</p>
+
+        <p class="hero-subtitle">Choose Your Element</p>
+
+        <div class="ngu-hanh-container">
+            <div class="ngu-hanh-grid">
+                <!-- THỦY - Water -->
+                <div class="element-card thuy" data-element="thuy" data-href="index-thuy-world-v4.html" data-name="THỦY"
+                    data-subtitle="Entering Water World">
+                    <div class="element-glow"></div>
+                    <div class="element-content">
+                        <div class="element-icon">
+                            <svg viewBox="0 0 24 24">
+                                <path d="M12 2c-4 6-7 10-7 14a7 7 0 0 0 14 0c0-4-3-8-7-14z" />
+                            </svg>
+                        </div>
+                        <div class="element-viet">THỦY</div>
+                        <div class="element-eng">Water</div>
+                        <div class="element-desc">Data & Conversion</div>
+                    </div>
+                </div>
+
+                <!-- HỎA - Fire -->
+                <div class="element-card hoa" data-element="hoa" data-href="index-hoa-world-v2.html" data-name="HỎA"
+                    data-subtitle="Entering Fire World">
+                    <div class="element-glow"></div>
+                    <div class="element-content">
+                        <div class="element-icon">
+                            <svg viewBox="0 0 24 24">
+                                <path d="M12 2c-4 4-6 8-6 11a6 6 0 0 0 12 0c0-3-2-7-6-11z" />
+                            </svg>
+                        </div>
+                        <div class="element-viet">HỎA</div>
+                        <div class="element-eng">Fire</div>
+                        <div class="element-desc">Creative & Viral</div>
+                    </div>
+                </div>
+
+                <!-- MỘC - Wood -->
+                <div class="element-card moc" data-element="moc" data-href="index-moc-world-v2.html" data-name="MỘC"
+                    data-subtitle="Entering Wood World">
+                    <div class="element-glow"></div>
+                    <div class="element-content">
+                        <div class="element-icon">
+                            <svg viewBox="0 0 24 24">
+                                <path d="M12 22V8" />
+                                <path d="M5 12l7-7 7 7" />
+                            </svg>
+                        </div>
+                        <div class="element-viet">MỘC</div>
+                        <div class="element-eng">Wood</div>
+                        <div class="element-desc">Growth & SEO</div>
+                    </div>
+                </div>
+
+                <!-- KIM - Metal -->
+                <div class="element-card kim" data-element="kim" data-href="index-kim-world-v2.html" data-name="KIM"
+                    data-subtitle="Entering Metal World">
+                    <div class="element-glow"></div>
+                    <div class="element-content">
+                        <div class="element-icon">
+                            <svg viewBox="0 0 24 24">
+                                <polygon points="12 2 15 8 22 9 17 14 18 21 12 18 6 21 7 14 2 9 9 8" />
+                            </svg>
+                        </div>
+                        <div class="element-viet">KIM</div>
+                        <div class="element-eng">Metal</div>
+                        <div class="element-desc">Strategy & Command</div>
+                    </div>
+                </div>
+
+                <!-- THỔ - Earth -->
+                <div class="element-card tho" data-element="tho" data-href="index-tho-world-v2.html" data-name="THỔ"
+                    data-subtitle="Entering Earth World">
+                    <div class="element-glow"></div>
+                    <div class="element-content">
+                        <div class="element-icon">
+                            <svg viewBox="0 0 24 24">
+                                <circle cx="12" cy="12" r="10" />
+                                <path d="M2 12h20" />
+                            </svg>
+                        </div>
+                        <div class="element-viet">THỔ</div>
+                        <div class="element-eng">Earth</div>
+                        <div class="element-desc">Operations & Foundation</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer-tagline">
+            <p>Balanced Elements · Unified Power · Infinite Possibilities</p>
+        </div>
+    </section>
+
+    <script>
+        // Element color configurations
+        const elementColors = {
+            thuy: { primary: '#00d4ff', dark: '#0066cc' },
+            hoa: { primary: '#ff6b35', dark: '#d62828' },
+            moc: { primary: '#6bcb77', dark: '#2d5a27' },
+            kim: { primary: '#e0e0f0', dark: '#8080a0' },
+            tho: { primary: '#ffd93d', dark: '#daa520' }
+        };
+
+        // Generate stars
+        const starsContainer = document.getElementById('stars');
+        for (let i = 0; i < 100; i++) {
+            const star = document.createElement('div');
+            star.className = 'star';
+            star.style.left = Math.random() * 100 + '%';
+            star.style.top = Math.random() * 100 + '%';
+            star.style.animationDuration = (Math.random() * 3 + 2) + 's';
+            star.style.animationDelay = Math.random() * 5 + 's';
+            starsContainer.appendChild(star);
+        }
+
+        // Loading
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                document.getElementById('loading').classList.add('done');
+            }, 1500);
+        });
+
+        // Generate particles dynamically
+        function generateParticles(container, color, count = 40) {
+            container.innerHTML = '';
+            for (let i = 0; i < count; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+
+                // Random angle and distance for spiral explosion
+                const angle = (i / count) * Math.PI * 2 + Math.random() * 0.5;
+                const distance = 150 + Math.random() * 400;
+                const tx = Math.cos(angle) * distance;
+                const ty = Math.sin(angle) * distance;
+
+                particle.style.setProperty('--tx', tx + 'px');
+                particle.style.setProperty('--ty', ty + 'px');
+                particle.style.setProperty('--delay', (i * 0.015) + 's');
+                particle.style.setProperty('--duration', (1 + Math.random() * 0.5) + 's');
+                particle.style.width = (4 + Math.random() * 8) + 'px';
+                particle.style.height = particle.style.width;
+
+                container.appendChild(particle);
+            }
+        }
+
+        // Trigger transition
+        function triggerTransition(element, href, name, subtitle) {
+            const colors = elementColors[element];
+            const container = document.getElementById('transitionContainer');
+            const rect = event.currentTarget.getBoundingClientRect();
+            const originX = rect.left + rect.width / 2;
+            const originY = rect.top + rect.height / 2;
+
+            // Set CSS variables
+            document.documentElement.style.setProperty('--trans-color', colors.primary);
+            document.documentElement.style.setProperty('--trans-color-dark', colors.dark);
+            document.documentElement.style.setProperty('--origin-x', originX + 'px');
+            document.documentElement.style.setProperty('--origin-y', originY + 'px');
+
+            // Update text
+            document.getElementById('transTitle').textContent = name;
+            document.getElementById('transSubtitle').textContent = subtitle;
+
+            // Generate particles
+            generateParticles(document.getElementById('transParticles'), colors.primary);
+
+            // Activate container
+            container.classList.add('active');
+
+            // Trigger all animations
+            setTimeout(() => {
+                document.getElementById('transGlow').classList.add('animate');
+
+                document.querySelectorAll('.geo-shape').forEach(shape => {
+                    shape.classList.add('animate');
+                });
+
+                document.querySelectorAll('.particle').forEach(p => {
+                    p.classList.add('animate');
+                });
+
+                document.querySelectorAll('.ripple').forEach(r => {
+                    r.classList.add('animate');
+                });
+
+                document.querySelectorAll('.trans-orb').forEach(orb => {
+                    orb.classList.add('animate');
+                });
+
+                document.getElementById('transOverlay').classList.add('animate');
+                document.getElementById('transText').classList.add('animate');
+            }, 50);
+
+            // Navigate after animation
+            setTimeout(() => {
+                window.location.href = href;
+            }, 1400);
+        }
+
+        // Attach click handlers to element cards
+        document.querySelectorAll('.element-card').forEach(card => {
+            card.addEventListener('click', function (event) {
+                const element = this.dataset.element;
+                const href = this.dataset.href;
+                const name = this.dataset.name;
+                const subtitle = this.dataset.subtitle;
+
+                triggerTransition(element, href, name, subtitle);
+            });
+
+            card.addEventListener('mouseenter', () => {
+                card.style.zIndex = '10';
+            });
+            card.addEventListener('mouseleave', () => {
+                card.style.zIndex = '1';
+            });
+        });
+
+        console.log('☯️ Ngũ Hành Portal v2 - Multi-Layer Transitions Active');
+
+        // ========================================
+        // SCROLL SOUND EFFECT USING WEB AUDIO API
+        // ========================================
+
+        // Audio Context (lazy initialization to avoid autoplay restrictions)
+        let audioContext = null;
+        let isAudioInitialized = false;
+        let lastScrollTime = 0;
+        let scrollSoundCooldown = 80; // ms between sounds
+
+        // Initialize audio on first user interaction
+        function initAudio() {
+            if (isAudioInitialized) return;
+            try {
+                audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                isAudioInitialized = true;
+                console.log('🔊 Audio system initialized');
+            } catch (e) {
+                console.log('Audio not supported');
+            }
+        }
+
+        // Create a soft whoosh/chime sound
+        function playScrollSound(direction, intensity) {
+            if (!audioContext || audioContext.state === 'suspended') {
+                audioContext?.resume();
+                return;
+            }
+
+            const now = audioContext.currentTime;
+
+            // Create oscillators for layered sound
+            const osc1 = audioContext.createOscillator();
+            const osc2 = audioContext.createOscillator();
+            const gainNode = audioContext.createGain();
+            const filter = audioContext.createBiquadFilter();
+
+            // Different frequencies based on scroll direction
+            const baseFreq = direction > 0 ? 800 : 600; // Up = higher, Down = lower
+            const freqVariation = intensity * 200;
+
+            osc1.type = 'sine';
+            osc1.frequency.setValueAtTime(baseFreq + freqVariation, now);
+            osc1.frequency.exponentialRampToValueAtTime(baseFreq - 100, now + 0.1);
+
+            osc2.type = 'triangle';
+            osc2.frequency.setValueAtTime((baseFreq + freqVariation) * 1.5, now);
+            osc2.frequency.exponentialRampToValueAtTime(baseFreq * 0.8, now + 0.08);
+
+            // Filter for softer sound
+            filter.type = 'lowpass';
+            filter.frequency.setValueAtTime(2000, now);
+            filter.frequency.exponentialRampToValueAtTime(500, now + 0.1);
+
+            // Volume envelope - soft attack, quick decay
+            const volume = Math.min(0.08 + intensity * 0.04, 0.15); // Keep it subtle
+            gainNode.gain.setValueAtTime(0, now);
+            gainNode.gain.linearRampToValueAtTime(volume, now + 0.01);
+            gainNode.gain.exponentialRampToValueAtTime(0.001, now + 0.12);
+
+            // Connect nodes
+            osc1.connect(filter);
+            osc2.connect(filter);
+            filter.connect(gainNode);
+            gainNode.connect(audioContext.destination);
+
+            // Play
+            osc1.start(now);
+            osc2.start(now);
+            osc1.stop(now + 0.15);
+            osc2.stop(now + 0.15);
+        }
+
+        // Create ambient whoosh for continuous scrolling
+        function playWhooshSound(speed) {
+            if (!audioContext || audioContext.state === 'suspended') return;
+
+            const now = audioContext.currentTime;
+
+            // Noise-like whoosh using multiple detuned oscillators
+            const oscillators = [];
+            const gainNode = audioContext.createGain();
+            const filter = audioContext.createBiquadFilter();
+
+            for (let i = 0; i < 4; i++) {
+                const osc = audioContext.createOscillator();
+                osc.type = 'sine';
+                osc.frequency.setValueAtTime(100 + Math.random() * 200 + speed * 50, now);
+                osc.frequency.exponentialRampToValueAtTime(50 + speed * 30, now + 0.2);
+                osc.connect(filter);
+                oscillators.push(osc);
+            }
+
+            filter.type = 'bandpass';
+            filter.frequency.setValueAtTime(300 + speed * 100, now);
+            filter.Q.setValueAtTime(1, now);
+
+            const volume = Math.min(0.03 + speed * 0.02, 0.08);
+            gainNode.gain.setValueAtTime(0, now);
+            gainNode.gain.linearRampToValueAtTime(volume, now + 0.02);
+            gainNode.gain.exponentialRampToValueAtTime(0.001, now + 0.25);
+
+            filter.connect(gainNode);
+            gainNode.connect(audioContext.destination);
+
+            oscillators.forEach(osc => {
+                osc.start(now);
+                osc.stop(now + 0.3);
+            });
+        }
+
+        // Scroll event handler
+        let lastScrollY = window.scrollY;
+
+        function handleScroll(e) {
+            const now = Date.now();
+            if (now - lastScrollTime < scrollSoundCooldown) return;
+            lastScrollTime = now;
+
+            // Calculate scroll direction and speed
+            let deltaY = 0;
+
+            if (e.type === 'wheel') {
+                deltaY = e.deltaY;
+            } else if (e.type === 'scroll') {
+                deltaY = window.scrollY - lastScrollY;
+                lastScrollY = window.scrollY;
+            }
+
+            const direction = deltaY > 0 ? 1 : -1;
+            const speed = Math.min(Math.abs(deltaY) / 100, 1);
+
+            // Play sounds based on scroll speed
+            if (speed > 0.1) {
+                playScrollSound(direction, speed);
+            }
+            if (speed > 0.5) {
+                playWhooshSound(speed);
+            }
+        }
+
+        // Initialize audio on first interaction
+        document.addEventListener('click', initAudio, { once: true });
+        document.addEventListener('touchstart', initAudio, { once: true });
+        document.addEventListener('wheel', initAudio, { once: true });
+
+        // Listen for scroll events
+        window.addEventListener('wheel', handleScroll, { passive: true });
+        window.addEventListener('scroll', handleScroll, { passive: true });
+
+        // Touch scroll for mobile
+        let touchStartY = 0;
+        document.addEventListener('touchstart', (e) => {
+            touchStartY = e.touches[0].clientY;
+        }, { passive: true });
+
+        document.addEventListener('touchmove', (e) => {
+            const now = Date.now();
+            if (now - lastScrollTime < scrollSoundCooldown) return;
+            lastScrollTime = now;
+
+            const touchY = e.touches[0].clientY;
+            const deltaY = touchStartY - touchY;
+            const direction = deltaY > 0 ? 1 : -1;
+            const speed = Math.min(Math.abs(deltaY) / 50, 1);
+
+            if (speed > 0.15) {
+                playScrollSound(direction, speed);
+            }
+
+            touchStartY = touchY;
+        }, { passive: true });
+
+        console.log('🔊 Scroll sound system ready');
+    </script>
+</body>
+
+</html>
