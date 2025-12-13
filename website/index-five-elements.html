@@ -1479,6 +1479,19 @@
             transition: opacity 0.5s;
             color: rgba(255, 255, 255, 0.6);
             z-index: 100;
+            cursor: pointer;
+            pointer-events: auto;
+            padding: 15px 30px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 30px;
+            background: rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(5px);
+        }
+
+        .click-prompt:hover {
+            color: #fff;
+            border-color: rgba(255, 255, 255, 0.6);
+            background: rgba(255, 255, 255, 0.1);
         }
 
         .click-prompt.visible {
@@ -3365,6 +3378,15 @@
                     planet.click();
                 }
             });
+        });
+
+        // ========================================
+        // CLICK PROMPT HANDLER
+        // ========================================
+        document.getElementById('clickPrompt').addEventListener('click', function () {
+            if (focusedPlanet) {
+                focusedPlanet.click();
+            }
         });
 
         console.log('🌍 Five Elements Portal Ready - Click a planet to enter its world!');
