@@ -1873,15 +1873,46 @@
 
         // Simulate loading progress
         let loadProgress = 0;
+        let initStarted = false;
+
         const loadInterval = setInterval(() => {
             loadProgress += Math.random() * 15 + 5;
-            if (loadProgress >= 100) {
-                loadProgress = 100;
+            if (loadProgress >= 99 && !initStarted) {
+                loadProgress = 99;
                 clearInterval(loadInterval);
-                init();
+                initStarted = true;
+
+                // Check if Three.js is loaded
+                if (typeof THREE === 'undefined') {
+                    console.error('Three.js failed to load');
+                    document.getElementById('loadingPercent').textContent = 'Error: WebGL not available';
+                    // Redirect to CSS version after 2 seconds
+                    setTimeout(() => {
+                        window.location.href = 'index-five-elements.html';
+                    }, 2000);
+                    return;
+                }
+
+                try {
+                    init();
+                } catch (error) {
+                    console.error('Initialization error:', error);
+                    document.getElementById('loadingPercent').textContent = 'Error - Redirecting...';
+                    setTimeout(() => {
+                        window.location.href = 'index-five-elements.html';
+                    }, 2000);
+                }
             }
             updateLoadingProgress(loadProgress);
         }, 100);
+
+        // Fallback: Force hide loading screen after 10 seconds
+        setTimeout(() => {
+            if (!document.getElementById('loadingScreen').classList.contains('done')) {
+                console.warn('Loading timeout - forcing start');
+                document.getElementById('loadingScreen').classList.add('done');
+            }
+        }, 10000);
 
         console.log('🌌 Five Elements 3D Portal Loading...');
     </script>
