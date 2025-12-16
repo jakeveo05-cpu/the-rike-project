@@ -1,16 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>The Rike | THỦY · Water World</title>
-
+    
     <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link
-        href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700;900&family=Noto+Serif:ital@0;1&display=swap"
-        rel="stylesheet">
-
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700;900&family=Noto+Serif:ital@0;1&display=swap" rel="stylesheet">
+    
     <style>
         :root {
             --bg-deep: #010812;
@@ -21,7 +18,7 @@
             --water-glow: #00d4ff;
             --water-bright: #60efff;
             --text: #ffffff;
-            --text-dim: rgba(255, 255, 255, 0.5);
+            --text-dim: rgba(255,255,255,0.5);
         }
 
         * {
@@ -30,8 +27,7 @@
             box-sizing: border-box;
         }
 
-        html,
-        body {
+        html, body {
             width: 100%;
             height: 100%;
             overflow: hidden;
@@ -42,10 +38,8 @@
 
         /* Custom Cursor (Desktop) */
         @media (pointer: fine) {
-            body {
-                cursor: none;
-            }
-
+            body { cursor: none; }
+            
             .cursor {
                 position: fixed;
                 width: 28px;
@@ -106,54 +100,23 @@
             top: 0;
             width: 150px;
             height: 100%;
-            background: linear-gradient(180deg,
-                    rgba(96, 239, 255, 0.3) 0%,
-                    rgba(0, 212, 255, 0.1) 40%,
-                    transparent 100%);
+            background: linear-gradient(180deg, 
+                rgba(96, 239, 255, 0.3) 0%, 
+                rgba(0, 212, 255, 0.1) 40%,
+                transparent 100%);
             transform-origin: top center;
             animation: rayWave 8s ease-in-out infinite;
         }
 
-        .light-ray:nth-child(1) {
-            left: 10%;
-            animation-delay: 0s;
-        }
-
-        .light-ray:nth-child(2) {
-            left: 25%;
-            width: 100px;
-            animation-delay: 1s;
-        }
-
-        .light-ray:nth-child(3) {
-            left: 45%;
-            width: 180px;
-            animation-delay: 2s;
-        }
-
-        .light-ray:nth-child(4) {
-            left: 65%;
-            width: 120px;
-            animation-delay: 0.5s;
-        }
-
-        .light-ray:nth-child(5) {
-            left: 80%;
-            animation-delay: 1.5s;
-        }
+        .light-ray:nth-child(1) { left: 10%; animation-delay: 0s; }
+        .light-ray:nth-child(2) { left: 25%; width: 100px; animation-delay: 1s; }
+        .light-ray:nth-child(3) { left: 45%; width: 180px; animation-delay: 2s; }
+        .light-ray:nth-child(4) { left: 65%; width: 120px; animation-delay: 0.5s; }
+        .light-ray:nth-child(5) { left: 80%; animation-delay: 1.5s; }
 
         @keyframes rayWave {
-
-            0%,
-            100% {
-                transform: skewX(-5deg) scaleY(1);
-                opacity: 0.5;
-            }
-
-            50% {
-                transform: skewX(5deg) scaleY(1.1);
-                opacity: 0.7;
-            }
+            0%, 100% { transform: skewX(-5deg) scaleY(1); opacity: 0.5; }
+            50% { transform: skewX(5deg) scaleY(1.1); opacity: 0.7; }
         }
 
         /* Underwater Overlay (gets darker as you dive) */
@@ -186,32 +149,19 @@
         .bubble {
             position: absolute;
             border-radius: 50%;
-            background: radial-gradient(circle at 30% 30%,
-                    rgba(255, 255, 255, 0.8) 0%,
-                    rgba(0, 212, 255, 0.3) 50%,
-                    rgba(0, 212, 255, 0.1) 100%);
-            box-shadow: inset 0 0 10px rgba(255, 255, 255, 0.5), 0 0 20px rgba(0, 212, 255, 0.2);
+            background: radial-gradient(circle at 30% 30%, 
+                rgba(255,255,255,0.8) 0%, 
+                rgba(0, 212, 255, 0.3) 50%, 
+                rgba(0, 212, 255, 0.1) 100%);
+            box-shadow: inset 0 0 10px rgba(255,255,255,0.5), 0 0 20px rgba(0, 212, 255, 0.2);
             animation: bubbleRise linear infinite;
         }
 
         @keyframes bubbleRise {
-            0% {
-                transform: translateY(100vh) translateX(0) scale(1);
-                opacity: 0;
-            }
-
-            10% {
-                opacity: 0.8;
-            }
-
-            90% {
-                opacity: 0.6;
-            }
-
-            100% {
-                transform: translateY(-100px) translateX(var(--wobble, 50px)) scale(0.8);
-                opacity: 0;
-            }
+            0% { transform: translateY(100vh) translateX(0) scale(1); opacity: 0; }
+            10% { opacity: 0.8; }
+            90% { opacity: 0.6; }
+            100% { transform: translateY(-100px) translateX(var(--wobble, 50px)) scale(0.8); opacity: 0; }
         }
 
         /* Jellyfish */
@@ -225,10 +175,10 @@
         .jellyfish-body {
             width: 60px;
             height: 40px;
-            background: radial-gradient(ellipse at center,
-                    rgba(150, 200, 255, 0.6) 0%,
-                    rgba(100, 150, 255, 0.3) 60%,
-                    transparent 100%);
+            background: radial-gradient(ellipse at center, 
+                rgba(150, 200, 255, 0.6) 0%, 
+                rgba(100, 150, 255, 0.3) 60%, 
+                transparent 100%);
             border-radius: 50% 50% 40% 40%;
             animation: jellyfishPulse 2s ease-in-out infinite;
         }
@@ -249,73 +199,27 @@
             transform-origin: top center;
         }
 
-        .jellyfish-tentacle:nth-child(1) {
-            animation-delay: 0s;
-            height: 35px;
-        }
-
-        .jellyfish-tentacle:nth-child(2) {
-            animation-delay: 0.2s;
-            height: 45px;
-        }
-
-        .jellyfish-tentacle:nth-child(3) {
-            animation-delay: 0.1s;
-            height: 50px;
-        }
-
-        .jellyfish-tentacle:nth-child(4) {
-            animation-delay: 0.3s;
-            height: 45px;
-        }
-
-        .jellyfish-tentacle:nth-child(5) {
-            animation-delay: 0.15s;
-            height: 35px;
-        }
+        .jellyfish-tentacle:nth-child(1) { animation-delay: 0s; height: 35px; }
+        .jellyfish-tentacle:nth-child(2) { animation-delay: 0.2s; height: 45px; }
+        .jellyfish-tentacle:nth-child(3) { animation-delay: 0.1s; height: 50px; }
+        .jellyfish-tentacle:nth-child(4) { animation-delay: 0.3s; height: 45px; }
+        .jellyfish-tentacle:nth-child(5) { animation-delay: 0.15s; height: 35px; }
 
         @keyframes jellyfishFloat {
-
-            0%,
-            100% {
-                transform: translate(0, 0) rotate(-5deg);
-            }
-
-            25% {
-                transform: translate(30px, -50px) rotate(5deg);
-            }
-
-            50% {
-                transform: translate(-20px, -30px) rotate(-3deg);
-            }
-
-            75% {
-                transform: translate(10px, -80px) rotate(3deg);
-            }
+            0%, 100% { transform: translate(0, 0) rotate(-5deg); }
+            25% { transform: translate(30px, -50px) rotate(5deg); }
+            50% { transform: translate(-20px, -30px) rotate(-3deg); }
+            75% { transform: translate(10px, -80px) rotate(3deg); }
         }
 
         @keyframes jellyfishPulse {
-
-            0%,
-            100% {
-                transform: scaleX(1) scaleY(1);
-            }
-
-            50% {
-                transform: scaleX(1.1) scaleY(0.9);
-            }
+            0%, 100% { transform: scaleX(1) scaleY(1); }
+            50% { transform: scaleX(1.1) scaleY(0.9); }
         }
 
         @keyframes tentacleWave {
-
-            0%,
-            100% {
-                transform: skewX(-10deg);
-            }
-
-            50% {
-                transform: skewX(10deg);
-            }
+            0%, 100% { transform: skewX(-10deg); }
+            50% { transform: skewX(10deg); }
         }
 
         /* Seaweed */
@@ -331,10 +235,10 @@
         .seaweed-segment {
             width: 8px;
             height: 30px;
-            background: linear-gradient(90deg,
-                    rgba(0, 100, 80, 0.6) 0%,
-                    rgba(0, 150, 100, 0.4) 50%,
-                    rgba(0, 100, 80, 0.6) 100%);
+            background: linear-gradient(90deg, 
+                rgba(0, 100, 80, 0.6) 0%, 
+                rgba(0, 150, 100, 0.4) 50%, 
+                rgba(0, 100, 80, 0.6) 100%);
             border-radius: 50%;
             margin-bottom: -10px;
             animation: seaweedSway 4s ease-in-out infinite;
@@ -342,15 +246,8 @@
         }
 
         @keyframes seaweedSway {
-
-            0%,
-            100% {
-                transform: rotate(-15deg);
-            }
-
-            50% {
-                transform: rotate(15deg);
-            }
+            0%, 100% { transform: rotate(-15deg); }
+            50% { transform: rotate(15deg); }
         }
 
         /* Floating Particles/Plankton */
@@ -365,25 +262,11 @@
         }
 
         @keyframes planktonDrift {
-            0% {
-                transform: translate(0, 0);
-            }
-
-            25% {
-                transform: translate(100px, -50px);
-            }
-
-            50% {
-                transform: translate(50px, 100px);
-            }
-
-            75% {
-                transform: translate(-50px, 50px);
-            }
-
-            100% {
-                transform: translate(0, 0);
-            }
+            0% { transform: translate(0, 0); }
+            25% { transform: translate(100px, -50px); }
+            50% { transform: translate(50px, 100px); }
+            75% { transform: translate(-50px, 50px); }
+            100% { transform: translate(0, 0); }
         }
 
         /* UI Layer */
@@ -448,17 +331,8 @@
         }
 
         @keyframes pulse {
-
-            0%,
-            100% {
-                transform: scale(1);
-                opacity: 1;
-            }
-
-            50% {
-                transform: scale(1.3);
-                opacity: 0.7;
-            }
+            0%, 100% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.3); opacity: 0.7; }
         }
 
         .world-indicator-text {
@@ -555,17 +429,8 @@
         }
 
         @keyframes scrollBounce {
-
-            0%,
-            100% {
-                top: 10px;
-                opacity: 1;
-            }
-
-            50% {
-                top: 28px;
-                opacity: 0.3;
-            }
+            0%, 100% { top: 10px; opacity: 1; }
+            50% { top: 28px; opacity: 0.3; }
         }
 
         .scroll-hint-text {
@@ -798,7 +663,7 @@
         .detail-description {
             font-size: 0.95rem;
             line-height: 1.9;
-            color: rgba(255, 255, 255, 0.85);
+            color: rgba(255,255,255,0.85);
             margin-bottom: 28px;
         }
 
@@ -928,7 +793,7 @@
             padding: 14px 24px;
             background: rgba(0, 30, 50, 0.6);
             backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255,255,255,0.1);
             border-radius: 50px;
             pointer-events: auto;
         }
@@ -937,8 +802,8 @@
             width: 42px;
             height: 42px;
             border-radius: 50%;
-            border: 1.5px solid rgba(255, 255, 255, 0.15);
-            background: rgba(255, 255, 255, 0.05);
+            border: 1.5px solid rgba(255,255,255,0.15);
+            background: rgba(255,255,255,0.05);
             cursor: pointer;
             transition: all 0.3s;
             display: flex;
@@ -954,7 +819,7 @@
 
         .nav-item:hover {
             transform: scale(1.15);
-            background: rgba(255, 255, 255, 0.1);
+            background: rgba(255,255,255,0.1);
             border-color: currentColor;
         }
 
@@ -965,32 +830,18 @@
         .nav-item.active {
             border-color: currentColor;
             box-shadow: 0 0 25px currentColor;
-            background: rgba(255, 255, 255, 0.1);
+            background: rgba(255,255,255,0.1);
         }
 
         .nav-item.active svg {
             filter: drop-shadow(0 0 10px currentColor);
         }
 
-        .nav-item[data-agent="hoa"] {
-            color: #ff6b6b;
-        }
-
-        .nav-item[data-agent="tho"] {
-            color: #ffd93d;
-        }
-
-        .nav-item[data-agent="moc"] {
-            color: #6bcb77;
-        }
-
-        .nav-item[data-agent="kim"] {
-            color: #e0e0f0;
-        }
-
-        .nav-item[data-agent="thuy"] {
-            color: #00d4ff;
-        }
+        .nav-item[data-agent="hoa"] { color: #ff6b6b; }
+        .nav-item[data-agent="tho"] { color: #ffd93d; }
+        .nav-item[data-agent="moc"] { color: #6bcb77; }
+        .nav-item[data-agent="kim"] { color: #e0e0f0; }
+        .nav-item[data-agent="thuy"] { color: #00d4ff; }
 
         /* Loading */
         .loading {
@@ -1036,96 +887,43 @@
             animation: bubbleFloat 1.5s ease-in-out infinite;
         }
 
-        .loading-bubble:nth-child(2) {
-            animation-delay: 0.25s;
-        }
-
-        .loading-bubble:nth-child(3) {
-            animation-delay: 0.5s;
-        }
+        .loading-bubble:nth-child(2) { animation-delay: 0.25s; }
+        .loading-bubble:nth-child(3) { animation-delay: 0.5s; }
 
         @keyframes bubbleFloat {
-
-            0%,
-            100% {
-                transform: translateY(0) scale(1);
-                opacity: 0.4;
-            }
-
-            50% {
-                transform: translateY(-20px) scale(1.2);
-                opacity: 1;
-            }
+            0%, 100% { transform: translateY(0) scale(1); opacity: 0.4; }
+            50% { transform: translateY(-20px) scale(1.2); opacity: 1; }
         }
 
         /* Responsive */
         @media (max-width: 768px) {
-            .header {
-                padding: 16px 20px;
-            }
-
-            .depth-indicator {
-                right: 12px;
-            }
-
-            .depth-bar {
-                height: 120px;
-            }
-
+            .header { padding: 16px 20px; }
+            .depth-indicator { right: 12px; }
+            .depth-bar { height: 120px; }
+            
             .keyword {
                 padding: 12px 16px;
                 gap: 10px;
             }
-
-            .keyword-icon {
-                width: 36px;
-                height: 36px;
-                font-size: 1.1rem;
-            }
-
-            .keyword-title {
-                font-size: 0.8rem;
-            }
-
-            .keyword-subtitle {
-                font-size: 0.65rem;
-            }
-
-            .detail-content {
-                padding: 28px;
-            }
-
-            .detail-title {
-                font-size: 1.3rem;
-            }
-
-            .detail-features {
-                grid-template-columns: 1fr;
-            }
-
+            .keyword-icon { width: 36px; height: 36px; font-size: 1.1rem; }
+            .keyword-title { font-size: 0.8rem; }
+            .keyword-subtitle { font-size: 0.65rem; }
+            
+            .detail-content { padding: 28px; }
+            .detail-title { font-size: 1.3rem; }
+            .detail-features { grid-template-columns: 1fr; }
+            
             .nav-bottom {
                 gap: 12px;
                 padding: 10px 18px;
             }
-
-            .nav-item {
-                width: 36px;
-                height: 36px;
-                font-size: 0.9rem;
-            }
-
-            .contact-link {
-                width: 75px;
-                height: 75px;
-            }
-
-            .contact-link-icon {
-                font-size: 1.5rem;
-            }
+            .nav-item { width: 36px; height: 36px; font-size: 0.9rem; }
+            
+            .contact-link { width: 75px; height: 75px; }
+            .contact-link-icon { font-size: 1.5rem; }
         }
     </style>
 </head>
-
 <body>
     <!-- Loading -->
     <div class="loading" id="loading">
@@ -1166,9 +964,9 @@
         <div class="keyword" id="keyword0" data-index="0">
             <div class="keyword-icon">
                 <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M3 3v18h18" />
-                    <path d="M18 9l-5 5-4-4-3 3" />
-                    <circle cx="18" cy="9" r="2" />
+                    <path d="M3 3v18h18"/>
+                    <path d="M18 9l-5 5-4-4-3 3"/>
+                    <circle cx="18" cy="9" r="2"/>
                 </svg>
             </div>
             <div class="keyword-content">
@@ -1180,10 +978,10 @@
         <div class="keyword" id="keyword1" data-index="1">
             <div class="keyword-icon">
                 <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                    <rect x="3" y="3" width="7" height="9" rx="1" />
-                    <rect x="14" y="3" width="7" height="5" rx="1" />
-                    <rect x="14" y="12" width="7" height="9" rx="1" />
-                    <rect x="3" y="16" width="7" height="5" rx="1" />
+                    <rect x="3" y="3" width="7" height="9" rx="1"/>
+                    <rect x="14" y="3" width="7" height="5" rx="1"/>
+                    <rect x="14" y="12" width="7" height="9" rx="1"/>
+                    <rect x="3" y="16" width="7" height="5" rx="1"/>
                 </svg>
             </div>
             <div class="keyword-content">
@@ -1195,9 +993,9 @@
         <div class="keyword" id="keyword2" data-index="2">
             <div class="keyword-icon">
                 <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M12 2L2 7l10 5 10-5-10-5z" />
-                    <path d="M2 17l10 5 10-5" />
-                    <path d="M2 12l10 5 10-5" />
+                    <path d="M12 2L2 7l10 5 10-5-10-5z"/>
+                    <path d="M2 17l10 5 10-5"/>
+                    <path d="M2 12l10 5 10-5"/>
                 </svg>
             </div>
             <div class="keyword-content">
@@ -1209,11 +1007,11 @@
         <div class="keyword" id="keyword3" data-index="3">
             <div class="keyword-icon">
                 <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M12 20V10" />
-                    <path d="M18 20V4" />
-                    <path d="M6 20v-4" />
-                    <circle cx="12" cy="7" r="2" />
-                    <circle cx="18" cy="4" r="1.5" fill="currentColor" stroke="none" />
+                    <path d="M12 20V10"/>
+                    <path d="M18 20V4"/>
+                    <path d="M6 20v-4"/>
+                    <circle cx="12" cy="7" r="2"/>
+                    <circle cx="18" cy="4" r="1.5" fill="currentColor" stroke="none"/>
                 </svg>
             </div>
             <div class="keyword-content">
@@ -1225,15 +1023,15 @@
         <div class="keyword contact" id="keyword4" data-index="4">
             <div class="keyword-icon">
                 <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                    <circle cx="12" cy="12" r="3" />
-                    <path d="M12 2v4" />
-                    <path d="M12 18v4" />
-                    <path d="M4.93 4.93l2.83 2.83" />
-                    <path d="M16.24 16.24l2.83 2.83" />
-                    <path d="M2 12h4" />
-                    <path d="M18 12h4" />
-                    <path d="M4.93 19.07l2.83-2.83" />
-                    <path d="M16.24 7.76l2.83-2.83" />
+                    <circle cx="12" cy="12" r="3"/>
+                    <path d="M12 2v4"/>
+                    <path d="M12 18v4"/>
+                    <path d="M4.93 4.93l2.83 2.83"/>
+                    <path d="M16.24 16.24l2.83 2.83"/>
+                    <path d="M2 12h4"/>
+                    <path d="M18 12h4"/>
+                    <path d="M4.93 19.07l2.83-2.83"/>
+                    <path d="M16.24 7.76l2.83-2.83"/>
                 </svg>
             </div>
             <div class="keyword-content">
@@ -1247,7 +1045,7 @@
     <div class="ui-layer">
         <!-- Header -->
         <header class="header">
-            <a href="index-five-elements.html" class="logo" id="logoBtn">THE RIKE</a>
+            <a href="index-stage-v3.html" class="logo" id="logoBtn">THE RIKE</a>
             <div class="world-indicator">
                 <span class="world-indicator-dot"></span>
                 <span class="world-indicator-text">THỦY · Water</span>
@@ -1273,32 +1071,32 @@
         <nav class="nav-bottom">
             <div class="nav-item" data-agent="hoa" title="HỎA · Fire">
                 <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2">
-                    <path d="M12 2c-4 4-6 8-6 11a6 6 0 0 0 12 0c0-3-2-7-6-11z" />
-                    <path d="M12 22v-5" />
+                    <path d="M12 2c-4 4-6 8-6 11a6 6 0 0 0 12 0c0-3-2-7-6-11z"/>
+                    <path d="M12 22v-5"/>
                 </svg>
             </div>
             <div class="nav-item" data-agent="tho" title="THỔ · Earth">
                 <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2">
-                    <circle cx="12" cy="12" r="10" />
-                    <path d="M2 12h20" />
-                    <path d="M12 2a15 15 0 0 1 0 20 15 15 0 0 1 0-20" />
+                    <circle cx="12" cy="12" r="10"/>
+                    <path d="M2 12h20"/>
+                    <path d="M12 2a15 15 0 0 1 0 20 15 15 0 0 1 0-20"/>
                 </svg>
             </div>
             <div class="nav-item" data-agent="moc" title="MỘC · Wood">
                 <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2">
-                    <path d="M12 22V8" />
-                    <path d="M5 12l7-7 7 7" />
-                    <path d="M8 15l4-4 4 4" />
+                    <path d="M12 22V8"/>
+                    <path d="M5 12l7-7 7 7"/>
+                    <path d="M8 15l4-4 4 4"/>
                 </svg>
             </div>
             <div class="nav-item" data-agent="kim" title="KIM · Metal">
                 <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2">
-                    <polygon points="12 2 15 8 22 9 17 14 18 21 12 18 6 21 7 14 2 9 9 8" />
+                    <polygon points="12 2 15 8 22 9 17 14 18 21 12 18 6 21 7 14 2 9 9 8"/>
                 </svg>
             </div>
             <div class="nav-item active" data-agent="thuy" title="THỦY · Water">
                 <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2">
-                    <path d="M12 2c-4 6-7 10-7 14a7 7 0 0 0 14 0c0-4-3-8-7-14z" />
+                    <path d="M12 2c-4 6-7 10-7 14a7 7 0 0 0 14 0c0-4-3-8-7-14z"/>
                 </svg>
             </div>
         </nav>
@@ -1329,51 +1127,44 @@
             <div class="contact-links">
                 <a href="#" class="contact-link" title="Email">
                     <span class="contact-link-icon">
-                        <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor"
-                            stroke-width="1.5">
-                            <rect x="2" y="4" width="20" height="16" rx="2" />
-                            <path d="M22 6l-10 7L2 6" />
+                        <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="1.5">
+                            <rect x="2" y="4" width="20" height="16" rx="2"/>
+                            <path d="M22 6l-10 7L2 6"/>
                         </svg>
                     </span>
                     <span class="contact-link-name">Email</span>
                 </a>
                 <a href="#" class="contact-link" title="TikTok">
                     <span class="contact-link-icon">
-                        <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor"
-                            stroke-width="1.5">
-                            <path d="M9 12a4 4 0 1 0 4 4V4c1 2 3 3 5 3" />
+                        <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="1.5">
+                            <path d="M9 12a4 4 0 1 0 4 4V4c1 2 3 3 5 3"/>
                         </svg>
                     </span>
                     <span class="contact-link-name">TikTok</span>
                 </a>
                 <a href="#" class="contact-link" title="Facebook">
                     <span class="contact-link-icon">
-                        <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor"
-                            stroke-width="1.5">
-                            <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z" />
+                        <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="1.5">
+                            <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/>
                         </svg>
                     </span>
                     <span class="contact-link-name">Facebook</span>
                 </a>
                 <a href="#" class="contact-link" title="Instagram">
                     <span class="contact-link-icon">
-                        <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor"
-                            stroke-width="1.5">
-                            <rect x="2" y="2" width="20" height="20" rx="5" />
-                            <circle cx="12" cy="12" r="4" />
-                            <circle cx="18" cy="6" r="1.5" fill="currentColor" />
+                        <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="1.5">
+                            <rect x="2" y="2" width="20" height="20" rx="5"/>
+                            <circle cx="12" cy="12" r="4"/>
+                            <circle cx="18" cy="6" r="1.5" fill="currentColor"/>
                         </svg>
                     </span>
                     <span class="contact-link-name">Instagram</span>
                 </a>
                 <a href="#" class="contact-link" title="Discord">
                     <span class="contact-link-icon">
-                        <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor"
-                            stroke-width="1.5">
-                            <path d="M9 12a1 1 0 1 0 0 2 1 1 0 0 0 0-2zm6 0a1 1 0 1 0 0 2 1 1 0 0 0 0-2z"
-                                fill="currentColor" />
-                            <path
-                                d="M18 8c-1-1-2.5-1.5-4-2l-.5 1c1.5.3 2.8.8 4 1.5-.5-.3-2-1-5.5-1s-5 .7-5.5 1c1.2-.7 2.5-1.2 4-1.5L10 6c-1.5.5-3 1-4 2-2 3.5-2.5 7-2 10 1.5 1.2 3 2 4.5 2l1-1.5c-1-.3-2-.8-2.8-1.5.3.2 1 .5 2.8 1 2 .5 4.5.5 6.5 0 1.8-.5 2.5-.8 2.8-1-.8.7-1.8 1.2-2.8 1.5l1 1.5c1.5 0 3-.8 4.5-2 .5-3-.1-6.5-2-10z" />
+                        <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="1.5">
+                            <path d="M9 12a1 1 0 1 0 0 2 1 1 0 0 0 0-2zm6 0a1 1 0 1 0 0 2 1 1 0 0 0 0-2z" fill="currentColor"/>
+                            <path d="M18 8c-1-1-2.5-1.5-4-2l-.5 1c1.5.3 2.8.8 4 1.5-.5-.3-2-1-5.5-1s-5 .7-5.5 1c1.2-.7 2.5-1.2 4-1.5L10 6c-1.5.5-3 1-4 2-2 3.5-2.5 7-2 10 1.5 1.2 3 2 4.5 2l1-1.5c-1-.3-2-.8-2.8-1.5.3.2 1 .5 2.8 1 2 .5 4.5.5 6.5 0 1.8-.5 2.5-.8 2.8-1-.8.7-1.8 1.2-2.8 1.5l1 1.5c1.5 0 3-.8 4.5-2 .5-3-.1-6.5-2-10z"/>
                         </svg>
                     </span>
                     <span class="contact-link-name">Discord</span>
@@ -1386,81 +1177,81 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
 
     <script>
-        // ============================================
-        // SERVICE DATA (with SVG icons)
-        // ============================================
-        const SERVICE_ICONS = [
-            `<svg viewBox="0 0 24 24"><path d="M3 3v18h18"/><path d="M18 9l-5 5-4-4-3 3"/><circle cx="18" cy="9" r="2"/></svg>`,
-            `<svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="9" rx="1"/><rect x="14" y="3" width="7" height="5" rx="1"/><rect x="14" y="12" width="7" height="9" rx="1"/><rect x="3" y="16" width="7" height="5" rx="1"/></svg>`,
-            `<svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>`,
-            `<svg viewBox="0 0 24 24"><path d="M12 20V10"/><path d="M18 20V4"/><path d="M6 20v-4"/><circle cx="12" cy="7" r="2"/><circle cx="18" cy="4" r="1.5" fill="currentColor" stroke="none"/></svg>`
-        ];
+    // ============================================
+    // SERVICE DATA (with SVG icons)
+    // ============================================
+    const SERVICE_ICONS = [
+        `<svg viewBox="0 0 24 24"><path d="M3 3v18h18"/><path d="M18 9l-5 5-4-4-3 3"/><circle cx="18" cy="9" r="2"/></svg>`,
+        `<svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="9" rx="1"/><rect x="14" y="3" width="7" height="5" rx="1"/><rect x="14" y="12" width="7" height="9" rx="1"/><rect x="3" y="16" width="7" height="5" rx="1"/></svg>`,
+        `<svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>`,
+        `<svg viewBox="0 0 24 24"><path d="M12 20V10"/><path d="M18 20V4"/><path d="M6 20v-4"/><circle cx="12" cy="7" r="2"/><circle cx="18" cy="4" r="1.5" fill="currentColor" stroke="none"/></svg>`
+    ];
 
-        const SERVICES = [
-            {
-                title: 'Conversion Optimization',
-                subtitle: 'Turn visitors into buyers',
-                description: 'We optimize your entire funnel from landing page to checkout. Our data-driven approach increases conversion rates by 20-50% within 90 days. Every element is tested and refined for maximum impact.',
-                features: ['Landing page audit & redesign', 'UX/UI improvements', 'Checkout flow optimization', 'Trust signals & social proof']
-            },
-            {
-                title: 'A/B Testing & Analytics',
-                subtitle: 'Data-driven decisions',
-                description: 'Complete analytics setup and continuous testing framework. Every decision is backed by real data, not guesswork. We track what matters and test what works.',
-                features: ['Google Analytics 4 setup', 'Heatmap & session recording', 'Statistical A/B testing', 'Custom event tracking']
-            },
-            {
-                title: 'Performance Pricing',
-                subtitle: 'We win when you win',
-                description: 'Flexible pricing model tied to your actual results. Our interests are aligned with your growth. Pay for performance, not promises.',
-                features: ['Revenue share options', 'Performance bonuses', 'Transparent reporting', 'Monthly performance reviews']
-            },
-            {
-                title: 'Revenue Tracking',
-                subtitle: 'Real-time dashboards',
-                description: 'Custom dashboards showing exactly where your money comes from. Attribution modeling that makes sense. Know your ROI on every dollar spent.',
-                features: ['Real-time revenue dashboard', 'Multi-touch attribution', 'ROI calculation per channel', 'Automated weekly reports']
-            }
-        ];
-
-        // Keyword positions (scattered across screen)
-        const KEYWORD_POSITIONS = [
-            { x: '15%', y: '35%', depth: 0.15 },
-            { x: '70%', y: '25%', depth: 0.35 },
-            { x: '25%', y: '55%', depth: 0.55 },
-            { x: '65%', y: '60%', depth: 0.75 },
-            { x: '45%', y: '45%', depth: 0.95 }
-        ];
-
-        // ============================================
-        // GENERATE FLOATING OBJECTS
-        // ============================================
-        const floatingContainer = document.getElementById('floatingObjects');
-
-        // Generate bubbles
-        for (let i = 0; i < 30; i++) {
-            const bubble = document.createElement('div');
-            bubble.className = 'bubble';
-            const size = Math.random() * 25 + 8;
-            bubble.style.width = size + 'px';
-            bubble.style.height = size + 'px';
-            bubble.style.left = Math.random() * 100 + '%';
-            bubble.style.setProperty('--wobble', (Math.random() - 0.5) * 100 + 'px');
-            bubble.style.animationDuration = (Math.random() * 10 + 8) + 's';
-            bubble.style.animationDelay = Math.random() * 15 + 's';
-            floatingContainer.appendChild(bubble);
+    const SERVICES = [
+        {
+            title: 'Conversion Optimization',
+            subtitle: 'Turn visitors into buyers',
+            description: 'We optimize your entire funnel from landing page to checkout. Our data-driven approach increases conversion rates by 20-50% within 90 days. Every element is tested and refined for maximum impact.',
+            features: ['Landing page audit & redesign', 'UX/UI improvements', 'Checkout flow optimization', 'Trust signals & social proof']
+        },
+        {
+            title: 'A/B Testing & Analytics',
+            subtitle: 'Data-driven decisions',
+            description: 'Complete analytics setup and continuous testing framework. Every decision is backed by real data, not guesswork. We track what matters and test what works.',
+            features: ['Google Analytics 4 setup', 'Heatmap & session recording', 'Statistical A/B testing', 'Custom event tracking']
+        },
+        {
+            title: 'Performance Pricing',
+            subtitle: 'We win when you win',
+            description: 'Flexible pricing model tied to your actual results. Our interests are aligned with your growth. Pay for performance, not promises.',
+            features: ['Revenue share options', 'Performance bonuses', 'Transparent reporting', 'Monthly performance reviews']
+        },
+        {
+            title: 'Revenue Tracking',
+            subtitle: 'Real-time dashboards',
+            description: 'Custom dashboards showing exactly where your money comes from. Attribution modeling that makes sense. Know your ROI on every dollar spent.',
+            features: ['Real-time revenue dashboard', 'Multi-touch attribution', 'ROI calculation per channel', 'Automated weekly reports']
         }
+    ];
 
-        // Generate jellyfish
-        for (let i = 0; i < 4; i++) {
-            const jelly = document.createElement('div');
-            jelly.className = 'jellyfish';
-            jelly.style.left = (Math.random() * 80 + 10) + '%';
-            jelly.style.top = (Math.random() * 60 + 20) + '%';
-            jelly.style.animationDelay = Math.random() * 5 + 's';
-            jelly.style.opacity = Math.random() * 0.4 + 0.3;
-            jelly.style.transform = `scale(${Math.random() * 0.5 + 0.5})`;
-            jelly.innerHTML = `
+    // Keyword positions (scattered across screen)
+    const KEYWORD_POSITIONS = [
+        { x: '15%', y: '35%', depth: 0.15 },
+        { x: '70%', y: '25%', depth: 0.35 },
+        { x: '25%', y: '55%', depth: 0.55 },
+        { x: '65%', y: '60%', depth: 0.75 },
+        { x: '45%', y: '45%', depth: 0.95 }
+    ];
+
+    // ============================================
+    // GENERATE FLOATING OBJECTS
+    // ============================================
+    const floatingContainer = document.getElementById('floatingObjects');
+
+    // Generate bubbles
+    for (let i = 0; i < 30; i++) {
+        const bubble = document.createElement('div');
+        bubble.className = 'bubble';
+        const size = Math.random() * 25 + 8;
+        bubble.style.width = size + 'px';
+        bubble.style.height = size + 'px';
+        bubble.style.left = Math.random() * 100 + '%';
+        bubble.style.setProperty('--wobble', (Math.random() - 0.5) * 100 + 'px');
+        bubble.style.animationDuration = (Math.random() * 10 + 8) + 's';
+        bubble.style.animationDelay = Math.random() * 15 + 's';
+        floatingContainer.appendChild(bubble);
+    }
+
+    // Generate jellyfish
+    for (let i = 0; i < 4; i++) {
+        const jelly = document.createElement('div');
+        jelly.className = 'jellyfish';
+        jelly.style.left = (Math.random() * 80 + 10) + '%';
+        jelly.style.top = (Math.random() * 60 + 20) + '%';
+        jelly.style.animationDelay = Math.random() * 5 + 's';
+        jelly.style.opacity = Math.random() * 0.4 + 0.3;
+        jelly.style.transform = `scale(${Math.random() * 0.5 + 0.5})`;
+        jelly.innerHTML = `
             <div class="jellyfish-body"></div>
             <div class="jellyfish-tentacles">
                 <div class="jellyfish-tentacle"></div>
@@ -1470,364 +1261,363 @@
                 <div class="jellyfish-tentacle"></div>
             </div>
         `;
-            floatingContainer.appendChild(jelly);
-        }
+        floatingContainer.appendChild(jelly);
+    }
 
-        // Generate plankton
-        for (let i = 0; i < 50; i++) {
-            const plankton = document.createElement('div');
-            plankton.className = 'plankton';
-            plankton.style.left = Math.random() * 100 + '%';
-            plankton.style.top = Math.random() * 100 + '%';
-            plankton.style.animationDelay = Math.random() * 20 + 's';
-            plankton.style.opacity = Math.random() * 0.5 + 0.3;
-            const size = Math.random() * 4 + 2;
-            plankton.style.width = size + 'px';
-            plankton.style.height = size + 'px';
-            floatingContainer.appendChild(plankton);
-        }
+    // Generate plankton
+    for (let i = 0; i < 50; i++) {
+        const plankton = document.createElement('div');
+        plankton.className = 'plankton';
+        plankton.style.left = Math.random() * 100 + '%';
+        plankton.style.top = Math.random() * 100 + '%';
+        plankton.style.animationDelay = Math.random() * 20 + 's';
+        plankton.style.opacity = Math.random() * 0.5 + 0.3;
+        const size = Math.random() * 4 + 2;
+        plankton.style.width = size + 'px';
+        plankton.style.height = size + 'px';
+        floatingContainer.appendChild(plankton);
+    }
 
-        // ============================================
-        // THREE.JS UNDERWATER SCENE
-        // ============================================
-        const canvas = document.getElementById('water-world');
-        const scene = new THREE.Scene();
+    // ============================================
+    // THREE.JS UNDERWATER SCENE
+    // ============================================
+    const canvas = document.getElementById('water-world');
+    const scene = new THREE.Scene();
+    
+    const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+    camera.position.set(0, 0, 5);
 
-        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-        camera.position.set(0, 0, 5);
+    const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    renderer.setClearColor(0x010812);
 
-        const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
-        renderer.setSize(window.innerWidth, window.innerHeight);
-        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-        renderer.setClearColor(0x010812);
+    // Deep fog
+    scene.fog = new THREE.FogExp2(0x010812, 0.04);
 
-        // Deep fog
-        scene.fog = new THREE.FogExp2(0x010812, 0.04);
+    // Ambient light (dim underwater)
+    const ambientLight = new THREE.AmbientLight(0x0a4a6e, 0.3);
+    scene.add(ambientLight);
 
-        // Ambient light (dim underwater)
-        const ambientLight = new THREE.AmbientLight(0x0a4a6e, 0.3);
-        scene.add(ambientLight);
+    // Sunlight from above
+    const sunLight = new THREE.DirectionalLight(0x60efff, 0.5);
+    sunLight.position.set(0, 20, 10);
+    scene.add(sunLight);
 
-        // Sunlight from above
-        const sunLight = new THREE.DirectionalLight(0x60efff, 0.5);
-        sunLight.position.set(0, 20, 10);
-        scene.add(sunLight);
+    // Glow lights
+    const glowLight1 = new THREE.PointLight(0x00d4ff, 0.4, 30);
+    glowLight1.position.set(-8, 0, -15);
+    scene.add(glowLight1);
 
-        // Glow lights
-        const glowLight1 = new THREE.PointLight(0x00d4ff, 0.4, 30);
-        glowLight1.position.set(-8, 0, -15);
-        scene.add(glowLight1);
+    const glowLight2 = new THREE.PointLight(0x0088aa, 0.3, 25);
+    glowLight2.position.set(8, -5, -20);
+    scene.add(glowLight2);
 
-        const glowLight2 = new THREE.PointLight(0x0088aa, 0.3, 25);
-        glowLight2.position.set(8, -5, -20);
-        scene.add(glowLight2);
+    // ============================================
+    // 3D FLOATING PARTICLES
+    // ============================================
+    const particleCount = 800;
+    const particleGeometry = new THREE.BufferGeometry();
+    const particlePositions = new Float32Array(particleCount * 3);
+    const particleSizes = new Float32Array(particleCount);
 
-        // ============================================
-        // 3D FLOATING PARTICLES
-        // ============================================
-        const particleCount = 800;
-        const particleGeometry = new THREE.BufferGeometry();
-        const particlePositions = new Float32Array(particleCount * 3);
-        const particleSizes = new Float32Array(particleCount);
+    for (let i = 0; i < particleCount; i++) {
+        particlePositions[i * 3] = (Math.random() - 0.5) * 40;
+        particlePositions[i * 3 + 1] = (Math.random() - 0.5) * 80 - 40;
+        particlePositions[i * 3 + 2] = (Math.random() - 0.5) * 60 - 30;
+        particleSizes[i] = Math.random() * 0.08 + 0.02;
+    }
 
-        for (let i = 0; i < particleCount; i++) {
-            particlePositions[i * 3] = (Math.random() - 0.5) * 40;
-            particlePositions[i * 3 + 1] = (Math.random() - 0.5) * 80 - 40;
-            particlePositions[i * 3 + 2] = (Math.random() - 0.5) * 60 - 30;
-            particleSizes[i] = Math.random() * 0.08 + 0.02;
-        }
+    particleGeometry.setAttribute('position', new THREE.BufferAttribute(particlePositions, 3));
+    particleGeometry.setAttribute('size', new THREE.BufferAttribute(particleSizes, 1));
 
-        particleGeometry.setAttribute('position', new THREE.BufferAttribute(particlePositions, 3));
-        particleGeometry.setAttribute('size', new THREE.BufferAttribute(particleSizes, 1));
+    const particleMaterial = new THREE.PointsMaterial({
+        color: 0x60efff,
+        size: 0.05,
+        transparent: true,
+        opacity: 0.6,
+        sizeAttenuation: true
+    });
 
-        const particleMaterial = new THREE.PointsMaterial({
-            color: 0x60efff,
-            size: 0.05,
-            transparent: true,
-            opacity: 0.6,
-            sizeAttenuation: true
+    const particles = new THREE.Points(particleGeometry, particleMaterial);
+    scene.add(particles);
+
+    // ============================================
+    // 3D BUBBLES
+    // ============================================
+    const bubbles3D = [];
+    const bubbleGeo = new THREE.SphereGeometry(0.08, 12, 12);
+    const bubbleMat = new THREE.MeshBasicMaterial({
+        color: 0x60efff,
+        transparent: true,
+        opacity: 0.3
+    });
+
+    for (let i = 0; i < 60; i++) {
+        const bubble = new THREE.Mesh(bubbleGeo, bubbleMat.clone());
+        bubble.position.set(
+            (Math.random() - 0.5) * 25,
+            (Math.random() - 0.5) * 50 - 30,
+            (Math.random() - 0.5) * 30 - 15
+        );
+        const scale = Math.random() * 1.5 + 0.3;
+        bubble.scale.setScalar(scale);
+        bubble.userData = {
+            speed: Math.random() * 0.015 + 0.005,
+            wobbleSpeed: Math.random() * 2 + 1,
+            wobbleAmount: Math.random() * 0.3 + 0.1,
+            startX: bubble.position.x
+        };
+        bubbles3D.push(bubble);
+        scene.add(bubble);
+    }
+
+    // ============================================
+    // SCROLL / TOUCH HANDLING (SLOWER)
+    // ============================================
+    let scrollProgress = 0;
+    let targetProgress = 0;
+    let scrollVelocity = 0;
+    const maxDepth = 100; // meters
+
+    let touchStartY = 0;
+    let isTouching = false;
+    let lastTouchY = 0;
+
+    // Mouse wheel (SLOWER)
+    window.addEventListener('wheel', (e) => {
+        e.preventDefault();
+        const delta = e.deltaY * 0.0002; // Much slower
+        scrollVelocity += delta;
+    }, { passive: false });
+
+    // Touch events (SLOWER)
+    window.addEventListener('touchstart', (e) => {
+        touchStartY = e.touches[0].clientY;
+        lastTouchY = touchStartY;
+        isTouching = true;
+    });
+
+    window.addEventListener('touchmove', (e) => {
+        if (!isTouching) return;
+        e.preventDefault();
+        const touchY = e.touches[0].clientY;
+        const delta = (lastTouchY - touchY) * 0.0005; // Much slower
+        scrollVelocity += delta;
+        lastTouchY = touchY;
+    }, { passive: false });
+
+    window.addEventListener('touchend', () => {
+        isTouching = false;
+    });
+
+    // ============================================
+    // KEYWORD MANAGEMENT
+    // ============================================
+    const keywords = document.querySelectorAll('.keyword');
+
+    function updateKeywords() {
+        keywords.forEach((kw, i) => {
+            const pos = KEYWORD_POSITIONS[i];
+            const keywordDepth = pos.depth;
+            
+            // Calculate visibility based on scroll progress
+            const distance = Math.abs(scrollProgress - keywordDepth);
+            const visibilityRange = 0.25;
+            
+            if (distance < visibilityRange) {
+                kw.classList.add('visible');
+                
+                // Parallax effect - keywords move at different speeds
+                const parallaxOffset = (scrollProgress - keywordDepth) * 300;
+                const floatX = Math.sin(Date.now() * 0.001 + i) * 10;
+                const floatY = Math.cos(Date.now() * 0.0008 + i * 0.5) * 8;
+                
+                kw.style.left = pos.x;
+                kw.style.top = `calc(${pos.y} + ${parallaxOffset + floatY}px)`;
+                kw.style.transform = `translateX(${floatX}px) translateZ(0) scale(${1 - distance * 0.5})`;
+                kw.style.opacity = 1 - (distance / visibilityRange) * 0.7;
+            } else {
+                kw.classList.remove('visible');
+            }
         });
+    }
 
-        const particles = new THREE.Points(particleGeometry, particleMaterial);
-        scene.add(particles);
-
-        // ============================================
-        // 3D BUBBLES
-        // ============================================
-        const bubbles3D = [];
-        const bubbleGeo = new THREE.SphereGeometry(0.08, 12, 12);
-        const bubbleMat = new THREE.MeshBasicMaterial({
-            color: 0x60efff,
-            transparent: true,
-            opacity: 0.3
+    // Keyword click handlers
+    keywords.forEach((kw, index) => {
+        kw.addEventListener('click', () => {
+            if (index === 4) {
+                document.getElementById('contactModal').classList.add('visible');
+            } else {
+                showServiceDetail(index);
+            }
         });
+    });
 
-        for (let i = 0; i < 60; i++) {
-            const bubble = new THREE.Mesh(bubbleGeo, bubbleMat.clone());
-            bubble.position.set(
-                (Math.random() - 0.5) * 25,
-                (Math.random() - 0.5) * 50 - 30,
-                (Math.random() - 0.5) * 30 - 15
-            );
-            const scale = Math.random() * 1.5 + 0.3;
-            bubble.scale.setScalar(scale);
-            bubble.userData = {
-                speed: Math.random() * 0.015 + 0.005,
-                wobbleSpeed: Math.random() * 2 + 1,
-                wobbleAmount: Math.random() * 0.3 + 0.1,
-                startX: bubble.position.x
-            };
-            bubbles3D.push(bubble);
-            scene.add(bubble);
-        }
+    // ============================================
+    // DETAIL MODAL
+    // ============================================
+    function showServiceDetail(index) {
+        const service = SERVICES[index];
+        document.getElementById('detailIcon').innerHTML = SERVICE_ICONS[index];
+        document.getElementById('detailTitle').textContent = service.title;
+        document.getElementById('detailSubtitle').textContent = service.subtitle;
+        document.getElementById('detailDescription').textContent = service.description;
 
-        // ============================================
-        // SCROLL / TOUCH HANDLING (SLOWER)
-        // ============================================
-        let scrollProgress = 0;
-        let targetProgress = 0;
-        let scrollVelocity = 0;
-        const maxDepth = 100; // meters
-
-        let touchStartY = 0;
-        let isTouching = false;
-        let lastTouchY = 0;
-
-        // Mouse wheel (SLOWER)
-        window.addEventListener('wheel', (e) => {
-            e.preventDefault();
-            const delta = e.deltaY * 0.0002; // Much slower
-            scrollVelocity += delta;
-        }, { passive: false });
-
-        // Touch events (SLOWER)
-        window.addEventListener('touchstart', (e) => {
-            touchStartY = e.touches[0].clientY;
-            lastTouchY = touchStartY;
-            isTouching = true;
-        });
-
-        window.addEventListener('touchmove', (e) => {
-            if (!isTouching) return;
-            e.preventDefault();
-            const touchY = e.touches[0].clientY;
-            const delta = (lastTouchY - touchY) * 0.0005; // Much slower
-            scrollVelocity += delta;
-            lastTouchY = touchY;
-        }, { passive: false });
-
-        window.addEventListener('touchend', () => {
-            isTouching = false;
-        });
-
-        // ============================================
-        // KEYWORD MANAGEMENT
-        // ============================================
-        const keywords = document.querySelectorAll('.keyword');
-
-        function updateKeywords() {
-            keywords.forEach((kw, i) => {
-                const pos = KEYWORD_POSITIONS[i];
-                const keywordDepth = pos.depth;
-
-                // Calculate visibility based on scroll progress
-                const distance = Math.abs(scrollProgress - keywordDepth);
-                const visibilityRange = 0.25;
-
-                if (distance < visibilityRange) {
-                    kw.classList.add('visible');
-
-                    // Parallax effect - keywords move at different speeds
-                    const parallaxOffset = (scrollProgress - keywordDepth) * 300;
-                    const floatX = Math.sin(Date.now() * 0.001 + i) * 10;
-                    const floatY = Math.cos(Date.now() * 0.0008 + i * 0.5) * 8;
-
-                    kw.style.left = pos.x;
-                    kw.style.top = `calc(${pos.y} + ${parallaxOffset + floatY}px)`;
-                    kw.style.transform = `translateX(${floatX}px) translateZ(0) scale(${1 - distance * 0.5})`;
-                    kw.style.opacity = 1 - (distance / visibilityRange) * 0.7;
-                } else {
-                    kw.classList.remove('visible');
-                }
-            });
-        }
-
-        // Keyword click handlers
-        keywords.forEach((kw, index) => {
-            kw.addEventListener('click', () => {
-                if (index === 4) {
-                    document.getElementById('contactModal').classList.add('visible');
-                } else {
-                    showServiceDetail(index);
-                }
-            });
-        });
-
-        // ============================================
-        // DETAIL MODAL
-        // ============================================
-        function showServiceDetail(index) {
-            const service = SERVICES[index];
-            document.getElementById('detailIcon').innerHTML = SERVICE_ICONS[index];
-            document.getElementById('detailTitle').textContent = service.title;
-            document.getElementById('detailSubtitle').textContent = service.subtitle;
-            document.getElementById('detailDescription').textContent = service.description;
-
-            const featuresContainer = document.getElementById('detailFeatures');
-            featuresContainer.innerHTML = service.features.map(f => `
+        const featuresContainer = document.getElementById('detailFeatures');
+        featuresContainer.innerHTML = service.features.map(f => `
             <div class="detail-feature">
                 <span class="detail-feature-icon"></span>
                 <span>${f}</span>
             </div>
         `).join('');
 
-            document.getElementById('detailModal').classList.add('visible');
-        }
+        document.getElementById('detailModal').classList.add('visible');
+    }
 
-        // Close modals
-        ['detailClose', 'detailBackdrop', 'contactClose', 'contactBackdrop'].forEach(id => {
-            document.getElementById(id).addEventListener('click', () => {
-                document.getElementById('detailModal').classList.remove('visible');
-                document.getElementById('contactModal').classList.remove('visible');
-            });
+    // Close modals
+    ['detailClose', 'detailBackdrop', 'contactClose', 'contactBackdrop'].forEach(id => {
+        document.getElementById(id).addEventListener('click', () => {
+            document.getElementById('detailModal').classList.remove('visible');
+            document.getElementById('contactModal').classList.remove('visible');
+        });
+    });
+
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') {
+            document.getElementById('detailModal').classList.remove('visible');
+            document.getElementById('contactModal').classList.remove('visible');
+        }
+    });
+
+    // ============================================
+    // NAVIGATION
+    // ============================================
+    document.querySelectorAll('.nav-item').forEach(item => {
+        item.addEventListener('click', () => {
+            const agent = item.dataset.agent;
+            if (agent === 'thuy') return;
+            alert(`Navigating to ${agent.toUpperCase()} world...\n(Coming soon!)`);
+        });
+    });
+
+    // ============================================
+    // CURSOR (Desktop)
+    // ============================================
+    const cursor = document.getElementById('cursor');
+    const cursorDot = document.getElementById('cursorDot');
+
+    if (cursor && cursorDot) {
+        document.addEventListener('mousemove', (e) => {
+            cursor.style.left = e.clientX + 'px';
+            cursor.style.top = e.clientY + 'px';
+            cursorDot.style.left = e.clientX + 'px';
+            cursorDot.style.top = e.clientY + 'px';
         });
 
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape') {
-                document.getElementById('detailModal').classList.remove('visible');
-                document.getElementById('contactModal').classList.remove('visible');
+        const hoverElements = document.querySelectorAll('.keyword, .nav-item, .logo, .detail-close, .detail-cta, .contact-link');
+        hoverElements.forEach(el => {
+            el.addEventListener('mouseenter', () => cursor.classList.add('hover'));
+            el.addEventListener('mouseleave', () => cursor.classList.remove('hover'));
+        });
+    }
+
+    // ============================================
+    // ANIMATION LOOP
+    // ============================================
+    const clock = new THREE.Clock();
+    let cameraShakeX = 0;
+    let cameraShakeY = 0;
+
+    function animate() {
+        requestAnimationFrame(animate);
+        const time = clock.getElapsedTime();
+
+        // Apply velocity with friction (momentum feel)
+        scrollVelocity *= 0.95;
+        targetProgress += scrollVelocity;
+        targetProgress = Math.max(0, Math.min(1, targetProgress));
+
+        // Smooth scroll with easing
+        scrollProgress += (targetProgress - scrollProgress) * 0.03;
+
+        // Diver camera shake/bob
+        cameraShakeX = Math.sin(time * 0.5) * 0.15 + Math.sin(time * 1.2) * 0.05;
+        cameraShakeY = Math.cos(time * 0.4) * 0.1 + Math.sin(time * 0.8) * 0.05;
+
+        // Camera movement (slower dive)
+        camera.position.z = 5 - scrollProgress * 35;
+        camera.position.y = -scrollProgress * 8 + cameraShakeY;
+        camera.position.x = cameraShakeX;
+        camera.rotation.z = Math.sin(time * 0.3) * 0.015;
+        camera.rotation.x = Math.sin(time * 0.2) * 0.01;
+
+        // Update depth display
+        const depth = Math.floor(scrollProgress * maxDepth);
+        document.getElementById('depthValue').textContent = depth + 'm';
+        document.getElementById('depthProgress').style.height = (scrollProgress * 100) + '%';
+
+        // Update depth overlay (darker as you dive)
+        document.getElementById('depthOverlay').style.opacity = scrollProgress * 0.6;
+
+        // Update light rays (dimmer as you dive)
+        document.getElementById('lightRays').style.opacity = Math.max(0, 0.5 - scrollProgress * 0.8);
+
+        // Update Three.js lights
+        sunLight.intensity = Math.max(0.1, 0.5 - scrollProgress * 0.4);
+        glowLight1.position.z = -15 - scrollProgress * 20;
+        glowLight2.position.z = -20 - scrollProgress * 25;
+
+        // Hide scroll hint
+        if (scrollProgress > 0.03) {
+            document.getElementById('scrollHint').classList.add('hidden');
+        }
+
+        // Animate 3D bubbles
+        bubbles3D.forEach(bubble => {
+            bubble.position.y += bubble.userData.speed;
+            bubble.position.x = bubble.userData.startX + 
+                Math.sin(time * bubble.userData.wobbleSpeed) * bubble.userData.wobbleAmount;
+            
+            if (bubble.position.y > 20) {
+                bubble.position.y = -30;
             }
         });
 
-        // ============================================
-        // NAVIGATION
-        // ============================================
-        document.querySelectorAll('.nav-item').forEach(item => {
-            item.addEventListener('click', () => {
-                const agent = item.dataset.agent;
-                if (agent === 'thuy') return;
-                alert(`Navigating to ${agent.toUpperCase()} world...\n(Coming soon!)`);
-            });
-        });
+        // Rotate particles slightly
+        particles.rotation.y = time * 0.008;
+        particles.rotation.x = Math.sin(time * 0.1) * 0.05;
 
-        // ============================================
-        // CURSOR (Desktop)
-        // ============================================
-        const cursor = document.getElementById('cursor');
-        const cursorDot = document.getElementById('cursorDot');
+        // Move particles with camera
+        particles.position.z = camera.position.z - 5;
 
-        if (cursor && cursorDot) {
-            document.addEventListener('mousemove', (e) => {
-                cursor.style.left = e.clientX + 'px';
-                cursor.style.top = e.clientY + 'px';
-                cursorDot.style.left = e.clientX + 'px';
-                cursorDot.style.top = e.clientY + 'px';
-            });
+        // Update keywords
+        updateKeywords();
 
-            const hoverElements = document.querySelectorAll('.keyword, .nav-item, .logo, .detail-close, .detail-cta, .contact-link');
-            hoverElements.forEach(el => {
-                el.addEventListener('mouseenter', () => cursor.classList.add('hover'));
-                el.addEventListener('mouseleave', () => cursor.classList.remove('hover'));
-            });
-        }
+        renderer.render(scene, camera);
+    }
 
-        // ============================================
-        // ANIMATION LOOP
-        // ============================================
-        const clock = new THREE.Clock();
-        let cameraShakeX = 0;
-        let cameraShakeY = 0;
+    animate();
 
-        function animate() {
-            requestAnimationFrame(animate);
-            const time = clock.getElapsedTime();
+    // ============================================
+    // RESIZE
+    // ============================================
+    window.addEventListener('resize', () => {
+        camera.aspect = window.innerWidth / window.innerHeight;
+        camera.updateProjectionMatrix();
+        renderer.setSize(window.innerWidth, window.innerHeight);
+    });
 
-            // Apply velocity with friction (momentum feel)
-            scrollVelocity *= 0.95;
-            targetProgress += scrollVelocity;
-            targetProgress = Math.max(0, Math.min(1, targetProgress));
+    // ============================================
+    // LOADING
+    // ============================================
+    window.addEventListener('load', () => {
+        setTimeout(() => {
+            document.getElementById('loading').classList.add('done');
+        }, 2500);
+    });
 
-            // Smooth scroll with easing
-            scrollProgress += (targetProgress - scrollProgress) * 0.03;
-
-            // Diver camera shake/bob
-            cameraShakeX = Math.sin(time * 0.5) * 0.15 + Math.sin(time * 1.2) * 0.05;
-            cameraShakeY = Math.cos(time * 0.4) * 0.1 + Math.sin(time * 0.8) * 0.05;
-
-            // Camera movement (slower dive)
-            camera.position.z = 5 - scrollProgress * 35;
-            camera.position.y = -scrollProgress * 8 + cameraShakeY;
-            camera.position.x = cameraShakeX;
-            camera.rotation.z = Math.sin(time * 0.3) * 0.015;
-            camera.rotation.x = Math.sin(time * 0.2) * 0.01;
-
-            // Update depth display
-            const depth = Math.floor(scrollProgress * maxDepth);
-            document.getElementById('depthValue').textContent = depth + 'm';
-            document.getElementById('depthProgress').style.height = (scrollProgress * 100) + '%';
-
-            // Update depth overlay (darker as you dive)
-            document.getElementById('depthOverlay').style.opacity = scrollProgress * 0.6;
-
-            // Update light rays (dimmer as you dive)
-            document.getElementById('lightRays').style.opacity = Math.max(0, 0.5 - scrollProgress * 0.8);
-
-            // Update Three.js lights
-            sunLight.intensity = Math.max(0.1, 0.5 - scrollProgress * 0.4);
-            glowLight1.position.z = -15 - scrollProgress * 20;
-            glowLight2.position.z = -20 - scrollProgress * 25;
-
-            // Hide scroll hint
-            if (scrollProgress > 0.03) {
-                document.getElementById('scrollHint').classList.add('hidden');
-            }
-
-            // Animate 3D bubbles
-            bubbles3D.forEach(bubble => {
-                bubble.position.y += bubble.userData.speed;
-                bubble.position.x = bubble.userData.startX +
-                    Math.sin(time * bubble.userData.wobbleSpeed) * bubble.userData.wobbleAmount;
-
-                if (bubble.position.y > 20) {
-                    bubble.position.y = -30;
-                }
-            });
-
-            // Rotate particles slightly
-            particles.rotation.y = time * 0.008;
-            particles.rotation.x = Math.sin(time * 0.1) * 0.05;
-
-            // Move particles with camera
-            particles.position.z = camera.position.z - 5;
-
-            // Update keywords
-            updateKeywords();
-
-            renderer.render(scene, camera);
-        }
-
-        animate();
-
-        // ============================================
-        // RESIZE
-        // ============================================
-        window.addEventListener('resize', () => {
-            camera.aspect = window.innerWidth / window.innerHeight;
-            camera.updateProjectionMatrix();
-            renderer.setSize(window.innerWidth, window.innerHeight);
-        });
-
-        // ============================================
-        // LOADING
-        // ============================================
-        window.addEventListener('load', () => {
-            setTimeout(() => {
-                document.getElementById('loading').classList.add('done');
-            }, 2500);
-        });
-
-        console.log('🌊 THỦY World v2 - Enhanced Underwater Experience');
+    console.log('🌊 THỦY World v2 - Enhanced Underwater Experience');
     </script>
 </body>
-
 </html>

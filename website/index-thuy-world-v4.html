@@ -1,25 +1,18 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>The Rike | WATER - The Data Shapeshifter</title>
-
+    <title>The Rike | THỦY · Water - The Data Shapeshifter</title>
+    
     <!-- Background Music -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700;900&display=swap"
-        rel="stylesheet">
-
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700;900&display=swap" rel="stylesheet">
+    
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
 
-        html,
-        body {
+        html, body {
             width: 100%;
             height: 100%;
             overflow: hidden;
@@ -72,7 +65,7 @@
             transform: translateX(-50%);
             width: 80%;
             height: 100%;
-            background: radial-gradient(ellipse at 50% 0%, rgba(96, 239, 255, 0.2) 0%, rgba(0, 180, 220, 0.1) 30%, transparent 70%);
+            background: radial-gradient(ellipse at 50% 0%, rgba(96,239,255,0.2) 0%, rgba(0,180,220,0.1) 30%, transparent 70%);
             pointer-events: none;
             z-index: 1;
             opacity: 1;
@@ -81,15 +74,8 @@
         }
 
         @keyframes lightWave {
-
-            0%,
-            100% {
-                transform: translateX(-50%) scaleX(1);
-            }
-
-            50% {
-                transform: translateX(-50%) scaleX(1.1);
-            }
+            0%, 100% { transform: translateX(-50%) scaleX(1); }
+            50% { transform: translateX(-50%) scaleX(1.1); }
         }
 
         /* Caustic Light Effect - Water ripple patterns */
@@ -110,13 +96,8 @@
         }
 
         @keyframes causticMove {
-            0% {
-                background-position: 0 0;
-            }
-
-            100% {
-                background-position: 400px 400px;
-            }
+            0% { background-position: 0 0; }
+            100% { background-position: 400px 400px; }
         }
 
         /* Light Rays - Multiple animated beams */
@@ -138,73 +119,39 @@
             top: 0;
             width: 150px;
             height: 100%;
-            background: linear-gradient(180deg,
-                    rgba(96, 239, 255, 0.3) 0%,
-                    rgba(0, 212, 255, 0.15) 20%,
-                    rgba(0, 180, 200, 0.05) 50%,
-                    transparent 80%);
+            background: linear-gradient(180deg, 
+                rgba(96, 239, 255, 0.3) 0%, 
+                rgba(0, 212, 255, 0.15) 20%,
+                rgba(0, 180, 200, 0.05) 50%,
+                transparent 80%);
             filter: blur(3px);
             transform-origin: top center;
             animation: rayFloat 6s ease-in-out infinite;
         }
 
-        .light-ray:nth-child(1) {
-            left: 5%;
-            animation-delay: 0s;
-            width: 120px;
-        }
-
-        .light-ray:nth-child(2) {
-            left: 18%;
-            animation-delay: 1.5s;
-            width: 180px;
-        }
-
-        .light-ray:nth-child(3) {
-            left: 35%;
-            animation-delay: 0.8s;
-            width: 200px;
-        }
-
-        .light-ray:nth-child(4) {
-            left: 55%;
-            animation-delay: 2s;
-            width: 160px;
-        }
-
-        .light-ray:nth-child(5) {
-            left: 72%;
-            animation-delay: 0.5s;
-            width: 140px;
-        }
-
-        .light-ray:nth-child(6) {
-            left: 85%;
-            animation-delay: 1.2s;
-            width: 100px;
-        }
+        .light-ray:nth-child(1) { left: 5%; animation-delay: 0s; width: 120px; }
+        .light-ray:nth-child(2) { left: 18%; animation-delay: 1.5s; width: 180px; }
+        .light-ray:nth-child(3) { left: 35%; animation-delay: 0.8s; width: 200px; }
+        .light-ray:nth-child(4) { left: 55%; animation-delay: 2s; width: 160px; }
+        .light-ray:nth-child(5) { left: 72%; animation-delay: 0.5s; width: 140px; }
+        .light-ray:nth-child(6) { left: 85%; animation-delay: 1.2s; width: 100px; }
 
         @keyframes rayFloat {
-
-            0%,
-            100% {
-                transform: skewX(-5deg) scaleY(1);
-                opacity: 0.6;
+            0%, 100% { 
+                transform: skewX(-5deg) scaleY(1); 
+                opacity: 0.6; 
             }
-
-            25% {
-                transform: skewX(3deg) scaleY(1.05);
-                opacity: 0.8;
+            25% { 
+                transform: skewX(3deg) scaleY(1.05); 
+                opacity: 0.8; 
             }
-
-            50% {
-                transform: skewX(8deg) scaleY(1.1);
-                opacity: 0.5;
+            50% { 
+                transform: skewX(8deg) scaleY(1.1); 
+                opacity: 0.5; 
             }
-
-            75% {
-                transform: skewX(-3deg) scaleY(1.02);
-                opacity: 0.7;
+            75% { 
+                transform: skewX(-3deg) scaleY(1.02); 
+                opacity: 0.7; 
             }
         }
 
@@ -217,7 +164,7 @@
             height: 100%;
             z-index: 4;
             pointer-events: none;
-            background: radial-gradient(ellipse at 50% 40%, var(--ambient-color, rgba(0, 212, 255, 0.1)) 0%, transparent 60%);
+            background: radial-gradient(ellipse at 50% 40%, var(--ambient-color, rgba(0,212,255,0.1)) 0%, transparent 60%);
             opacity: 0.6;
             transition: all 0.8s ease-out;
         }
@@ -232,23 +179,16 @@
             z-index: 5;
             pointer-events: none;
             background: linear-gradient(180deg,
-                    rgba(255, 255, 255, 0.03) 0%,
-                    transparent 100%);
+                rgba(255,255,255,0.03) 0%,
+                transparent 100%);
             opacity: 1;
             animation: shimmer 4s ease-in-out infinite;
             transition: opacity 0.8s;
         }
 
         @keyframes shimmer {
-
-            0%,
-            100% {
-                opacity: 0.8;
-            }
-
-            50% {
-                opacity: 0.4;
-            }
+            0%, 100% { opacity: 0.8; }
+            50% { opacity: 0.4; }
         }
 
         /* Vignette - depth darkness */
@@ -260,7 +200,7 @@
             height: 100%;
             z-index: 6;
             pointer-events: none;
-            background: radial-gradient(ellipse at center, transparent 30%, rgba(0, 10, 20, 0.7) 100%);
+            background: radial-gradient(ellipse at center, transparent 30%, rgba(0,10,20,0.7) 100%);
             opacity: 0.3;
             transition: opacity 0.8s;
         }
@@ -274,7 +214,7 @@
             width: 300px;
             height: 300px;
             border-radius: 50%;
-            background: radial-gradient(circle, var(--checkpoint-color, rgba(0, 212, 255, 0.2)) 0%, transparent 70%);
+            background: radial-gradient(circle, var(--checkpoint-color, rgba(0,212,255,0.2)) 0%, transparent 70%);
             z-index: 7;
             pointer-events: none;
             opacity: 0;
@@ -287,17 +227,8 @@
         }
 
         @keyframes checkpointPulse {
-
-            0%,
-            100% {
-                transform: translate(-50%, -50%) scale(1);
-                opacity: 0.6;
-            }
-
-            50% {
-                transform: translate(-50%, -50%) scale(1.3);
-                opacity: 0.3;
-            }
+            0%, 100% { transform: translate(-50%, -50%) scale(1); opacity: 0.6; }
+            50% { transform: translate(-50%, -50%) scale(1.3); opacity: 0.3; }
         }
 
         /* Floating particles in 3D */
@@ -350,9 +281,9 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            background: linear-gradient(135deg, rgba(0, 212, 255, 0.25), rgba(0, 150, 200, 0.1));
+            background: linear-gradient(135deg, rgba(0,212,255,0.25), rgba(0,150,200,0.1));
             border-radius: 14px;
-            border: 1px solid rgba(0, 212, 255, 0.25);
+            border: 1px solid rgba(0,212,255,0.25);
             flex-shrink: 0;
         }
 
@@ -362,7 +293,7 @@
             stroke: #60efff;
             fill: none;
             stroke-width: 1.5;
-            filter: drop-shadow(0 0 8px rgba(96, 239, 255, 0.6));
+            filter: drop-shadow(0 0 8px rgba(96,239,255,0.6));
         }
 
         .keyword-text h3 {
@@ -412,14 +343,8 @@
         }
 
         @keyframes speedStreak {
-            0% {
-                transform: translate(-50%, -50%) translateZ(var(--z)) scaleY(1);
-            }
-
-            100% {
-                transform: translate(-50%, -50%) translateZ(calc(var(--z) + 300px)) scaleY(30);
-                opacity: 0;
-            }
+            0% { transform: translate(-50%, -50%) translateZ(var(--z)) scaleY(1); }
+            100% { transform: translate(-50%, -50%) translateZ(calc(var(--z) + 300px)) scaleY(30); opacity: 0; }
         }
 
         /* UI Layer */
@@ -453,7 +378,7 @@
             color: #fff;
             text-decoration: none;
             opacity: 0.9;
-            text-shadow: 0 0 20px rgba(0, 212, 255, 0.5);
+            text-shadow: 0 0 20px rgba(0,212,255,0.5);
         }
 
         .world-badge {
@@ -461,10 +386,10 @@
             align-items: center;
             gap: 10px;
             padding: 10px 18px;
-            background: rgba(0, 80, 120, 0.4);
+            background: rgba(0,80,120,0.4);
             backdrop-filter: blur(10px);
             border-radius: 24px;
-            border: 1px solid rgba(0, 212, 255, 0.2);
+            border: 1px solid rgba(0,212,255,0.2);
         }
 
         .world-badge-dot {
@@ -477,16 +402,8 @@
         }
 
         @keyframes pulse {
-
-            0%,
-            100% {
-                transform: scale(1);
-            }
-
-            50% {
-                transform: scale(1.3);
-                opacity: 0.7;
-            }
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.3); opacity: 0.7; }
         }
 
         .world-badge-text {
@@ -517,7 +434,7 @@
         .depth-bar {
             width: 4px;
             height: 160px;
-            background: rgba(0, 212, 255, 0.1);
+            background: rgba(0,212,255,0.1);
             border-radius: 4px;
             overflow: hidden;
         }
@@ -551,9 +468,7 @@
             transition: opacity 0.5s;
         }
 
-        .scroll-hint.hidden {
-            opacity: 0;
-        }
+        .scroll-hint.hidden { opacity: 0; }
 
         .scroll-icon {
             width: 28px;
@@ -561,7 +476,7 @@
             border: 2px solid #00d4ff;
             border-radius: 14px;
             position: relative;
-            box-shadow: 0 0 15px rgba(0, 212, 255, 0.4);
+            box-shadow: 0 0 15px rgba(0,212,255,0.4);
         }
 
         .scroll-icon::after {
@@ -578,17 +493,8 @@
         }
 
         @keyframes scrollAnim {
-
-            0%,
-            100% {
-                top: 8px;
-                opacity: 1;
-            }
-
-            50% {
-                top: 26px;
-                opacity: 0.3;
-            }
+            0%, 100% { top: 8px; opacity: 1; }
+            50% { top: 26px; opacity: 0.3; }
         }
 
         .scroll-text {
@@ -607,9 +513,9 @@
             display: flex;
             gap: 18px;
             padding: 14px 24px;
-            background: rgba(0, 40, 60, 0.6);
+            background: rgba(0,40,60,0.6);
             backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255,255,255,0.1);
             border-radius: 50px;
             pointer-events: auto;
         }
@@ -618,8 +524,8 @@
             width: 44px;
             height: 44px;
             border-radius: 50%;
-            border: 1.5px solid rgba(255, 255, 255, 0.15);
-            background: rgba(255, 255, 255, 0.05);
+            border: 1.5px solid rgba(255,255,255,0.15);
+            background: rgba(255,255,255,0.05);
             cursor: pointer;
             transition: all 0.3s;
             display: flex;
@@ -646,25 +552,11 @@
             box-shadow: 0 0 25px currentColor;
         }
 
-        .nav-item[data-agent="hoa"] {
-            color: #ff6b6b;
-        }
-
-        .nav-item[data-agent="tho"] {
-            color: #ffd93d;
-        }
-
-        .nav-item[data-agent="moc"] {
-            color: #6bcb77;
-        }
-
-        .nav-item[data-agent="kim"] {
-            color: #e0e0f0;
-        }
-
-        .nav-item[data-agent="thuy"] {
-            color: #00d4ff;
-        }
+        .nav-item[data-agent="hoa"] { color: #ff6b6b; }
+        .nav-item[data-agent="tho"] { color: #ffd93d; }
+        .nav-item[data-agent="moc"] { color: #6bcb77; }
+        .nav-item[data-agent="kim"] { color: #e0e0f0; }
+        .nav-item[data-agent="thuy"] { color: #00d4ff; }
 
         /* Modal */
         .modal {
@@ -692,7 +584,7 @@
         .modal-backdrop {
             position: absolute;
             inset: 0;
-            background: rgba(1, 10, 20, 0.9);
+            background: rgba(1,10,20,0.9);
             backdrop-filter: blur(15px);
         }
 
@@ -701,8 +593,8 @@
             width: 90%;
             max-width: 520px;
             max-height: 85vh;
-            background: linear-gradient(135deg, rgba(5, 50, 80, 0.95), rgba(2, 25, 45, 0.98));
-            border: 1px solid rgba(0, 212, 255, 0.3);
+            background: linear-gradient(135deg, rgba(5,50,80,0.95), rgba(2,25,45,0.98));
+            border: 1px solid rgba(0,212,255,0.3);
             border-radius: 20px;
             padding: 36px;
             overflow-y: auto;
@@ -720,7 +612,7 @@
             right: 18px;
             width: 40px;
             height: 40px;
-            border: 1px solid rgba(0, 212, 255, 0.3);
+            border: 1px solid rgba(0,212,255,0.3);
             border-radius: 50%;
             background: transparent;
             color: #fff;
@@ -733,7 +625,7 @@
         }
 
         .modal-close:hover {
-            background: rgba(0, 212, 255, 0.2);
+            background: rgba(0,212,255,0.2);
             transform: rotate(90deg);
         }
 
@@ -743,7 +635,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            background: linear-gradient(135deg, rgba(0, 212, 255, 0.2), rgba(0, 150, 200, 0.1));
+            background: linear-gradient(135deg, rgba(0,212,255,0.2), rgba(0,150,200,0.1));
             border-radius: 16px;
             margin-bottom: 20px;
         }
@@ -759,7 +651,7 @@
         .modal-badge {
             display: inline-block;
             padding: 6px 14px;
-            background: rgba(0, 212, 255, 0.15);
+            background: rgba(0,212,255,0.15);
             border-radius: 6px;
             font-size: 0.6rem;
             font-weight: 700;
@@ -798,7 +690,7 @@
             align-items: center;
             gap: 10px;
             padding: 12px;
-            background: rgba(0, 212, 255, 0.08);
+            background: rgba(0,212,255,0.08);
             border-radius: 8px;
             font-size: 0.8rem;
         }
@@ -828,7 +720,7 @@
 
         .modal-cta:hover {
             transform: translateY(-3px);
-            box-shadow: 0 15px 50px rgba(0, 212, 255, 0.5);
+            box-shadow: 0 15px 50px rgba(0,212,255,0.5);
         }
 
         /* Contact */
@@ -848,8 +740,8 @@
             align-items: center;
             justify-content: center;
             gap: 8px;
-            background: rgba(0, 212, 255, 0.1);
-            border: 1px solid rgba(0, 212, 255, 0.25);
+            background: rgba(0,212,255,0.1);
+            border: 1px solid rgba(0,212,255,0.25);
             border-radius: 14px;
             text-decoration: none;
             color: #fff;
@@ -857,7 +749,7 @@
         }
 
         .contact-link:hover {
-            background: rgba(0, 212, 255, 0.2);
+            background: rgba(0,212,255,0.2);
             transform: translateY(-5px);
         }
 
@@ -889,10 +781,7 @@
             transition: opacity 1s;
         }
 
-        .loading.done {
-            opacity: 0;
-            pointer-events: none;
-        }
+        .loading.done { opacity: 0; pointer-events: none; }
 
         .loading-text {
             font-size: 0.8rem;
@@ -914,26 +803,12 @@
             animation: loadDot 1.2s ease-in-out infinite;
         }
 
-        .loading-dots span:nth-child(2) {
-            animation-delay: 0.2s;
-        }
-
-        .loading-dots span:nth-child(3) {
-            animation-delay: 0.4s;
-        }
+        .loading-dots span:nth-child(2) { animation-delay: 0.2s; }
+        .loading-dots span:nth-child(3) { animation-delay: 0.4s; }
 
         @keyframes loadDot {
-
-            0%,
-            100% {
-                transform: scale(0.8);
-                opacity: 0.4;
-            }
-
-            50% {
-                transform: scale(1.2);
-                opacity: 1;
-            }
+            0%, 100% { transform: scale(0.8); opacity: 0.4; }
+            50% { transform: scale(1.2); opacity: 1; }
         }
 
         /* Music Control */
@@ -989,25 +864,10 @@
             animation: musicBar 0.8s ease-in-out infinite;
         }
 
-        .music-bar:nth-child(1) {
-            height: 8px;
-            animation-delay: 0s;
-        }
-
-        .music-bar:nth-child(2) {
-            height: 14px;
-            animation-delay: 0.2s;
-        }
-
-        .music-bar:nth-child(3) {
-            height: 10px;
-            animation-delay: 0.4s;
-        }
-
-        .music-bar:nth-child(4) {
-            height: 16px;
-            animation-delay: 0.1s;
-        }
+        .music-bar:nth-child(1) { height: 8px; animation-delay: 0s; }
+        .music-bar:nth-child(2) { height: 14px; animation-delay: 0.2s; }
+        .music-bar:nth-child(3) { height: 10px; animation-delay: 0.4s; }
+        .music-bar:nth-child(4) { height: 16px; animation-delay: 0.1s; }
 
         .music-control.paused .music-bar {
             animation: none;
@@ -1015,46 +875,25 @@
         }
 
         @keyframes musicBar {
-
-            0%,
-            100% {
-                transform: scaleY(0.5);
-            }
-
-            50% {
-                transform: scaleY(1);
-            }
+            0%, 100% { transform: scaleY(0.5); }
+            50% { transform: scaleY(1); }
         }
 
         .music-text {
             font-size: 0.6rem;
             letter-spacing: 1px;
             text-transform: uppercase;
-            color: rgba(255, 255, 255, 0.7);
+            color: rgba(255,255,255,0.7);
         }
 
         @media (max-width: 768px) {
-            .keyword-card {
-                padding: 14px 18px;
-                gap: 12px;
-            }
-
-            .keyword-icon {
-                width: 42px;
-                height: 42px;
-            }
-
-            .keyword-text h3 {
-                font-size: 0.85rem;
-            }
-
-            .modal-features {
-                grid-template-columns: 1fr;
-            }
+            .keyword-card { padding: 14px 18px; gap: 12px; }
+            .keyword-icon { width: 42px; height: 42px; }
+            .keyword-text h3 { font-size: 0.85rem; }
+            .modal-features { grid-template-columns: 1fr; }
         }
     </style>
 </head>
-
 <body>
     <!-- Background Music (Ambient Ocean) -->
     <audio id="bgMusic" loop preload="auto">
@@ -1078,7 +917,7 @@
     </div>
 
     <div class="depth-bg" id="depthBg"></div>
-
+    
     <!-- Light Effects -->
     <div class="light-shaft" id="lightShaft"></div>
     <div class="caustic-layer" id="causticLayer"></div>
@@ -1108,11 +947,7 @@
             <div class="keyword-3d" id="kw0" data-index="0" style="--z: -300px; --x: -150px; --y: -50px;">
                 <div class="keyword-card">
                     <div class="keyword-icon">
-                        <svg viewBox="0 0 24 24">
-                            <path d="M3 3v18h18" />
-                            <path d="M18 9l-5 5-4-4-3 3" />
-                            <circle cx="18" cy="9" r="2" />
-                        </svg>
+                        <svg viewBox="0 0 24 24"><path d="M3 3v18h18"/><path d="M18 9l-5 5-4-4-3 3"/><circle cx="18" cy="9" r="2"/></svg>
                     </div>
                     <div class="keyword-text">
                         <h3>Conversion Optimization</h3>
@@ -1124,12 +959,7 @@
             <div class="keyword-3d" id="kw1" data-index="1" style="--z: -600px; --x: 120px; --y: 30px;">
                 <div class="keyword-card">
                     <div class="keyword-icon">
-                        <svg viewBox="0 0 24 24">
-                            <rect x="3" y="3" width="7" height="9" rx="1" />
-                            <rect x="14" y="3" width="7" height="5" rx="1" />
-                            <rect x="14" y="12" width="7" height="9" rx="1" />
-                            <rect x="3" y="16" width="7" height="5" rx="1" />
-                        </svg>
+                        <svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="9" rx="1"/><rect x="14" y="3" width="7" height="5" rx="1"/><rect x="14" y="12" width="7" height="9" rx="1"/><rect x="3" y="16" width="7" height="5" rx="1"/></svg>
                     </div>
                     <div class="keyword-text">
                         <h3>A/B Testing & Analytics</h3>
@@ -1141,11 +971,7 @@
             <div class="keyword-3d" id="kw2" data-index="2" style="--z: -900px; --x: -100px; --y: 60px;">
                 <div class="keyword-card">
                     <div class="keyword-icon">
-                        <svg viewBox="0 0 24 24">
-                            <path d="M12 2L2 7l10 5 10-5-10-5z" />
-                            <path d="M2 17l10 5 10-5" />
-                            <path d="M2 12l10 5 10-5" />
-                        </svg>
+                        <svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
                     </div>
                     <div class="keyword-text">
                         <h3>Performance Pricing</h3>
@@ -1157,12 +983,7 @@
             <div class="keyword-3d" id="kw3" data-index="3" style="--z: -1200px; --x: 80px; --y: -40px;">
                 <div class="keyword-card">
                     <div class="keyword-icon">
-                        <svg viewBox="0 0 24 24">
-                            <path d="M12 20V10" />
-                            <path d="M18 20V4" />
-                            <path d="M6 20v-4" />
-                            <circle cx="12" cy="7" r="2" />
-                        </svg>
+                        <svg viewBox="0 0 24 24"><path d="M12 20V10"/><path d="M18 20V4"/><path d="M6 20v-4"/><circle cx="12" cy="7" r="2"/></svg>
                     </div>
                     <div class="keyword-text">
                         <h3>Revenue Tracking</h3>
@@ -1174,10 +995,7 @@
             <div class="keyword-3d contact" id="kw4" data-index="4" style="--z: -1500px; --x: 0px; --y: 0px;">
                 <div class="keyword-card">
                     <div class="keyword-icon">
-                        <svg viewBox="0 0 24 24">
-                            <circle cx="12" cy="12" r="3" />
-                            <path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4" />
-                        </svg>
+                        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4"/></svg>
                     </div>
                     <div class="keyword-text">
                         <h3>Connect With Us</h3>
@@ -1190,10 +1008,10 @@
 
     <div class="ui-layer">
         <header class="header">
-            <a href="index-five-elements.html" class="logo">THE RIKE</a>
+            <a href="#" class="logo">THE RIKE</a>
             <div class="world-badge">
                 <span class="world-badge-dot"></span>
-                <span class="world-badge-text">WATER</span>
+                <span class="world-badge-text">THỦY · WATER</span>
             </div>
         </header>
 
@@ -1211,23 +1029,11 @@
         </div>
 
         <nav class="nav-bottom">
-            <div class="nav-item" data-agent="hoa"><svg viewBox="0 0 24 24">
-                    <path d="M12 2c-4 4-6 8-6 11a6 6 0 0 0 12 0c0-3-2-7-6-11z" />
-                </svg></div>
-            <div class="nav-item" data-agent="tho"><svg viewBox="0 0 24 24">
-                    <circle cx="12" cy="12" r="10" />
-                    <path d="M2 12h20" />
-                </svg></div>
-            <div class="nav-item" data-agent="moc"><svg viewBox="0 0 24 24">
-                    <path d="M12 22V8" />
-                    <path d="M5 12l7-7 7 7" />
-                </svg></div>
-            <div class="nav-item" data-agent="kim"><svg viewBox="0 0 24 24">
-                    <polygon points="12 2 15 8 22 9 17 14 18 21 12 18 6 21 7 14 2 9 9 8" />
-                </svg></div>
-            <div class="nav-item active" data-agent="thuy"><svg viewBox="0 0 24 24">
-                    <path d="M12 2c-4 6-7 10-7 14a7 7 0 0 0 14 0c0-4-3-8-7-14z" />
-                </svg></div>
+            <div class="nav-item" data-agent="hoa"><svg viewBox="0 0 24 24"><path d="M12 2c-4 4-6 8-6 11a6 6 0 0 0 12 0c0-3-2-7-6-11z"/></svg></div>
+            <div class="nav-item" data-agent="tho"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M2 12h20"/></svg></div>
+            <div class="nav-item" data-agent="moc"><svg viewBox="0 0 24 24"><path d="M12 22V8"/><path d="M5 12l7-7 7 7"/></svg></div>
+            <div class="nav-item" data-agent="kim"><svg viewBox="0 0 24 24"><polygon points="12 2 15 8 22 9 17 14 18 21 12 18 6 21 7 14 2 9 9 8"/></svg></div>
+            <div class="nav-item active" data-agent="thuy"><svg viewBox="0 0 24 24"><path d="M12 2c-4 6-7 10-7 14a7 7 0 0 0 14 0c0-4-3-8-7-14z"/></svg></div>
         </nav>
     </div>
 
@@ -1254,94 +1060,79 @@
             <h2 class="modal-title">Connect With Us</h2>
             <p class="modal-subtitle">Choose your preferred channel</p>
             <div class="contact-links">
-                <a href="#" class="contact-link"><svg viewBox="0 0 24 24">
-                        <rect x="2" y="4" width="20" height="16" rx="2" />
-                        <path d="M22 6l-10 7L2 6" />
-                    </svg><span>Email</span></a>
-                <a href="#" class="contact-link"><svg viewBox="0 0 24 24">
-                        <path d="M9 12a4 4 0 1 0 4 4V4c1 2 3 3 5 3" />
-                    </svg><span>TikTok</span></a>
-                <a href="#" class="contact-link"><svg viewBox="0 0 24 24">
-                        <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z" />
-                    </svg><span>Facebook</span></a>
-                <a href="#" class="contact-link"><svg viewBox="0 0 24 24">
-                        <rect x="2" y="2" width="20" height="20" rx="5" />
-                        <circle cx="12" cy="12" r="4" />
-                    </svg><span>Instagram</span></a>
-                <a href="#" class="contact-link"><svg viewBox="0 0 24 24">
-                        <circle cx="9" cy="12" r="1" />
-                        <circle cx="15" cy="12" r="1" />
-                        <path d="M7 8c1-1 2.5-2 5-2s4 1 5 2M7 16c1 1 2.5 2 5 2s4-1 5-2" />
-                        <rect x="2" y="6" width="20" height="12" rx="4" />
-                    </svg><span>Discord</span></a>
+                <a href="#" class="contact-link"><svg viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M22 6l-10 7L2 6"/></svg><span>Email</span></a>
+                <a href="#" class="contact-link"><svg viewBox="0 0 24 24"><path d="M9 12a4 4 0 1 0 4 4V4c1 2 3 3 5 3"/></svg><span>TikTok</span></a>
+                <a href="#" class="contact-link"><svg viewBox="0 0 24 24"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg><span>Facebook</span></a>
+                <a href="#" class="contact-link"><svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/></svg><span>Instagram</span></a>
+                <a href="#" class="contact-link"><svg viewBox="0 0 24 24"><circle cx="9" cy="12" r="1"/><circle cx="15" cy="12" r="1"/><path d="M7 8c1-1 2.5-2 5-2s4 1 5 2M7 16c1 1 2.5 2 5 2s4-1 5-2"/><rect x="2" y="6" width="20" height="12" rx="4"/></svg><span>Discord</span></a>
             </div>
         </div>
     </div>
 
     <script>
-        // ============================================
-        // SERVICES DATA
-        // ============================================
-        const SERVICES = [
-            { icon: `<svg viewBox="0 0 24 24"><path d="M3 3v18h18"/><path d="M18 9l-5 5-4-4-3 3"/><circle cx="18" cy="9" r="2"/></svg>`, title: 'Conversion Optimization', subtitle: 'Turn visitors into buyers', desc: 'We optimize your entire funnel from landing page to checkout. Our data-driven approach increases conversion rates by 20-50% within 90 days.', features: ['Landing page audit', 'UX improvements', 'Checkout optimization', 'Trust signals'] },
-            { icon: `<svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="9" rx="1"/><rect x="14" y="3" width="7" height="5" rx="1"/><rect x="14" y="12" width="7" height="9" rx="1"/><rect x="3" y="16" width="7" height="5" rx="1"/></svg>`, title: 'A/B Testing & Analytics', subtitle: 'Data-driven decisions', desc: 'Complete analytics setup with continuous testing. Every decision backed by real data.', features: ['GA4 setup', 'Heatmaps', 'A/B testing', 'Event tracking'] },
-            { icon: `<svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>`, title: 'Performance Pricing', subtitle: 'We win when you win', desc: 'Flexible pricing tied to your results. Our interests aligned with your growth.', features: ['Revenue share', 'Performance bonus', 'Transparent reports', 'Monthly reviews'] },
-            { icon: `<svg viewBox="0 0 24 24"><path d="M12 20V10"/><path d="M18 20V4"/><path d="M6 20v-4"/><circle cx="12" cy="7" r="2"/></svg>`, title: 'Revenue Tracking', subtitle: 'Real-time dashboards', desc: 'Custom dashboards showing exactly where revenue comes from. Know your ROI on every dollar.', features: ['Live dashboard', 'Attribution', 'ROI tracking', 'Auto reports'] }
-        ];
+    // ============================================
+    // SERVICES DATA
+    // ============================================
+    const SERVICES = [
+        { icon: `<svg viewBox="0 0 24 24"><path d="M3 3v18h18"/><path d="M18 9l-5 5-4-4-3 3"/><circle cx="18" cy="9" r="2"/></svg>`, title: 'Conversion Optimization', subtitle: 'Turn visitors into buyers', desc: 'We optimize your entire funnel from landing page to checkout. Our data-driven approach increases conversion rates by 20-50% within 90 days.', features: ['Landing page audit', 'UX improvements', 'Checkout optimization', 'Trust signals'] },
+        { icon: `<svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="9" rx="1"/><rect x="14" y="3" width="7" height="5" rx="1"/><rect x="14" y="12" width="7" height="9" rx="1"/><rect x="3" y="16" width="7" height="5" rx="1"/></svg>`, title: 'A/B Testing & Analytics', subtitle: 'Data-driven decisions', desc: 'Complete analytics setup with continuous testing. Every decision backed by real data.', features: ['GA4 setup', 'Heatmaps', 'A/B testing', 'Event tracking'] },
+        { icon: `<svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>`, title: 'Performance Pricing', subtitle: 'We win when you win', desc: 'Flexible pricing tied to your results. Our interests aligned with your growth.', features: ['Revenue share', 'Performance bonus', 'Transparent reports', 'Monthly reviews'] },
+        { icon: `<svg viewBox="0 0 24 24"><path d="M12 20V10"/><path d="M18 20V4"/><path d="M6 20v-4"/><circle cx="12" cy="7" r="2"/></svg>`, title: 'Revenue Tracking', subtitle: 'Real-time dashboards', desc: 'Custom dashboards showing exactly where revenue comes from. Know your ROI on every dollar.', features: ['Live dashboard', 'Attribution', 'ROI tracking', 'Auto reports'] }
+    ];
 
-        // ============================================
-        // 3D SCROLL SYSTEM
-        // ============================================
-        const tunnel = document.getElementById('tunnel');
-        const keywords = document.querySelectorAll('.keyword-3d');
+    // ============================================
+    // 3D SCROLL SYSTEM
+    // ============================================
+    const tunnel = document.getElementById('tunnel');
+    const keywords = document.querySelectorAll('.keyword-3d');
+    
+    let currentZ = 0;
+    let targetZ = 0;
+    let velocity = 0;
+    const MAX_Z = 1600;
+    const MAX_DEPTH = 100;
 
-        let currentZ = 0;
-        let targetZ = 0;
-        let velocity = 0;
-        const MAX_Z = 1600;
-        const MAX_DEPTH = 100;
+    // Light elements
+    const lightShaft = document.getElementById('lightShaft');
+    const causticLayer = document.getElementById('causticLayer');
+    const lightRays = document.getElementById('lightRays');
+    const ambientGlow = document.getElementById('ambientGlow');
+    const shimmerLayer = document.getElementById('shimmerLayer');
+    const vignette = document.getElementById('vignette');
+    const checkpointGlow = document.getElementById('checkpointGlow');
 
-        // Light elements
-        const lightShaft = document.getElementById('lightShaft');
-        const causticLayer = document.getElementById('causticLayer');
-        const lightRays = document.getElementById('lightRays');
-        const ambientGlow = document.getElementById('ambientGlow');
-        const shimmerLayer = document.getElementById('shimmerLayer');
-        const vignette = document.getElementById('vignette');
-        const checkpointGlow = document.getElementById('checkpointGlow');
+    // Checkpoint Z positions and colors
+    const CHECKPOINTS = [
+        { z: 300, color: 'rgba(100, 200, 255, 0.25)', name: 'conversion' },
+        { z: 600, color: 'rgba(80, 180, 240, 0.25)', name: 'testing' },
+        { z: 900, color: 'rgba(60, 160, 220, 0.25)', name: 'pricing' },
+        { z: 1200, color: 'rgba(40, 140, 200, 0.25)', name: 'revenue' },
+        { z: 1500, color: 'rgba(0, 212, 255, 0.3)', name: 'contact' }
+    ];
 
-        // Checkpoint Z positions and colors
-        const CHECKPOINTS = [
-            { z: 300, color: 'rgba(100, 200, 255, 0.25)', name: 'conversion' },
-            { z: 600, color: 'rgba(80, 180, 240, 0.25)', name: 'testing' },
-            { z: 900, color: 'rgba(60, 160, 220, 0.25)', name: 'pricing' },
-            { z: 1200, color: 'rgba(40, 140, 200, 0.25)', name: 'revenue' },
-            { z: 1500, color: 'rgba(0, 212, 255, 0.3)', name: 'contact' }
-        ];
+    // Scroll handling
+    window.addEventListener('wheel', (e) => {
+        e.preventDefault();
+        velocity += e.deltaY * 0.5;
+    }, { passive: false });
 
-        // Scroll handling
-        window.addEventListener('wheel', (e) => {
-            e.preventDefault();
-            velocity += e.deltaY * 0.5;
-        }, { passive: false });
+    // Touch handling
+    let touchY = 0;
+    window.addEventListener('touchstart', (e) => touchY = e.touches[0].clientY);
+    window.addEventListener('touchmove', (e) => {
+        e.preventDefault();
+        velocity += (touchY - e.touches[0].clientY) * 2;
+        touchY = e.touches[0].clientY;
+    }, { passive: false });
 
-        // Touch handling
-        let touchY = 0;
-        window.addEventListener('touchstart', (e) => touchY = e.touches[0].clientY);
-        window.addEventListener('touchmove', (e) => {
-            e.preventDefault();
-            velocity += (touchY - e.touches[0].clientY) * 2;
-            touchY = e.touches[0].clientY;
-        }, { passive: false });
-
-        // ============================================
-        // FLOATING PARTICLES
-        // ============================================
-        const particles = [];
-        for (let i = 0; i < 80; i++) {
-            const p = document.createElement('div');
-            p.className = 'particle-3d';
-            p.style.cssText = `
+    // ============================================
+    // FLOATING PARTICLES
+    // ============================================
+    const particles = [];
+    for (let i = 0; i < 80; i++) {
+        const p = document.createElement('div');
+        p.className = 'particle-3d';
+        p.style.cssText = `
             left: ${Math.random() * 100}%;
             top: ${Math.random() * 100}%;
             transform: translateZ(${-Math.random() * 1500}px);
@@ -1349,244 +1140,222 @@
             width: ${Math.random() * 4 + 2}px;
             height: ${Math.random() * 4 + 2}px;
         `;
-            tunnel.appendChild(p);
-            particles.push({
-                el: p,
-                z: -Math.random() * 1500,
-                speed: Math.random() * 0.5 + 0.2,
-                x: Math.random() * 100,
-                y: Math.random() * 100
-            });
-        }
+        tunnel.appendChild(p);
+        particles.push({
+            el: p,
+            z: -Math.random() * 1500,
+            speed: Math.random() * 0.5 + 0.2,
+            x: Math.random() * 100,
+            y: Math.random() * 100
+        });
+    }
 
-        // ============================================
-        // ANIMATION LOOP
-        // ============================================
-        function animate() {
-            requestAnimationFrame(animate);
+    // ============================================
+    // ANIMATION LOOP
+    // ============================================
+    function animate() {
+        requestAnimationFrame(animate);
 
-            // Physics
-            velocity *= 0.92;
-            targetZ += velocity * 0.1;
-            targetZ = Math.max(0, Math.min(MAX_Z, targetZ));
-            currentZ += (targetZ - currentZ) * 0.08;
+        // Physics
+        velocity *= 0.92;
+        targetZ += velocity * 0.1;
+        targetZ = Math.max(0, Math.min(MAX_Z, targetZ));
+        currentZ += (targetZ - currentZ) * 0.08;
 
-            // Move tunnel forward
-            tunnel.style.transform = `translate(-50%, -50%) translateZ(${currentZ}px)`;
+        // Move tunnel forward
+        tunnel.style.transform = `translate(-50%, -50%) translateZ(${currentZ}px)`;
 
-            // Progress
-            const progress = currentZ / MAX_Z;
+        // Progress
+        const progress = currentZ / MAX_Z;
 
-            // Update depth meter
-            document.getElementById('depthValue').textContent = Math.floor(progress * MAX_DEPTH) + 'm';
-            document.getElementById('depthFill').style.height = (progress * 100) + '%';
+        // Update depth meter
+        document.getElementById('depthValue').textContent = Math.floor(progress * MAX_DEPTH) + 'm';
+        document.getElementById('depthFill').style.height = (progress * 100) + '%';
 
-            // Update background color (lighter to darker)
-            const hue = 200 - progress * 20;
-            const sat = 70 - progress * 40;
-            const light = 25 - progress * 20;
-            document.getElementById('depthBg').style.background = `linear-gradient(180deg, 
+        // Update background color (lighter to darker)
+        const hue = 200 - progress * 20;
+        const sat = 70 - progress * 40;
+        const light = 25 - progress * 20;
+        document.getElementById('depthBg').style.background = `linear-gradient(180deg, 
             hsl(${hue}, ${sat}%, ${light + 10}%) 0%, 
             hsl(${hue - 5}, ${sat - 10}%, ${light}%) 50%, 
             hsl(${hue - 15}, ${sat - 25}%, ${Math.max(2, light - 12)}%) 100%)`;
 
-            // ===================
-            // LIGHTING UPDATES
-            // ===================
+        // ===================
+        // LIGHTING UPDATES
+        // ===================
+        
+        // Light shaft fades with depth
+        lightShaft.style.opacity = Math.max(0, 1 - progress * 1.8);
+        
+        // Caustic layer - less visible as you go deeper
+        causticLayer.style.opacity = Math.max(0, 0.4 - progress * 0.5);
+        
+        // Light rays fade
+        lightRays.style.opacity = Math.max(0, 1 - progress * 1.5);
+        
+        // Shimmer fades
+        shimmerLayer.style.opacity = Math.max(0, 1 - progress * 2);
+        
+        // Vignette gets darker
+        vignette.style.opacity = 0.3 + progress * 0.5;
 
-            // Light shaft fades with depth
-            lightShaft.style.opacity = Math.max(0, 1 - progress * 1.8);
-
-            // Caustic layer - less visible as you go deeper
-            causticLayer.style.opacity = Math.max(0, 0.4 - progress * 0.5);
-
-            // Light rays fade
-            lightRays.style.opacity = Math.max(0, 1 - progress * 1.5);
-
-            // Shimmer fades
-            shimmerLayer.style.opacity = Math.max(0, 1 - progress * 2);
-
-            // Vignette gets darker
-            vignette.style.opacity = 0.3 + progress * 0.5;
-
-            // Check proximity to checkpoints for ambient glow
-            let nearestCheckpoint = null;
-            let nearestDist = Infinity;
-
-            CHECKPOINTS.forEach((cp, i) => {
-                const dist = Math.abs(currentZ - cp.z);
-                if (dist < 200 && dist < nearestDist) {
-                    nearestDist = dist;
-                    nearestCheckpoint = cp;
-                }
-            });
-
-            if (nearestCheckpoint) {
-                // Activate checkpoint glow
-                checkpointGlow.classList.add('active');
-                checkpointGlow.style.setProperty('--checkpoint-color', nearestCheckpoint.color);
-
-                // Change ambient color based on checkpoint
-                const glowIntensity = 1 - (nearestDist / 200);
-                ambientGlow.style.setProperty('--ambient-color', nearestCheckpoint.color);
-                ambientGlow.style.opacity = 0.4 + glowIntensity * 0.4;
-
-                // Caustic animation speed changes near checkpoints
-                causticLayer.style.animationDuration = (10 - glowIntensity * 5) + 's';
-            } else {
-                checkpointGlow.classList.remove('active');
-                ambientGlow.style.opacity = 0.3;
-                causticLayer.style.animationDuration = '10s';
+        // Check proximity to checkpoints for ambient glow
+        let nearestCheckpoint = null;
+        let nearestDist = Infinity;
+        
+        CHECKPOINTS.forEach((cp, i) => {
+            const dist = Math.abs(currentZ - cp.z);
+            if (dist < 200 && dist < nearestDist) {
+                nearestDist = dist;
+                nearestCheckpoint = cp;
             }
+        });
 
-            // Speed-based light effects
-            const speed = Math.abs(velocity);
-            if (speed > 2) {
-                // Fast movement - caustics speed up, rays intensify
-                causticLayer.style.animationDuration = Math.max(3, 10 - speed) + 's';
-                lightRays.style.filter = `blur(${Math.min(8, speed)}px)`;
-            } else {
-                lightRays.style.filter = 'blur(3px)';
-            }
-
-            // Hide scroll hint
-            if (progress > 0.02) {
-                document.getElementById('scrollHint').classList.add('hidden');
-            }
-
-            // Update particles - drift upward
-            particles.forEach(p => {
-                p.y -= p.speed;
-                if (p.y < -5) p.y = 105;
-
-                // Move particles relative to scroll
-                const relativeZ = p.z + currentZ;
-                const scale = Math.max(0.1, 1 + relativeZ / 500);
-                const opacity = relativeZ > -100 ? Math.max(0, 1 - relativeZ / 200) : Math.max(0, Math.min(0.8, 1 + relativeZ / 1500));
-
-                p.el.style.top = p.y + '%';
-                p.el.style.transform = `translateZ(${p.z}px) scale(${scale})`;
-                p.el.style.opacity = opacity;
-            });
-
-            // Update keywords visibility based on distance
-            keywords.forEach(kw => {
-                const kwZ = parseFloat(kw.style.getPropertyValue('--z'));
-                const relativeZ = kwZ + currentZ;
-
-                // Scale based on distance (closer = bigger)
-                const scale = Math.max(0.2, Math.min(2, 1 + relativeZ / 400));
-
-                // Opacity based on distance
-                let opacity = 1;
-                if (relativeZ > 100) opacity = Math.max(0, 1 - (relativeZ - 100) / 200); // Fade when too close
-                if (relativeZ < -300) opacity = Math.max(0, 1 + (relativeZ + 300) / 500); // Fade when too far
-
-                // Apply
-                kw.style.opacity = opacity;
-                kw.querySelector('.keyword-card').style.transform = `scale(${scale})`;
-
-                // Clickable only when visible enough
-                kw.style.pointerEvents = opacity > 0.3 ? 'auto' : 'none';
-            });
+        if (nearestCheckpoint) {
+            // Activate checkpoint glow
+            checkpointGlow.classList.add('active');
+            checkpointGlow.style.setProperty('--checkpoint-color', nearestCheckpoint.color);
+            
+            // Change ambient color based on checkpoint
+            const glowIntensity = 1 - (nearestDist / 200);
+            ambientGlow.style.setProperty('--ambient-color', nearestCheckpoint.color);
+            ambientGlow.style.opacity = 0.4 + glowIntensity * 0.4;
+            
+            // Caustic animation speed changes near checkpoints
+            causticLayer.style.animationDuration = (10 - glowIntensity * 5) + 's';
+        } else {
+            checkpointGlow.classList.remove('active');
+            ambientGlow.style.opacity = 0.3;
+            causticLayer.style.animationDuration = '10s';
         }
 
-        animate();
-
-        // ============================================
-        // KEYWORD CLICKS
-        // ============================================
-        keywords.forEach((kw, i) => {
-            kw.addEventListener('click', () => {
-                if (i === 4) {
-                    document.getElementById('contactModal').classList.add('visible');
-                } else {
-                    const s = SERVICES[i];
-                    document.getElementById('modalIcon').innerHTML = s.icon;
-                    document.getElementById('modalTitle').textContent = s.title;
-                    document.getElementById('modalSubtitle').textContent = s.subtitle;
-                    document.getElementById('modalDesc').textContent = s.desc;
-                    document.getElementById('modalFeatures').innerHTML = s.features.map(f =>
-                        `<div class="modal-feature"><span class="modal-feature-dot"></span>${f}</div>`
-                    ).join('');
-                    document.getElementById('serviceModal').classList.add('visible');
-                }
-            });
-        });
-
-        // Close modals
-        ['serviceClose', 'serviceBackdrop', 'contactClose', 'contactBackdrop'].forEach(id => {
-            document.getElementById(id).addEventListener('click', () => {
-                document.querySelectorAll('.modal').forEach(m => m.classList.remove('visible'));
-            });
-        });
-
-        document.addEventListener('keydown', e => {
-            if (e.key === 'Escape') document.querySelectorAll('.modal').forEach(m => m.classList.remove('visible'));
-        });
-
-        // Nav
-        document.querySelectorAll('.nav-item').forEach(item => {
-            item.addEventListener('click', () => {
-                const agent = item.dataset.agent;
-                if (agent !== 'thuy') {
-                    window.location.href = `index-${agent}-world-v2.html`;
-                }
-            });
-        });
-
-        // Loading
-        window.addEventListener('load', () => {
-            setTimeout(() => document.getElementById('loading').classList.add('done'), 1500);
-        });
-
-        // ============================================
-        // MUSIC CONTROL - Auto-play on page load
-        // ============================================
-        const bgMusic = document.getElementById('bgMusic');
-        const musicControl = document.getElementById('musicControl');
-        bgMusic.volume = 0.3;
-        let musicStarted = false;
-
-        function startMusic() {
-            if (!musicStarted) {
-                bgMusic.play().then(() => {
-                    musicStarted = true;
-                    musicControl.classList.remove('paused');
-                }).catch((e) => {
-                    console.log('Autoplay blocked, waiting for user interaction');
-                });
-            }
+        // Speed-based light effects
+        const speed = Math.abs(velocity);
+        if (speed > 2) {
+            // Fast movement - caustics speed up, rays intensify
+            causticLayer.style.animationDuration = Math.max(3, 10 - speed) + 's';
+            lightRays.style.filter = `blur(${Math.min(8, speed)}px)`;
+        } else {
+            lightRays.style.filter = 'blur(3px)';
         }
 
-        function toggleMusic() {
-            if (bgMusic.paused) {
-                bgMusic.play();
+        // Hide scroll hint
+        if (progress > 0.02) {
+            document.getElementById('scrollHint').classList.add('hidden');
+        }
+
+        // Update particles - drift upward
+        particles.forEach(p => {
+            p.y -= p.speed;
+            if (p.y < -5) p.y = 105;
+            
+            // Move particles relative to scroll
+            const relativeZ = p.z + currentZ;
+            const scale = Math.max(0.1, 1 + relativeZ / 500);
+            const opacity = relativeZ > -100 ? Math.max(0, 1 - relativeZ / 200) : Math.max(0, Math.min(0.8, 1 + relativeZ / 1500));
+            
+            p.el.style.top = p.y + '%';
+            p.el.style.transform = `translateZ(${p.z}px) scale(${scale})`;
+            p.el.style.opacity = opacity;
+        });
+
+        // Update keywords visibility based on distance
+        keywords.forEach(kw => {
+            const kwZ = parseFloat(kw.style.getPropertyValue('--z'));
+            const relativeZ = kwZ + currentZ;
+            
+            // Scale based on distance (closer = bigger)
+            const scale = Math.max(0.2, Math.min(2, 1 + relativeZ / 400));
+            
+            // Opacity based on distance
+            let opacity = 1;
+            if (relativeZ > 100) opacity = Math.max(0, 1 - (relativeZ - 100) / 200); // Fade when too close
+            if (relativeZ < -300) opacity = Math.max(0, 1 + (relativeZ + 300) / 500); // Fade when too far
+            
+            // Apply
+            kw.style.opacity = opacity;
+            kw.querySelector('.keyword-card').style.transform = `scale(${scale})`;
+            
+            // Clickable only when visible enough
+            kw.style.pointerEvents = opacity > 0.3 ? 'auto' : 'none';
+        });
+    }
+
+    animate();
+
+    // ============================================
+    // KEYWORD CLICKS
+    // ============================================
+    keywords.forEach((kw, i) => {
+        kw.addEventListener('click', () => {
+            if (i === 4) {
+                document.getElementById('contactModal').classList.add('visible');
+            } else {
+                const s = SERVICES[i];
+                document.getElementById('modalIcon').innerHTML = s.icon;
+                document.getElementById('modalTitle').textContent = s.title;
+                document.getElementById('modalSubtitle').textContent = s.subtitle;
+                document.getElementById('modalDesc').textContent = s.desc;
+                document.getElementById('modalFeatures').innerHTML = s.features.map(f => 
+                    `<div class="modal-feature"><span class="modal-feature-dot"></span>${f}</div>`
+                ).join('');
+                document.getElementById('serviceModal').classList.add('visible');
+            }
+        });
+    });
+
+    // Close modals
+    ['serviceClose', 'serviceBackdrop', 'contactClose', 'contactBackdrop'].forEach(id => {
+        document.getElementById(id).addEventListener('click', () => {
+            document.querySelectorAll('.modal').forEach(m => m.classList.remove('visible'));
+        });
+    });
+
+    document.addEventListener('keydown', e => {
+        if (e.key === 'Escape') document.querySelectorAll('.modal').forEach(m => m.classList.remove('visible'));
+    });
+
+    // Nav
+    document.querySelectorAll('.nav-item').forEach(item => {
+        item.addEventListener('click', () => {
+            if (item.dataset.agent !== 'thuy') alert(item.dataset.agent.toUpperCase() + ' world coming soon!');
+        });
+    });
+
+    // Loading
+    window.addEventListener('load', () => {
+        setTimeout(() => document.getElementById('loading').classList.add('done'), 1500);
+    });
+
+    // ============================================
+    // MUSIC CONTROL
+    // ============================================
+    const bgMusic = document.getElementById('bgMusic');
+    const musicControl = document.getElementById('musicControl');
+    bgMusic.volume = 0.3;
+
+    musicControl.addEventListener('click', () => {
+        if (bgMusic.paused) {
+            bgMusic.play();
+            musicControl.classList.remove('paused');
+        } else {
+            bgMusic.pause();
+            musicControl.classList.add('paused');
+        }
+    });
+
+    // Auto-play attempt on first interaction
+    document.addEventListener('click', function initAudio() {
+        if (bgMusic.paused) {
+            bgMusic.play().then(() => {
                 musicControl.classList.remove('paused');
-            } else {
-                bgMusic.pause();
-                musicControl.classList.add('paused');
-            }
+            }).catch(() => {});
         }
+        document.removeEventListener('click', initAudio);
+    }, { once: true });
 
-        musicControl.addEventListener('click', (e) => {
-            e.stopPropagation();
-            toggleMusic();
-        });
-
-        // Try to autoplay on load
-        window.addEventListener('load', () => {
-            setTimeout(startMusic, 100);
-        });
-
-        // Fallback: start on first click anywhere
-        document.addEventListener('click', function initAudio() {
-            startMusic();
-            document.removeEventListener('click', initAudio);
-        }, { once: true });
-
-        console.log('🌊 THỦY World - The Data Shapeshifter');
+    console.log('🌊 THỦY World - The Data Shapeshifter');
     </script>
 </body>
-
 </html>

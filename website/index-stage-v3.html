@@ -1,16 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The Rike | Five Elements Universe</title>
-
+    <title>The Rike | Ngũ Hành Universe</title>
+    
     <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link
-        href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700;900&family=Noto+Serif:ital@0;1&display=swap"
-        rel="stylesheet">
-
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700;900&family=Noto+Serif:ital@0;1&display=swap" rel="stylesheet">
+    
     <style>
         :root {
             --bg: #030308;
@@ -24,8 +21,7 @@
             box-sizing: border-box;
         }
 
-        html,
-        body {
+        html, body {
             width: 100%;
             height: 100%;
             overflow: hidden;
@@ -40,7 +36,7 @@
             position: fixed;
             width: 20px;
             height: 20px;
-            border: 2px solid rgba(255, 255, 255, 0.5);
+            border: 2px solid rgba(255,255,255,0.5);
             border-radius: 50%;
             pointer-events: none;
             z-index: 9999;
@@ -51,7 +47,7 @@
 
         .cursor.hover {
             transform: translate(-50%, -50%) scale(2);
-            background: rgba(255, 255, 255, 0.1);
+            background: rgba(255,255,255,0.1);
         }
 
         .cursor-dot {
@@ -85,7 +81,7 @@
             z-index: 2;
             pointer-events: none;
             opacity: 0;
-            background: radial-gradient(ellipse at center, transparent 0%, rgba(0, 0, 0, 0.9) 100%);
+            background: radial-gradient(ellipse at center, transparent 0%, rgba(0,0,0,0.9) 100%);
             transition: opacity 0.5s;
         }
 
@@ -117,7 +113,7 @@
             left: 50%;
             width: 2px;
             height: 0;
-            background: linear-gradient(to bottom, transparent, rgba(255, 255, 255, 0.8), transparent);
+            background: linear-gradient(to bottom, transparent, rgba(255,255,255,0.8), transparent);
             transform-origin: center top;
         }
 
@@ -126,15 +122,8 @@
         }
 
         @keyframes speedLine {
-            0% {
-                height: 0;
-                opacity: 1;
-            }
-
-            100% {
-                height: 50vmax;
-                opacity: 0;
-            }
+            0% { height: 0; opacity: 1; }
+            100% { height: 50vmax; opacity: 0; }
         }
 
         /* UI Layer */
@@ -179,7 +168,7 @@
         .header-cta {
             padding: 12px 24px;
             background: transparent;
-            border: 1px solid rgba(255, 255, 255, 0.2);
+            border: 1px solid rgba(255,255,255,0.2);
             color: var(--text);
             font-family: inherit;
             font-size: 0.7rem;
@@ -228,15 +217,8 @@
         }
 
         @keyframes gradientShift {
-
-            0%,
-            100% {
-                background-position: 0% 50%;
-            }
-
-            50% {
-                background-position: 100% 50%;
-            }
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
         }
 
         .stage-subtitle {
@@ -299,7 +281,7 @@
             padding: 16px 28px;
             background: rgba(10, 10, 20, 0.7);
             backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255,255,255,0.1);
             border-radius: 8px;
             cursor: none;
             pointer-events: auto;
@@ -310,8 +292,8 @@
         .orbit-item:hover {
             background: rgba(20, 20, 40, 0.9);
             transform: translate(-50%, -50%) scale(1.1);
-            border-color: var(--agent-color, rgba(255, 255, 255, 0.3));
-            box-shadow: 0 0 30px var(--agent-glow, rgba(255, 255, 255, 0.2));
+            border-color: var(--agent-color, rgba(255,255,255,0.3));
+            box-shadow: 0 0 30px var(--agent-glow, rgba(255,255,255,0.2));
         }
 
         .orbit-item.active {
@@ -347,7 +329,7 @@
             max-width: 600px;
             background: rgba(10, 10, 20, 0.85);
             backdrop-filter: blur(30px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255,255,255,0.1);
             border-radius: 16px;
             padding: 32px 40px;
             opacity: 0;
@@ -385,7 +367,7 @@
         .detail-close {
             width: 36px;
             height: 36px;
-            border: 1px solid rgba(255, 255, 255, 0.2);
+            border: 1px solid rgba(255,255,255,0.2);
             border-radius: 50%;
             background: transparent;
             color: var(--text-dim);
@@ -402,7 +384,7 @@
         .detail-content {
             font-size: 0.95rem;
             line-height: 1.8;
-            color: rgba(255, 255, 255, 0.8);
+            color: rgba(255,255,255,0.8);
             margin-bottom: 24px;
         }
 
@@ -418,7 +400,7 @@
             align-items: center;
             gap: 10px;
             font-size: 0.85rem;
-            color: rgba(255, 255, 255, 0.7);
+            color: rgba(255,255,255,0.7);
         }
 
         .detail-feature-dot {
@@ -446,7 +428,7 @@
 
         .detail-cta:hover {
             transform: translateY(-2px);
-            box-shadow: 0 10px 40px var(--agent-glow, rgba(255, 255, 255, 0.3));
+            box-shadow: 0 10px 40px var(--agent-glow, rgba(255,255,255,0.3));
         }
 
         /* Navigation Dots */
@@ -459,8 +441,8 @@
             gap: 40px;
             pointer-events: auto;
             padding: 16px 32px;
-            background: rgba(255, 255, 255, 0.02);
-            border: 1px solid rgba(255, 255, 255, 0.05);
+            background: rgba(255,255,255,0.02);
+            border: 1px solid rgba(255,255,255,0.05);
             border-radius: 40px;
             backdrop-filter: blur(10px);
             transition: opacity 0.5s;
@@ -504,25 +486,11 @@
             box-shadow: 0 0 20px currentColor;
         }
 
-        .nav-hint[data-agent="hoa"] {
-            color: #ff6b6b;
-        }
-
-        .nav-hint[data-agent="thuy"] {
-            color: #4d96ff;
-        }
-
-        .nav-hint[data-agent="tho"] {
-            color: #ffd93d;
-        }
-
-        .nav-hint[data-agent="kim"] {
-            color: #c8c8dc;
-        }
-
-        .nav-hint[data-agent="moc"] {
-            color: #6bcb77;
-        }
+        .nav-hint[data-agent="hoa"] { color: #ff6b6b; }
+        .nav-hint[data-agent="thuy"] { color: #4d96ff; }
+        .nav-hint[data-agent="tho"] { color: #ffd93d; }
+        .nav-hint[data-agent="kim"] { color: #c8c8dc; }
+        .nav-hint[data-agent="moc"] { color: #6bcb77; }
 
         .hint-label {
             font-size: 0.6rem;
@@ -540,8 +508,8 @@
             align-items: center;
             gap: 12px;
             padding: 16px 24px;
-            background: rgba(255, 255, 255, 0.03);
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.1);
             border-radius: 4px;
             color: var(--text-dim);
             font-family: inherit;
@@ -561,7 +529,7 @@
         }
 
         .back-btn:hover {
-            background: rgba(255, 255, 255, 0.08);
+            background: rgba(255,255,255,0.08);
             color: var(--text);
         }
 
@@ -597,7 +565,7 @@
         .loading-bar {
             width: 200px;
             height: 1px;
-            background: rgba(255, 255, 255, 0.1);
+            background: rgba(255,255,255,0.1);
             overflow: hidden;
         }
 
@@ -608,75 +576,29 @@
         }
 
         @keyframes load {
-            from {
-                width: 0;
-            }
-
-            to {
-                width: 100%;
-            }
+            from { width: 0; }
+            to { width: 100%; }
         }
 
         /* Agent-specific colors */
-        .world-hoa {
-            --agent-color: #ff6b6b;
-            --agent-glow: rgba(255, 107, 107, 0.4);
-        }
-
-        .world-thuy {
-            --agent-color: #4d96ff;
-            --agent-glow: rgba(77, 150, 255, 0.4);
-        }
-
-        .world-tho {
-            --agent-color: #ffd93d;
-            --agent-glow: rgba(255, 217, 61, 0.4);
-        }
-
-        .world-kim {
-            --agent-color: #c8c8dc;
-            --agent-glow: rgba(200, 200, 220, 0.4);
-        }
-
-        .world-moc {
-            --agent-color: #6bcb77;
-            --agent-glow: rgba(107, 203, 119, 0.4);
-        }
+        .world-hoa { --agent-color: #ff6b6b; --agent-glow: rgba(255,107,107,0.4); }
+        .world-thuy { --agent-color: #4d96ff; --agent-glow: rgba(77,150,255,0.4); }
+        .world-tho { --agent-color: #ffd93d; --agent-glow: rgba(255,217,61,0.4); }
+        .world-kim { --agent-color: #c8c8dc; --agent-glow: rgba(200,200,220,0.4); }
+        .world-moc { --agent-color: #6bcb77; --agent-glow: rgba(107,203,119,0.4); }
 
         /* Responsive */
         @media (max-width: 768px) {
-            .header {
-                padding: 20px 24px;
-            }
-
-            .orbit-item {
-                padding: 12px 20px;
-            }
-
-            .orbit-item-text {
-                font-size: 0.7rem;
-            }
-
-            .detail-panel {
-                padding: 24px;
-            }
-
-            .detail-features {
-                grid-template-columns: 1fr;
-            }
-
-            .nav-hints {
-                gap: 20px;
-                padding: 12px 20px;
-            }
-
-            .hint-label {
-                display: none;
-            }
+            .header { padding: 20px 24px; }
+            .orbit-item { padding: 12px 20px; }
+            .orbit-item-text { font-size: 0.7rem; }
+            .detail-panel { padding: 24px; }
+            .detail-features { grid-template-columns: 1fr; }
+            .nav-hints { gap: 20px; padding: 12px 20px; }
+            .hint-label { display: none; }
         }
     </style>
 </head>
-
 <body>
     <!-- Loading -->
     <div class="loading" id="loading">
@@ -708,8 +630,8 @@
 
         <!-- Homepage Title -->
         <div class="stage-content" id="stageContent">
-            <h1 class="stage-title">FIVE ELEMENTS</h1>
-            <p class="stage-subtitle">"Harmonize with the universe to run your business"</p>
+            <h1 class="stage-title">NGŨ HÀNH</h1>
+            <p class="stage-subtitle">"Thuận theo vũ trụ để vận hành doanh nghiệp"</p>
         </div>
 
         <!-- World Title (shows inside agent world) -->
@@ -756,21 +678,11 @@
 
         <!-- Navigation -->
         <nav class="nav-hints" id="navHints">
-            <div class="nav-hint" data-agent="hoa">
-                <div class="hint-dot"></div><span class="hint-label">Fire</span>
-            </div>
-            <div class="nav-hint" data-agent="tho">
-                <div class="hint-dot"></div><span class="hint-label">Earth</span>
-            </div>
-            <div class="nav-hint" data-agent="moc">
-                <div class="hint-dot"></div><span class="hint-label">Wood</span>
-            </div>
-            <div class="nav-hint" data-agent="kim">
-                <div class="hint-dot"></div><span class="hint-label">Metal</span>
-            </div>
-            <div class="nav-hint" data-agent="thuy">
-                <div class="hint-dot"></div><span class="hint-label">Water</span>
-            </div>
+            <div class="nav-hint" data-agent="hoa"><div class="hint-dot"></div><span class="hint-label">Hỏa</span></div>
+            <div class="nav-hint" data-agent="tho"><div class="hint-dot"></div><span class="hint-label">Thổ</span></div>
+            <div class="nav-hint" data-agent="moc"><div class="hint-dot"></div><span class="hint-label">Mộc</span></div>
+            <div class="nav-hint" data-agent="kim"><div class="hint-dot"></div><span class="hint-label">Kim</span></div>
+            <div class="nav-hint" data-agent="thuy"><div class="hint-dot"></div><span class="hint-label">Thủy</span></div>
         </nav>
 
         <button class="back-btn" id="backBtn"><span>←</span> Return to Universe</button>
@@ -778,834 +690,833 @@
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-
+    
     <script>
-        // ============================================
-        // AGENT DATA WITH SERVICES
-        // ============================================
-        const AGENTS = {
-            hoa: {
-                name: 'HỎA',
-                element: 'Fire',
-                title: 'The Viral Engine',
-                subtitle: 'Creator / UGC Strategy',
-                colors: {
-                    core: 0xffdd44,
-                    mid: 0xff6b6b,
-                    outer: 0xff3333,
-                    glow: 0xff4500,
-                    particle: 0xff6600,
-                    css: '#ff6b6b'
-                },
-                position: { x: -8, y: 3, z: -8 },
-                cameraTarget: { x: -2, y: 1, z: 2 },
-                services: [
-                    {
-                        name: 'AI Script Writing',
-                        subtitle: 'Viral-ready content',
-                        description: 'Use AI to create engaging video scripts optimized for each platform. From powerful hooks to converting CTAs.',
-                        features: ['GPT-4 powered scripts', 'Platform-specific format', 'Hook optimization', 'Trend analysis']
-                    },
-                    {
-                        name: 'Video Production',
-                        subtitle: '5-20 videos/month',
-                        description: 'High-quality UGC video production with standardized workflow. From concept to post-production.',
-                        features: ['Professional editing', 'Motion graphics', 'Sound design', 'Thumbnail creation']
-                    },
-                    {
-                        name: 'Platform Optimization',
-                        subtitle: 'TikTok, Reels, Shorts',
-                        description: 'Optimize content for each platform to maximize reach and engagement. Algorithm-friendly posting strategies.',
-                        features: ['Best time posting', 'Hashtag strategy', 'Caption optimization', 'Cross-platform repurpose']
-                    },
-                    {
-                        name: 'Viral Strategy',
-                        subtitle: 'Data-driven virality',
-                        description: 'Analyze trends and create high-viral-potential content. Continuous A/B testing to improve results.',
-                        features: ['Trend prediction', 'Content calendar', 'Performance tracking', 'Iteration cycles']
-                    }
-                ]
+    // ============================================
+    // AGENT DATA WITH SERVICES
+    // ============================================
+    const AGENTS = {
+        hoa: {
+            name: 'HỎA',
+            element: 'Fire',
+            title: 'The Viral Engine',
+            subtitle: 'Creator / UGC Strategy',
+            colors: {
+                core: 0xffdd44,
+                mid: 0xff6b6b,
+                outer: 0xff3333,
+                glow: 0xff4500,
+                particle: 0xff6600,
+                css: '#ff6b6b'
             },
-            thuy: {
-                name: 'THỦY',
-                element: 'Water',
-                title: 'The Data Shapeshifter',
-                subtitle: 'Performance Partner',
-                colors: {
-                    core: 0x00ffff,
-                    mid: 0x4d96ff,
-                    outer: 0x0044aa,
-                    glow: 0x00aaff,
-                    particle: 0x00ddff,
-                    css: '#4d96ff'
+            position: { x: -8, y: 3, z: -8 },
+            cameraTarget: { x: -2, y: 1, z: 2 },
+            services: [
+                {
+                    name: 'AI Script Writing',
+                    subtitle: 'Viral-ready content',
+                    description: 'Sử dụng AI để tạo script video thu hút, tối ưu cho từng platform. Từ hook mạnh đến CTA chuyển đổi.',
+                    features: ['GPT-4 powered scripts', 'Platform-specific format', 'Hook optimization', 'Trend analysis']
                 },
-                position: { x: 8, y: -2, z: -10 },
-                cameraTarget: { x: 2, y: -0.5, z: 2 },
-                services: [
-                    {
-                        name: 'Conversion Optimization',
-                        subtitle: 'Turn visitors into buyers',
-                        description: 'Optimize entire funnel from landing page to checkout. Increase conversion rate 20-50% within 90 days.',
-                        features: ['Landing page audit', 'UX improvements', 'Checkout optimization', 'Trust signals']
-                    },
-                    {
-                        name: 'A/B Testing & Analytics',
-                        subtitle: 'Data-driven decisions',
-                        description: 'Setup complete testing and analytics system. Every decision is based on real data insights.',
-                        features: ['Google Analytics 4', 'Heatmap tracking', 'User recordings', 'Statistical testing']
-                    },
-                    {
-                        name: 'Performance-based Pricing',
-                        subtitle: 'We win when you win',
-                        description: 'Flexible pricing model - pay based on actual results. Aligned incentives with your business growth.',
-                        features: ['Revenue share option', 'Performance bonuses', 'Transparent reporting', 'Monthly reviews']
-                    },
-                    {
-                        name: 'Revenue Tracking',
-                        subtitle: 'Real-time dashboards',
-                        description: 'Real-time dashboard tracking all important metrics. Know exact ROI of every dollar spent.',
-                        features: ['Custom dashboards', 'Attribution modeling', 'ROI calculation', 'Automated reports']
-                    }
-                ]
+                {
+                    name: 'Video Production',
+                    subtitle: '5-20 videos/month',
+                    description: 'Sản xuất video UGC chất lượng cao với quy trình chuẩn hóa. Từ concept đến post-production.',
+                    features: ['Professional editing', 'Motion graphics', 'Sound design', 'Thumbnail creation']
+                },
+                {
+                    name: 'Platform Optimization',
+                    subtitle: 'TikTok, Reels, Shorts',
+                    description: 'Tối ưu content cho từng platform để maximize reach và engagement. Algorithm-friendly posting.',
+                    features: ['Best time posting', 'Hashtag strategy', 'Caption optimization', 'Cross-platform repurpose']
+                },
+                {
+                    name: 'Viral Strategy',
+                    subtitle: 'Data-driven virality',
+                    description: 'Phân tích trends và tạo content có khả năng viral cao. A/B testing liên tục để improve.',
+                    features: ['Trend prediction', 'Content calendar', 'Performance tracking', 'Iteration cycles']
+                }
+            ]
+        },
+        thuy: {
+            name: 'THỦY',
+            element: 'Water',
+            title: 'The Data Shapeshifter',
+            subtitle: 'Performance Partner',
+            colors: {
+                core: 0x00ffff,
+                mid: 0x4d96ff,
+                outer: 0x0044aa,
+                glow: 0x00aaff,
+                particle: 0x00ddff,
+                css: '#4d96ff'
             },
-            tho: {
-                name: 'THỔ',
-                element: 'Earth',
-                title: 'The System Architect',
-                subtitle: 'AI Automation',
-                colors: {
-                    core: 0xffffff,
-                    mid: 0xffd93d,
-                    outer: 0xcc8800,
-                    glow: 0xffaa00,
-                    particle: 0xffcc44,
-                    css: '#ffd93d'
+            position: { x: 8, y: -2, z: -10 },
+            cameraTarget: { x: 2, y: -0.5, z: 2 },
+            services: [
+                {
+                    name: 'Conversion Optimization',
+                    subtitle: 'Turn visitors into buyers',
+                    description: 'Tối ưu toàn bộ funnel từ landing page đến checkout. Tăng conversion rate 20-50% trong 90 ngày.',
+                    features: ['Landing page audit', 'UX improvements', 'Checkout optimization', 'Trust signals']
                 },
-                position: { x: 0, y: -5, z: -12 },
-                cameraTarget: { x: 0, y: -1.5, z: 2 },
-                services: [
-                    {
-                        name: 'CRM & Workflow Automation',
-                        subtitle: 'Replace 40+ hours/week',
-                        description: 'Automate entire workflow from lead capture to client onboarding. Save 40+ hours every week.',
-                        features: ['HubSpot/Salesforce', 'Zapier/Make flows', 'Custom integrations', 'Process mapping']
-                    },
-                    {
-                        name: 'AI Follow-up Sequences',
-                        subtitle: 'Never miss a lead',
-                        description: 'Smart email sequences with AI personalization. Automatically nurture leads 24/7 without manual work.',
-                        features: ['Smart segmentation', 'Behavior triggers', 'AI copywriting', 'Multi-channel']
-                    },
-                    {
-                        name: 'Booking & Retention Systems',
-                        subtitle: 'Automated client journey',
-                        description: 'From booking call to renewal reminders - everything automated. Smooth client experience guaranteed.',
-                        features: ['Calendly integration', 'Reminder sequences', 'Review requests', 'Upsell triggers']
-                    },
-                    {
-                        name: 'Integration Setup',
-                        subtitle: 'Connect everything',
-                        description: 'Connect all your tools into one unified system. Data flows seamlessly across platforms.',
-                        features: ['API connections', 'Webhook setup', 'Data sync', 'Error handling']
-                    }
-                ]
+                {
+                    name: 'A/B Testing & Analytics',
+                    subtitle: 'Data-driven decisions',
+                    description: 'Setup hệ thống testing và analytics hoàn chỉnh. Mỗi quyết định đều dựa trên data thực.',
+                    features: ['Google Analytics 4', 'Heatmap tracking', 'User recordings', 'Statistical testing']
+                },
+                {
+                    name: 'Performance-based Pricing',
+                    subtitle: 'We win when you win',
+                    description: 'Mô hình pricing linh hoạt - trả theo kết quả thực tế. Aligned incentives với growth của bạn.',
+                    features: ['Revenue share option', 'Performance bonuses', 'Transparent reporting', 'Monthly reviews']
+                },
+                {
+                    name: 'Revenue Tracking',
+                    subtitle: 'Real-time dashboards',
+                    description: 'Dashboard real-time tracking mọi metrics quan trọng. Biết chính xác ROI của từng đồng.',
+                    features: ['Custom dashboards', 'Attribution modeling', 'ROI calculation', 'Automated reports']
+                }
+            ]
+        },
+        tho: {
+            name: 'THỔ',
+            element: 'Earth',
+            title: 'The System Architect',
+            subtitle: 'AI Automation',
+            colors: {
+                core: 0xffffff,
+                mid: 0xffd93d,
+                outer: 0xcc8800,
+                glow: 0xffaa00,
+                particle: 0xffcc44,
+                css: '#ffd93d'
             },
-            kim: {
-                name: 'KIM',
-                element: 'Metal',
-                title: 'The Strategic Commander',
-                subtitle: 'Fractional CMO',
-                colors: {
-                    core: 0xffffff,
-                    mid: 0xddddee,
-                    outer: 0x8888aa,
-                    glow: 0xccccff,
-                    particle: 0xeeeeff,
-                    css: '#c8c8dc'
+            position: { x: 0, y: -5, z: -12 },
+            cameraTarget: { x: 0, y: -1.5, z: 2 },
+            services: [
+                {
+                    name: 'CRM & Workflow Automation',
+                    subtitle: 'Replace 40+ hours/week',
+                    description: 'Tự động hóa toàn bộ quy trình từ lead capture đến client onboarding. Tiết kiệm 40+ giờ mỗi tuần.',
+                    features: ['HubSpot/Salesforce', 'Zapier/Make flows', 'Custom integrations', 'Process mapping']
                 },
-                position: { x: 7, y: 4, z: -9 },
-                cameraTarget: { x: 2, y: 1.5, z: 2 },
-                services: [
-                    {
-                        name: 'Marketing Strategy',
-                        subtitle: 'CMO-level guidance',
-                        description: 'Comprehensive marketing strategy with long-term vision. Not just tactics but strategic direction.',
-                        features: ['Market analysis', 'Competitive positioning', 'Channel strategy', 'Budget allocation']
-                    },
-                    {
-                        name: 'AI Stack Management',
-                        subtitle: 'Orchestrate AI tools',
-                        description: 'Manage and optimize all AI tools in marketing stack. Ensure maximum efficiency at all times.',
-                        features: ['Tool selection', 'Workflow design', 'Performance monitoring', 'Cost optimization']
-                    },
-                    {
-                        name: 'Team Coordination',
-                        subtitle: 'Align internal & external',
-                        description: 'Coordinate between internal team and external agencies. Single point of accountability for all.',
-                        features: ['Weekly syncs', 'Project management', 'Quality control', 'Timeline tracking']
-                    },
-                    {
-                        name: 'ROI Optimization',
-                        subtitle: 'Maximize every dollar',
-                        description: 'Continuously optimize budget allocation based on performance. Every dollar works harder for you.',
-                        features: ['Budget reallocation', 'Channel optimization', 'Waste elimination', 'Growth opportunities']
-                    }
-                ]
+                {
+                    name: 'AI Follow-up Sequences',
+                    subtitle: 'Never miss a lead',
+                    description: 'Email sequences thông minh với AI personalization. Tự động nurture leads 24/7 không cần manual work.',
+                    features: ['Smart segmentation', 'Behavior triggers', 'AI copywriting', 'Multi-channel']
+                },
+                {
+                    name: 'Booking & Retention Systems',
+                    subtitle: 'Automated client journey',
+                    description: 'Từ booking call đến renewal reminders - tất cả tự động. Client experience mượt mà.',
+                    features: ['Calendly integration', 'Reminder sequences', 'Review requests', 'Upsell triggers']
+                },
+                {
+                    name: 'Integration Setup',
+                    subtitle: 'Connect everything',
+                    description: 'Kết nối tất cả tools thành một hệ thống thống nhất. Data flows seamlessly.',
+                    features: ['API connections', 'Webhook setup', 'Data sync', 'Error handling']
+                }
+            ]
+        },
+        kim: {
+            name: 'KIM',
+            element: 'Metal',
+            title: 'The Strategic Commander',
+            subtitle: 'Fractional CMO',
+            colors: {
+                core: 0xffffff,
+                mid: 0xddddee,
+                outer: 0x8888aa,
+                glow: 0xccccff,
+                particle: 0xeeeeff,
+                css: '#c8c8dc'
             },
-            moc: {
-                name: 'MỘC',
-                element: 'Wood',
-                title: 'The Knowledge Weaver',
-                subtitle: 'AI-Native SEO',
-                colors: {
-                    core: 0xaaffaa,
-                    mid: 0x6bcb77,
-                    outer: 0x228833,
-                    glow: 0x44ff88,
-                    particle: 0x66ff99,
-                    css: '#6bcb77'
+            position: { x: 7, y: 4, z: -9 },
+            cameraTarget: { x: 2, y: 1.5, z: 2 },
+            services: [
+                {
+                    name: 'Marketing Strategy',
+                    subtitle: 'CMO-level guidance',
+                    description: 'Chiến lược marketing tổng thể với tầm nhìn dài hạn. Không chỉ tactics mà là strategic direction.',
+                    features: ['Market analysis', 'Competitive positioning', 'Channel strategy', 'Budget allocation']
                 },
-                position: { x: -7, y: -3, z: -11 },
-                cameraTarget: { x: -2, y: -1, z: 2 },
-                services: [
-                    {
-                        name: 'AI Overview Optimization',
-                        subtitle: 'Get cited by AI',
-                        description: 'Optimize content to be cited by Google AI Overview and ChatGPT. The new SEO frontier.',
-                        features: ['Entity optimization', 'Structured data', 'Answer targeting', 'Citation building']
-                    },
-                    {
-                        name: 'Entity SEO & Knowledge Graph',
-                        subtitle: 'Become an entity',
-                        description: 'Build your brand as an entity in Knowledge Graph. Increase authority and trust significantly.',
-                        features: ['Wikipedia strategy', 'Wikidata entries', 'Brand mentions', 'Co-occurrence building']
-                    },
-                    {
-                        name: 'Content Clusters',
-                        subtitle: 'Topical authority',
-                        description: 'Create content clusters to dominate entire topics. Not just ranking 1 keyword but the whole topic.',
-                        features: ['Pillar content', 'Supporting articles', 'Internal linking', 'Topic mapping']
-                    },
-                    {
-                        name: 'Monthly Content Production',
-                        subtitle: '4-8 articles/month',
-                        description: 'Consistent high-quality content production. AI-assisted writing with expert human editing.',
-                        features: ['Keyword research', 'AI drafting', 'Expert editing', 'SEO optimization']
-                    }
-                ]
-            }
-        };
-
-        let currentAgent = null;
-        let currentService = null;
-        let isAnimating = false;
-        let orbitAngle = 0;
-
-        // ============================================
-        // THREE.JS SETUP
-        // ============================================
-        const canvas = document.getElementById('universe');
-        const scene = new THREE.Scene();
-
-        const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 1000);
-        camera.position.set(0, 0, 12);
-
-        const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
-        renderer.setSize(window.innerWidth, window.innerHeight);
-        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-        renderer.setClearColor(0x030308);
-
-        scene.fog = new THREE.FogExp2(0x030308, 0.02);
-
-        // Lights
-        const ambientLight = new THREE.AmbientLight(0x222244, 0.3);
-        scene.add(ambientLight);
-
-        const colorLight1 = new THREE.PointLight(0x4400ff, 0.3, 100);
-        colorLight1.position.set(-20, 10, -20);
-        scene.add(colorLight1);
-
-        const colorLight2 = new THREE.PointLight(0xff4400, 0.2, 100);
-        colorLight2.position.set(20, -10, -30);
-        scene.add(colorLight2);
-
-        // Nebula
-        function createNebula() {
-            const nebulaGroup = new THREE.Group();
-            for (let i = 0; i < 8; i++) {
-                const geometry = new THREE.PlaneGeometry(30 + Math.random() * 20, 30 + Math.random() * 20);
-                const material = new THREE.MeshBasicMaterial({
-                    color: new THREE.Color().setHSL(Math.random(), 0.5, 0.15),
-                    transparent: true,
-                    opacity: 0.03 + Math.random() * 0.03,
-                    side: THREE.DoubleSide,
-                    depthWrite: false
-                });
-                const plane = new THREE.Mesh(geometry, material);
-                plane.position.set(
-                    (Math.random() - 0.5) * 60,
-                    (Math.random() - 0.5) * 40,
-                    -30 - Math.random() * 40
-                );
-                plane.rotation.set(Math.random() * Math.PI, Math.random() * Math.PI, Math.random() * Math.PI);
-                nebulaGroup.add(plane);
-            }
-            return nebulaGroup;
+                {
+                    name: 'AI Stack Management',
+                    subtitle: 'Orchestrate AI tools',
+                    description: 'Quản lý và tối ưu tất cả AI tools trong marketing stack. Đảm bảo efficiency tối đa.',
+                    features: ['Tool selection', 'Workflow design', 'Performance monitoring', 'Cost optimization']
+                },
+                {
+                    name: 'Team Coordination',
+                    subtitle: 'Align internal & external',
+                    description: 'Coordinate giữa internal team và external agencies. Single point of accountability.',
+                    features: ['Weekly syncs', 'Project management', 'Quality control', 'Timeline tracking']
+                },
+                {
+                    name: 'ROI Optimization',
+                    subtitle: 'Maximize every dollar',
+                    description: 'Liên tục optimize budget allocation dựa trên performance. Every dollar works harder.',
+                    features: ['Budget reallocation', 'Channel optimization', 'Waste elimination', 'Growth opportunities']
+                }
+            ]
+        },
+        moc: {
+            name: 'MỘC',
+            element: 'Wood',
+            title: 'The Knowledge Weaver',
+            subtitle: 'AI-Native SEO',
+            colors: {
+                core: 0xaaffaa,
+                mid: 0x6bcb77,
+                outer: 0x228833,
+                glow: 0x44ff88,
+                particle: 0x66ff99,
+                css: '#6bcb77'
+            },
+            position: { x: -7, y: -3, z: -11 },
+            cameraTarget: { x: -2, y: -1, z: 2 },
+            services: [
+                {
+                    name: 'AI Overview Optimization',
+                    subtitle: 'Get cited by AI',
+                    description: 'Tối ưu content để được Google AI Overview và ChatGPT cite. The new SEO frontier.',
+                    features: ['Entity optimization', 'Structured data', 'Answer targeting', 'Citation building']
+                },
+                {
+                    name: 'Entity SEO & Knowledge Graph',
+                    subtitle: 'Become an entity',
+                    description: 'Xây dựng brand như một entity trong Knowledge Graph. Tăng authority và trust.',
+                    features: ['Wikipedia strategy', 'Wikidata entries', 'Brand mentions', 'Co-occurrence building']
+                },
+                {
+                    name: 'Content Clusters',
+                    subtitle: 'Topical authority',
+                    description: 'Tạo content clusters để dominate entire topics. Không chỉ rank 1 keyword mà cả topic.',
+                    features: ['Pillar content', 'Supporting articles', 'Internal linking', 'Topic mapping']
+                },
+                {
+                    name: 'Monthly Content Production',
+                    subtitle: '4-8 articles/month',
+                    description: 'Sản xuất content chất lượng cao đều đặn. AI-assisted writing với human editing.',
+                    features: ['Keyword research', 'AI drafting', 'Expert editing', 'SEO optimization']
+                }
+            ]
         }
-        const nebula = createNebula();
-        scene.add(nebula);
+    };
 
-        // Stars
-        function createStarLayer(count, size, distance, brightness) {
-            const geometry = new THREE.BufferGeometry();
-            const positions = new Float32Array(count * 3);
-            const colors = new Float32Array(count * 3);
+    let currentAgent = null;
+    let currentService = null;
+    let isAnimating = false;
+    let orbitAngle = 0;
 
-            for (let i = 0; i < count; i++) {
-                positions[i * 3] = (Math.random() - 0.5) * distance;
-                positions[i * 3 + 1] = (Math.random() - 0.5) * distance;
-                positions[i * 3 + 2] = -Math.random() * distance;
+    // ============================================
+    // THREE.JS SETUP
+    // ============================================
+    const canvas = document.getElementById('universe');
+    const scene = new THREE.Scene();
 
-                const color = new THREE.Color().setHSL(Math.random() * 0.1 + 0.55, 0.2, brightness * (0.5 + Math.random() * 0.5));
-                colors[i * 3] = color.r;
-                colors[i * 3 + 1] = color.g;
-                colors[i * 3 + 2] = color.b;
-            }
+    const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 1000);
+    camera.position.set(0, 0, 12);
 
-            geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
-            geometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
+    const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    renderer.setClearColor(0x030308);
 
-            const material = new THREE.PointsMaterial({
-                size: size,
-                vertexColors: true,
+    scene.fog = new THREE.FogExp2(0x030308, 0.02);
+
+    // Lights
+    const ambientLight = new THREE.AmbientLight(0x222244, 0.3);
+    scene.add(ambientLight);
+
+    const colorLight1 = new THREE.PointLight(0x4400ff, 0.3, 100);
+    colorLight1.position.set(-20, 10, -20);
+    scene.add(colorLight1);
+
+    const colorLight2 = new THREE.PointLight(0xff4400, 0.2, 100);
+    colorLight2.position.set(20, -10, -30);
+    scene.add(colorLight2);
+
+    // Nebula
+    function createNebula() {
+        const nebulaGroup = new THREE.Group();
+        for (let i = 0; i < 8; i++) {
+            const geometry = new THREE.PlaneGeometry(30 + Math.random() * 20, 30 + Math.random() * 20);
+            const material = new THREE.MeshBasicMaterial({
+                color: new THREE.Color().setHSL(Math.random(), 0.5, 0.15),
                 transparent: true,
-                opacity: 0.9,
-                sizeAttenuation: true
+                opacity: 0.03 + Math.random() * 0.03,
+                side: THREE.DoubleSide,
+                depthWrite: false
             });
+            const plane = new THREE.Mesh(geometry, material);
+            plane.position.set(
+                (Math.random() - 0.5) * 60,
+                (Math.random() - 0.5) * 40,
+                -30 - Math.random() * 40
+            );
+            plane.rotation.set(Math.random() * Math.PI, Math.random() * Math.PI, Math.random() * Math.PI);
+            nebulaGroup.add(plane);
+        }
+        return nebulaGroup;
+    }
+    const nebula = createNebula();
+    scene.add(nebula);
 
-            return new THREE.Points(geometry, material);
+    // Stars
+    function createStarLayer(count, size, distance, brightness) {
+        const geometry = new THREE.BufferGeometry();
+        const positions = new Float32Array(count * 3);
+        const colors = new Float32Array(count * 3);
+
+        for (let i = 0; i < count; i++) {
+            positions[i * 3] = (Math.random() - 0.5) * distance;
+            positions[i * 3 + 1] = (Math.random() - 0.5) * distance;
+            positions[i * 3 + 2] = -Math.random() * distance;
+
+            const color = new THREE.Color().setHSL(Math.random() * 0.1 + 0.55, 0.2, brightness * (0.5 + Math.random() * 0.5));
+            colors[i * 3] = color.r;
+            colors[i * 3 + 1] = color.g;
+            colors[i * 3 + 2] = color.b;
         }
 
-        const starLayerFar = createStarLayer(3000, 0.08, 150, 0.4);
-        const starLayerMid = createStarLayer(1500, 0.12, 80, 0.6);
-        const starLayerNear = createStarLayer(500, 0.15, 40, 0.8);
-        scene.add(starLayerFar);
-        scene.add(starLayerMid);
-        scene.add(starLayerNear);
+        geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+        geometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
 
-        // Warp particles
-        const warpParticleCount = 300;
-        const warpGeometry = new THREE.BufferGeometry();
-        const warpPositions = new Float32Array(warpParticleCount * 3);
-        const warpVelocities = [];
-
-        for (let i = 0; i < warpParticleCount; i++) {
-            warpPositions[i * 3] = (Math.random() - 0.5) * 30;
-            warpPositions[i * 3 + 1] = (Math.random() - 0.5) * 30;
-            warpPositions[i * 3 + 2] = (Math.random() - 0.5) * 50 - 10;
-            warpVelocities.push(Math.random() * 2 + 1);
-        }
-
-        warpGeometry.setAttribute('position', new THREE.BufferAttribute(warpPositions, 3));
-        const warpMaterial = new THREE.PointsMaterial({ color: 0xffffff, size: 0.1, transparent: true, opacity: 0 });
-        const warpParticles = new THREE.Points(warpGeometry, warpMaterial);
-        scene.add(warpParticles);
-
-        // Speed lines
-        const speedLinesContainer = document.getElementById('speedLines');
-        for (let i = 0; i < 50; i++) {
-            const line = document.createElement('div');
-            line.className = 'speed-line';
-            line.style.transform = `rotate(${(i / 50) * 360}deg)`;
-            line.style.animationDelay = `${Math.random() * 0.3}s`;
-            speedLinesContainer.appendChild(line);
-        }
-
-        // ============================================
-        // CREATE AGENTS
-        // ============================================
-        const agents = {};
-
-        function createPlanetAgent(key, config) {
-            const group = new THREE.Group();
-            group.userData = { key, config };
-
-            // Core
-            const coreGeo = new THREE.IcosahedronGeometry(0.4, 3);
-            const coreMat = new THREE.MeshBasicMaterial({ color: config.colors.core, transparent: true, opacity: 0.95 });
-            const core = new THREE.Mesh(coreGeo, coreMat);
-            group.add(core);
-
-            // Mid
-            const midGeo = new THREE.IcosahedronGeometry(0.7, 2);
-            const midMat = new THREE.MeshStandardMaterial({
-                color: config.colors.mid,
-                emissive: config.colors.mid,
-                emissiveIntensity: 0.3,
-                transparent: true,
-                opacity: 0.7,
-                roughness: 0.4,
-                metalness: 0.3
-            });
-            const mid = new THREE.Mesh(midGeo, midMat);
-            group.add(mid);
-
-            // Outer
-            const outerGeo = new THREE.IcosahedronGeometry(1.0, 1);
-            const outerMat = new THREE.MeshBasicMaterial({ color: config.colors.outer, transparent: true, opacity: 0.2, wireframe: true });
-            const outer = new THREE.Mesh(outerGeo, outerMat);
-            group.add(outer);
-
-            // Glow
-            const glowGeo = new THREE.SphereGeometry(1.3, 32, 32);
-            const glowMat = new THREE.MeshBasicMaterial({ color: config.colors.glow, transparent: true, opacity: 0.08, side: THREE.BackSide });
-            const glow = new THREE.Mesh(glowGeo, glowMat);
-            group.add(glow);
-
-            // Ring
-            const ringGeo = new THREE.TorusGeometry(1.5, 0.02, 8, 64);
-            const ringMat = new THREE.MeshBasicMaterial({ color: config.colors.glow, transparent: true, opacity: 0.4 });
-            const ring = new THREE.Mesh(ringGeo, ringMat);
-            ring.rotation.x = Math.PI / 2 + Math.random() * 0.5;
-            group.add(ring);
-
-            // Moons
-            const moons = [];
-            for (let i = 0; i < 3; i++) {
-                const moonGeo = new THREE.SphereGeometry(0.08 + Math.random() * 0.06, 8, 8);
-                const moonMat = new THREE.MeshBasicMaterial({ color: config.colors.particle, transparent: true, opacity: 0.8 });
-                const moon = new THREE.Mesh(moonGeo, moonMat);
-                moon.userData = {
-                    orbitRadius: 1.8 + Math.random() * 0.8,
-                    orbitSpeed: 0.5 + Math.random() * 0.5,
-                    orbitOffset: Math.random() * Math.PI * 2,
-                    orbitTilt: (Math.random() - 0.5) * 0.5
-                };
-                moons.push(moon);
-                group.add(moon);
-            }
-
-            // Particles
-            const particleCount = 80;
-            const particleGeo = new THREE.BufferGeometry();
-            const particlePositions = new Float32Array(particleCount * 3);
-            const particleData = [];
-
-            for (let i = 0; i < particleCount; i++) {
-                const r = 1.2 + Math.random() * 1.5;
-                const theta = Math.random() * Math.PI * 2;
-                const phi = Math.random() * Math.PI;
-                particlePositions[i * 3] = r * Math.sin(phi) * Math.cos(theta);
-                particlePositions[i * 3 + 1] = r * Math.sin(phi) * Math.sin(theta);
-                particlePositions[i * 3 + 2] = r * Math.cos(phi);
-                particleData.push({ speed: Math.random() * 0.3 + 0.1, offset: Math.random() * Math.PI * 2 });
-            }
-
-            particleGeo.setAttribute('position', new THREE.BufferAttribute(particlePositions, 3));
-            const particleMat = new THREE.PointsMaterial({ color: config.colors.particle, size: 0.06, transparent: true, opacity: 0.7 });
-            const particles = new THREE.Points(particleGeo, particleMat);
-            group.add(particles);
-
-            // Light
-            const light = new THREE.PointLight(config.colors.glow, 0.8, 15);
-            group.add(light);
-
-            group.position.set(config.position.x, config.position.y, config.position.z);
-
-            agents[key] = { group, core, mid, outer, glow, ring, moons, particles, particlePositions, particleData, light, config };
-            scene.add(group);
-        }
-
-        Object.entries(AGENTS).forEach(([key, config]) => createPlanetAgent(key, config));
-
-        // ============================================
-        // MOUSE INTERACTION
-        // ============================================
-        const cursor = document.getElementById('cursor');
-        const cursorDot = document.getElementById('cursorDot');
-        const raycaster = new THREE.Raycaster();
-        const mouse = new THREE.Vector2();
-        let mouseX = 0, mouseY = 0;
-
-        document.addEventListener('mousemove', (e) => {
-            cursor.style.left = e.clientX + 'px';
-            cursor.style.top = e.clientY + 'px';
-            cursorDot.style.left = e.clientX + 'px';
-            cursorDot.style.top = e.clientY + 'px';
-
-            mouseX = (e.clientX / window.innerWidth - 0.5) * 2;
-            mouseY = (e.clientY / window.innerHeight - 0.5) * 2;
-
-            mouse.x = (e.clientX / window.innerWidth) * 2 - 1;
-            mouse.y = -(e.clientY / window.innerHeight) * 2 + 1;
-
-            if (!currentAgent) {
-                raycaster.setFromCamera(mouse, camera);
-                const meshes = Object.values(agents).map(a => a.mid);
-                const intersects = raycaster.intersectObjects(meshes);
-                cursor.classList.toggle('hover', intersects.length > 0);
-            }
+        const material = new THREE.PointsMaterial({
+            size: size,
+            vertexColors: true,
+            transparent: true,
+            opacity: 0.9,
+            sizeAttenuation: true
         });
 
-        // Click to select agent
-        canvas.addEventListener('click', () => {
-            if (isAnimating) return;
+        return new THREE.Points(geometry, material);
+    }
 
+    const starLayerFar = createStarLayer(3000, 0.08, 150, 0.4);
+    const starLayerMid = createStarLayer(1500, 0.12, 80, 0.6);
+    const starLayerNear = createStarLayer(500, 0.15, 40, 0.8);
+    scene.add(starLayerFar);
+    scene.add(starLayerMid);
+    scene.add(starLayerNear);
+
+    // Warp particles
+    const warpParticleCount = 300;
+    const warpGeometry = new THREE.BufferGeometry();
+    const warpPositions = new Float32Array(warpParticleCount * 3);
+    const warpVelocities = [];
+
+    for (let i = 0; i < warpParticleCount; i++) {
+        warpPositions[i * 3] = (Math.random() - 0.5) * 30;
+        warpPositions[i * 3 + 1] = (Math.random() - 0.5) * 30;
+        warpPositions[i * 3 + 2] = (Math.random() - 0.5) * 50 - 10;
+        warpVelocities.push(Math.random() * 2 + 1);
+    }
+
+    warpGeometry.setAttribute('position', new THREE.BufferAttribute(warpPositions, 3));
+    const warpMaterial = new THREE.PointsMaterial({ color: 0xffffff, size: 0.1, transparent: true, opacity: 0 });
+    const warpParticles = new THREE.Points(warpGeometry, warpMaterial);
+    scene.add(warpParticles);
+
+    // Speed lines
+    const speedLinesContainer = document.getElementById('speedLines');
+    for (let i = 0; i < 50; i++) {
+        const line = document.createElement('div');
+        line.className = 'speed-line';
+        line.style.transform = `rotate(${(i / 50) * 360}deg)`;
+        line.style.animationDelay = `${Math.random() * 0.3}s`;
+        speedLinesContainer.appendChild(line);
+    }
+
+    // ============================================
+    // CREATE AGENTS
+    // ============================================
+    const agents = {};
+
+    function createPlanetAgent(key, config) {
+        const group = new THREE.Group();
+        group.userData = { key, config };
+
+        // Core
+        const coreGeo = new THREE.IcosahedronGeometry(0.4, 3);
+        const coreMat = new THREE.MeshBasicMaterial({ color: config.colors.core, transparent: true, opacity: 0.95 });
+        const core = new THREE.Mesh(coreGeo, coreMat);
+        group.add(core);
+
+        // Mid
+        const midGeo = new THREE.IcosahedronGeometry(0.7, 2);
+        const midMat = new THREE.MeshStandardMaterial({
+            color: config.colors.mid,
+            emissive: config.colors.mid,
+            emissiveIntensity: 0.3,
+            transparent: true,
+            opacity: 0.7,
+            roughness: 0.4,
+            metalness: 0.3
+        });
+        const mid = new THREE.Mesh(midGeo, midMat);
+        group.add(mid);
+
+        // Outer
+        const outerGeo = new THREE.IcosahedronGeometry(1.0, 1);
+        const outerMat = new THREE.MeshBasicMaterial({ color: config.colors.outer, transparent: true, opacity: 0.2, wireframe: true });
+        const outer = new THREE.Mesh(outerGeo, outerMat);
+        group.add(outer);
+
+        // Glow
+        const glowGeo = new THREE.SphereGeometry(1.3, 32, 32);
+        const glowMat = new THREE.MeshBasicMaterial({ color: config.colors.glow, transparent: true, opacity: 0.08, side: THREE.BackSide });
+        const glow = new THREE.Mesh(glowGeo, glowMat);
+        group.add(glow);
+
+        // Ring
+        const ringGeo = new THREE.TorusGeometry(1.5, 0.02, 8, 64);
+        const ringMat = new THREE.MeshBasicMaterial({ color: config.colors.glow, transparent: true, opacity: 0.4 });
+        const ring = new THREE.Mesh(ringGeo, ringMat);
+        ring.rotation.x = Math.PI / 2 + Math.random() * 0.5;
+        group.add(ring);
+
+        // Moons
+        const moons = [];
+        for (let i = 0; i < 3; i++) {
+            const moonGeo = new THREE.SphereGeometry(0.08 + Math.random() * 0.06, 8, 8);
+            const moonMat = new THREE.MeshBasicMaterial({ color: config.colors.particle, transparent: true, opacity: 0.8 });
+            const moon = new THREE.Mesh(moonGeo, moonMat);
+            moon.userData = {
+                orbitRadius: 1.8 + Math.random() * 0.8,
+                orbitSpeed: 0.5 + Math.random() * 0.5,
+                orbitOffset: Math.random() * Math.PI * 2,
+                orbitTilt: (Math.random() - 0.5) * 0.5
+            };
+            moons.push(moon);
+            group.add(moon);
+        }
+
+        // Particles
+        const particleCount = 80;
+        const particleGeo = new THREE.BufferGeometry();
+        const particlePositions = new Float32Array(particleCount * 3);
+        const particleData = [];
+
+        for (let i = 0; i < particleCount; i++) {
+            const r = 1.2 + Math.random() * 1.5;
+            const theta = Math.random() * Math.PI * 2;
+            const phi = Math.random() * Math.PI;
+            particlePositions[i * 3] = r * Math.sin(phi) * Math.cos(theta);
+            particlePositions[i * 3 + 1] = r * Math.sin(phi) * Math.sin(theta);
+            particlePositions[i * 3 + 2] = r * Math.cos(phi);
+            particleData.push({ speed: Math.random() * 0.3 + 0.1, offset: Math.random() * Math.PI * 2 });
+        }
+
+        particleGeo.setAttribute('position', new THREE.BufferAttribute(particlePositions, 3));
+        const particleMat = new THREE.PointsMaterial({ color: config.colors.particle, size: 0.06, transparent: true, opacity: 0.7 });
+        const particles = new THREE.Points(particleGeo, particleMat);
+        group.add(particles);
+
+        // Light
+        const light = new THREE.PointLight(config.colors.glow, 0.8, 15);
+        group.add(light);
+
+        group.position.set(config.position.x, config.position.y, config.position.z);
+
+        agents[key] = { group, core, mid, outer, glow, ring, moons, particles, particlePositions, particleData, light, config };
+        scene.add(group);
+    }
+
+    Object.entries(AGENTS).forEach(([key, config]) => createPlanetAgent(key, config));
+
+    // ============================================
+    // MOUSE INTERACTION
+    // ============================================
+    const cursor = document.getElementById('cursor');
+    const cursorDot = document.getElementById('cursorDot');
+    const raycaster = new THREE.Raycaster();
+    const mouse = new THREE.Vector2();
+    let mouseX = 0, mouseY = 0;
+
+    document.addEventListener('mousemove', (e) => {
+        cursor.style.left = e.clientX + 'px';
+        cursor.style.top = e.clientY + 'px';
+        cursorDot.style.left = e.clientX + 'px';
+        cursorDot.style.top = e.clientY + 'px';
+
+        mouseX = (e.clientX / window.innerWidth - 0.5) * 2;
+        mouseY = (e.clientY / window.innerHeight - 0.5) * 2;
+
+        mouse.x = (e.clientX / window.innerWidth) * 2 - 1;
+        mouse.y = -(e.clientY / window.innerHeight) * 2 + 1;
+
+        if (!currentAgent) {
             raycaster.setFromCamera(mouse, camera);
             const meshes = Object.values(agents).map(a => a.mid);
             const intersects = raycaster.intersectObjects(meshes);
+            cursor.classList.toggle('hover', intersects.length > 0);
+        }
+    });
 
-            if (intersects.length > 0) {
-                const mesh = intersects[0].object;
-                const agent = Object.values(agents).find(a => a.mid === mesh);
-                if (agent) {
-                    enterAgentWorld(Object.keys(agents).find(k => agents[k] === agent));
-                }
+    // Click to select agent
+    canvas.addEventListener('click', () => {
+        if (isAnimating) return;
+
+        raycaster.setFromCamera(mouse, camera);
+        const meshes = Object.values(agents).map(a => a.mid);
+        const intersects = raycaster.intersectObjects(meshes);
+
+        if (intersects.length > 0) {
+            const mesh = intersects[0].object;
+            const agent = Object.values(agents).find(a => a.mid === mesh);
+            if (agent) {
+                enterAgentWorld(Object.keys(agents).find(k => agents[k] === agent));
             }
-        });
-
-        // Nav hints
-        document.querySelectorAll('.nav-hint').forEach(hint => {
-            hint.addEventListener('click', () => {
-                if (isAnimating) return;
-                if (currentAgent) {
-                    // Switch between agents
-                    switchAgent(hint.dataset.agent);
-                } else {
-                    enterAgentWorld(hint.dataset.agent);
-                }
-            });
-        });
-
-        document.getElementById('backBtn').addEventListener('click', returnToUniverse);
-        document.getElementById('logoBtn').addEventListener('click', (e) => {
-            e.preventDefault();
-            returnToUniverse();
-        });
-
-        // ============================================
-        // ORBIT MENU POSITIONING
-        // ============================================
-        const orbitMenu = document.getElementById('orbitMenu');
-        const orbitItems = orbitMenu.querySelectorAll('.orbit-item');
-
-        function updateOrbitMenu() {
-            if (!currentAgent) return;
-
-            const agent = agents[currentAgent];
-            const agentData = AGENTS[currentAgent];
-            const centerX = window.innerWidth / 2;
-            const centerY = window.innerHeight / 2;
-            const radius = Math.min(window.innerWidth, window.innerHeight) * 0.32;
-
-            orbitItems.forEach((item, i) => {
-                const angle = orbitAngle + (i / 4) * Math.PI * 2 - Math.PI / 2;
-                const x = centerX + Math.cos(angle) * radius;
-                const y = centerY + Math.sin(angle) * radius * 0.6; // Elliptical
-
-                item.style.left = x + 'px';
-                item.style.top = y + 'px';
-
-                // Update content
-                if (agentData.services[i]) {
-                    item.querySelector('.orbit-item-text').textContent = agentData.services[i].name;
-                }
-            });
         }
+    });
 
-        // ============================================
-        // ENTER AGENT WORLD
-        // ============================================
-        function enterAgentWorld(key) {
-            if (isAnimating || currentAgent === key) return;
-            isAnimating = true;
-            currentAgent = key;
-
-            const agent = agents[key];
-            const agentData = AGENTS[key];
-
-            // Hide homepage elements
-            document.getElementById('stageContent').classList.add('hidden');
-            document.getElementById('navHints').classList.add('hidden');
-            document.getElementById('backBtn').classList.add('visible');
-
-            // Update world title
-            const worldTitle = document.getElementById('worldTitle');
-            document.getElementById('worldTitleText').textContent = `${agentData.name} · ${agentData.element.toUpperCase()}`;
-            document.getElementById('worldSubtitle').textContent = agentData.title;
-
-            // Set agent color for orbit menu
-            orbitMenu.className = `orbit-menu world-${key}`;
-            document.getElementById('detailPanel').className = `detail-panel world-${key}`;
-
-            // Warp effect
-            document.getElementById('warpOverlay').classList.add('active');
-            document.getElementById('speedLines').classList.add('active');
-            gsap.to(warpMaterial, { opacity: 0.6, duration: 0.3 });
-
-            // Camera animation - fly INTO the agent
-            gsap.to(camera.position, {
-                x: agentData.cameraTarget.x,
-                y: agentData.cameraTarget.y,
-                z: agentData.cameraTarget.z,
-                duration: 2,
-                ease: 'power2.inOut',
-                onComplete: () => {
-                    isAnimating = false;
-                    document.getElementById('warpOverlay').classList.remove('active');
-                    document.getElementById('speedLines').classList.remove('active');
-                    gsap.to(warpMaterial, { opacity: 0, duration: 0.5 });
-
-                    // Show orbit menu and world title
-                    worldTitle.classList.add('visible');
-                    orbitMenu.classList.add('visible');
-                    updateOrbitMenu();
-                }
-            });
-
-            // Dim other agents, highlight selected
-            Object.entries(agents).forEach(([k, a]) => {
-                const isSelected = k === key;
-                gsap.to(a.core.material, { opacity: isSelected ? 1 : 0.1, duration: 0.8 });
-                gsap.to(a.mid.material, { opacity: isSelected ? 0.9 : 0.1, emissiveIntensity: isSelected ? 0.5 : 0.05, duration: 0.8 });
-                gsap.to(a.outer.material, { opacity: isSelected ? 0.3 : 0.02, duration: 0.8 });
-                gsap.to(a.glow.material, { opacity: isSelected ? 0.15 : 0.01, duration: 0.8 });
-                gsap.to(a.light, { intensity: isSelected ? 1.5 : 0.05, duration: 0.8 });
-            });
-
-            gsap.to(agent.group.scale, { x: 2.5, y: 2.5, z: 2.5, duration: 1.5, ease: 'power2.out' });
-        }
-
-        // ============================================
-        // SWITCH BETWEEN AGENTS
-        // ============================================
-        function switchAgent(key) {
-            if (isAnimating || currentAgent === key) return;
-
-            // Hide current UI
-            orbitMenu.classList.remove('visible');
-            document.getElementById('worldTitle').classList.remove('visible');
-            document.getElementById('detailPanel').classList.remove('visible');
-            currentService = null;
-
-            // Reset current agent scale
+    // Nav hints
+    document.querySelectorAll('.nav-hint').forEach(hint => {
+        hint.addEventListener('click', () => {
+            if (isAnimating) return;
             if (currentAgent) {
-                gsap.to(agents[currentAgent].group.scale, { x: 1, y: 1, z: 1, duration: 0.5 });
+                // Switch between agents
+                switchAgent(hint.dataset.agent);
+            } else {
+                enterAgentWorld(hint.dataset.agent);
             }
+        });
+    });
 
-            // Enter new agent
-            currentAgent = null;
-            enterAgentWorld(key);
-        }
+    document.getElementById('backBtn').addEventListener('click', returnToUniverse);
+    document.getElementById('logoBtn').addEventListener('click', (e) => {
+        e.preventDefault();
+        returnToUniverse();
+    });
 
-        // ============================================
-        // RETURN TO UNIVERSE
-        // ============================================
-        function returnToUniverse() {
-            if (isAnimating || !currentAgent) return;
-            isAnimating = true;
+    // ============================================
+    // ORBIT MENU POSITIONING
+    // ============================================
+    const orbitMenu = document.getElementById('orbitMenu');
+    const orbitItems = orbitMenu.querySelectorAll('.orbit-item');
 
-            // Hide agent world UI
-            orbitMenu.classList.remove('visible');
-            document.getElementById('worldTitle').classList.remove('visible');
-            document.getElementById('detailPanel').classList.remove('visible');
-            currentService = null;
+    function updateOrbitMenu() {
+        if (!currentAgent) return;
+        
+        const agent = agents[currentAgent];
+        const agentData = AGENTS[currentAgent];
+        const centerX = window.innerWidth / 2;
+        const centerY = window.innerHeight / 2;
+        const radius = Math.min(window.innerWidth, window.innerHeight) * 0.32;
 
-            document.getElementById('warpOverlay').classList.add('active');
-            document.getElementById('speedLines').classList.add('active');
-            gsap.to(warpMaterial, { opacity: 0.4, duration: 0.3 });
+        orbitItems.forEach((item, i) => {
+            const angle = orbitAngle + (i / 4) * Math.PI * 2 - Math.PI / 2;
+            const x = centerX + Math.cos(angle) * radius;
+            const y = centerY + Math.sin(angle) * radius * 0.6; // Elliptical
 
-            gsap.to(camera.position, {
-                x: 0, y: 0, z: 12,
-                duration: 1.8,
-                ease: 'power2.inOut',
-                onComplete: () => {
-                    isAnimating = false;
-                    currentAgent = null;
-                    document.getElementById('warpOverlay').classList.remove('active');
-                    document.getElementById('speedLines').classList.remove('active');
-                    gsap.to(warpMaterial, { opacity: 0, duration: 0.5 });
-                }
-            });
+            item.style.left = x + 'px';
+            item.style.top = y + 'px';
 
-            // Restore all agents
-            Object.values(agents).forEach(a => {
-                gsap.to(a.core.material, { opacity: 0.95, duration: 0.8 });
-                gsap.to(a.mid.material, { opacity: 0.7, emissiveIntensity: 0.3, duration: 0.8 });
-                gsap.to(a.outer.material, { opacity: 0.2, duration: 0.8 });
-                gsap.to(a.glow.material, { opacity: 0.08, duration: 0.8 });
-                gsap.to(a.group.scale, { x: 1, y: 1, z: 1, duration: 0.8 });
-                gsap.to(a.light, { intensity: 0.8, duration: 0.8 });
-            });
+            // Update content
+            if (agentData.services[i]) {
+                item.querySelector('.orbit-item-text').textContent = agentData.services[i].name;
+            }
+        });
+    }
 
-            document.getElementById('navHints').classList.remove('hidden');
-            document.getElementById('backBtn').classList.remove('visible');
-            document.getElementById('stageContent').classList.remove('hidden');
-        }
+    // ============================================
+    // ENTER AGENT WORLD
+    // ============================================
+    function enterAgentWorld(key) {
+        if (isAnimating || currentAgent === key) return;
+        isAnimating = true;
+        currentAgent = key;
 
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape') {
-                if (currentService !== null) {
-                    closeDetail();
-                } else {
-                    returnToUniverse();
-                }
+        const agent = agents[key];
+        const agentData = AGENTS[key];
+
+        // Hide homepage elements
+        document.getElementById('stageContent').classList.add('hidden');
+        document.getElementById('navHints').classList.add('hidden');
+        document.getElementById('backBtn').classList.add('visible');
+
+        // Update world title
+        const worldTitle = document.getElementById('worldTitle');
+        document.getElementById('worldTitleText').textContent = `${agentData.name} · ${agentData.element.toUpperCase()}`;
+        document.getElementById('worldSubtitle').textContent = agentData.title;
+
+        // Set agent color for orbit menu
+        orbitMenu.className = `orbit-menu world-${key}`;
+        document.getElementById('detailPanel').className = `detail-panel world-${key}`;
+
+        // Warp effect
+        document.getElementById('warpOverlay').classList.add('active');
+        document.getElementById('speedLines').classList.add('active');
+        gsap.to(warpMaterial, { opacity: 0.6, duration: 0.3 });
+
+        // Camera animation - fly INTO the agent
+        gsap.to(camera.position, {
+            x: agentData.cameraTarget.x,
+            y: agentData.cameraTarget.y,
+            z: agentData.cameraTarget.z,
+            duration: 2,
+            ease: 'power2.inOut',
+            onComplete: () => {
+                isAnimating = false;
+                document.getElementById('warpOverlay').classList.remove('active');
+                document.getElementById('speedLines').classList.remove('active');
+                gsap.to(warpMaterial, { opacity: 0, duration: 0.5 });
+
+                // Show orbit menu and world title
+                worldTitle.classList.add('visible');
+                orbitMenu.classList.add('visible');
+                updateOrbitMenu();
             }
         });
 
-        // ============================================
-        // ORBIT ITEM CLICK - SHOW DETAIL
-        // ============================================
-        orbitItems.forEach((item, index) => {
-            item.addEventListener('click', () => {
-                if (!currentAgent) return;
-                showServiceDetail(index);
-            });
+        // Dim other agents, highlight selected
+        Object.entries(agents).forEach(([k, a]) => {
+            const isSelected = k === key;
+            gsap.to(a.core.material, { opacity: isSelected ? 1 : 0.1, duration: 0.8 });
+            gsap.to(a.mid.material, { opacity: isSelected ? 0.9 : 0.1, emissiveIntensity: isSelected ? 0.5 : 0.05, duration: 0.8 });
+            gsap.to(a.outer.material, { opacity: isSelected ? 0.3 : 0.02, duration: 0.8 });
+            gsap.to(a.glow.material, { opacity: isSelected ? 0.15 : 0.01, duration: 0.8 });
+            gsap.to(a.light, { intensity: isSelected ? 1.5 : 0.05, duration: 0.8 });
         });
 
-        function showServiceDetail(index) {
-            const agentData = AGENTS[currentAgent];
-            const service = agentData.services[index];
-            if (!service) return;
+        gsap.to(agent.group.scale, { x: 2.5, y: 2.5, z: 2.5, duration: 1.5, ease: 'power2.out' });
+    }
 
-            currentService = index;
+    // ============================================
+    // SWITCH BETWEEN AGENTS
+    // ============================================
+    function switchAgent(key) {
+        if (isAnimating || currentAgent === key) return;
+        
+        // Hide current UI
+        orbitMenu.classList.remove('visible');
+        document.getElementById('worldTitle').classList.remove('visible');
+        document.getElementById('detailPanel').classList.remove('visible');
+        currentService = null;
 
-            // Highlight active orbit item
-            orbitItems.forEach((item, i) => {
-                item.classList.toggle('active', i === index);
-            });
+        // Reset current agent scale
+        if (currentAgent) {
+            gsap.to(agents[currentAgent].group.scale, { x: 1, y: 1, z: 1, duration: 0.5 });
+        }
 
-            // Update detail panel
-            document.getElementById('detailTitle').textContent = service.name;
-            document.getElementById('detailSubtitle').textContent = service.subtitle;
-            document.getElementById('detailContent').textContent = service.description;
+        // Enter new agent
+        currentAgent = null;
+        enterAgentWorld(key);
+    }
 
-            // Features
-            const featuresContainer = document.getElementById('detailFeatures');
-            featuresContainer.innerHTML = service.features.map(f => `
+    // ============================================
+    // RETURN TO UNIVERSE
+    // ============================================
+    function returnToUniverse() {
+        if (isAnimating || !currentAgent) return;
+        isAnimating = true;
+
+        // Hide agent world UI
+        orbitMenu.classList.remove('visible');
+        document.getElementById('worldTitle').classList.remove('visible');
+        document.getElementById('detailPanel').classList.remove('visible');
+        currentService = null;
+
+        document.getElementById('warpOverlay').classList.add('active');
+        document.getElementById('speedLines').classList.add('active');
+        gsap.to(warpMaterial, { opacity: 0.4, duration: 0.3 });
+
+        gsap.to(camera.position, {
+            x: 0, y: 0, z: 12,
+            duration: 1.8,
+            ease: 'power2.inOut',
+            onComplete: () => {
+                isAnimating = false;
+                currentAgent = null;
+                document.getElementById('warpOverlay').classList.remove('active');
+                document.getElementById('speedLines').classList.remove('active');
+                gsap.to(warpMaterial, { opacity: 0, duration: 0.5 });
+            }
+        });
+
+        // Restore all agents
+        Object.values(agents).forEach(a => {
+            gsap.to(a.core.material, { opacity: 0.95, duration: 0.8 });
+            gsap.to(a.mid.material, { opacity: 0.7, emissiveIntensity: 0.3, duration: 0.8 });
+            gsap.to(a.outer.material, { opacity: 0.2, duration: 0.8 });
+            gsap.to(a.glow.material, { opacity: 0.08, duration: 0.8 });
+            gsap.to(a.group.scale, { x: 1, y: 1, z: 1, duration: 0.8 });
+            gsap.to(a.light, { intensity: 0.8, duration: 0.8 });
+        });
+
+        document.getElementById('navHints').classList.remove('hidden');
+        document.getElementById('backBtn').classList.remove('visible');
+        document.getElementById('stageContent').classList.remove('hidden');
+    }
+
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') {
+            if (currentService !== null) {
+                closeDetail();
+            } else {
+                returnToUniverse();
+            }
+        }
+    });
+
+    // ============================================
+    // ORBIT ITEM CLICK - SHOW DETAIL
+    // ============================================
+    orbitItems.forEach((item, index) => {
+        item.addEventListener('click', () => {
+            if (!currentAgent) return;
+            showServiceDetail(index);
+        });
+    });
+
+    function showServiceDetail(index) {
+        const agentData = AGENTS[currentAgent];
+        const service = agentData.services[index];
+        if (!service) return;
+
+        currentService = index;
+
+        // Highlight active orbit item
+        orbitItems.forEach((item, i) => {
+            item.classList.toggle('active', i === index);
+        });
+
+        // Update detail panel
+        document.getElementById('detailTitle').textContent = service.name;
+        document.getElementById('detailSubtitle').textContent = service.subtitle;
+        document.getElementById('detailContent').textContent = service.description;
+
+        // Features
+        const featuresContainer = document.getElementById('detailFeatures');
+        featuresContainer.innerHTML = service.features.map(f => `
             <div class="detail-feature">
                 <span class="detail-feature-dot"></span>
                 <span>${f}</span>
             </div>
         `).join('');
 
-            // Show panel
-            document.getElementById('detailPanel').classList.add('visible');
+        // Show panel
+        document.getElementById('detailPanel').classList.add('visible');
+    }
+
+    function closeDetail() {
+        document.getElementById('detailPanel').classList.remove('visible');
+        orbitItems.forEach(item => item.classList.remove('active'));
+        currentService = null;
+    }
+
+    document.getElementById('detailClose').addEventListener('click', closeDetail);
+
+    // ============================================
+    // ANIMATION LOOP
+    // ============================================
+    const clock = new THREE.Clock();
+
+    function animate() {
+        requestAnimationFrame(animate);
+        const time = clock.getElapsedTime();
+
+        // Ambient light pulse
+        colorLight1.intensity = 0.2 + Math.sin(time * 0.5) * 0.1;
+        colorLight2.intensity = 0.15 + Math.sin(time * 0.7 + 1) * 0.08;
+        colorLight1.position.x = Math.sin(time * 0.2) * 25;
+        colorLight2.position.y = Math.cos(time * 0.3) * 15;
+
+        // Nebula drift
+        nebula.rotation.z = time * 0.01;
+
+        // Star layers
+        starLayerFar.rotation.y = time * 0.003;
+        starLayerMid.rotation.y = time * 0.006;
+        starLayerNear.rotation.y = time * 0.01;
+
+        // Camera
+        if (!currentAgent && !isAnimating) {
+            camera.position.x += (mouseX * 1.5 - camera.position.x) * 0.02;
+            camera.position.y += (-mouseY * 1 - camera.position.y) * 0.02;
+            camera.lookAt(0, 0, -10);
+        } else if (currentAgent && !isAnimating) {
+            const target = agents[currentAgent].group.position;
+            camera.lookAt(target);
         }
 
-        function closeDetail() {
-            document.getElementById('detailPanel').classList.remove('visible');
-            orbitItems.forEach(item => item.classList.remove('active'));
-            currentService = null;
-        }
+        // Animate agents
+        Object.values(agents).forEach((agent, idx) => {
+            const offset = idx * 1.2;
 
-        document.getElementById('detailClose').addEventListener('click', closeDetail);
+            // Core pulse
+            const pulse = 1 + Math.sin(time * 2 + offset) * 0.15;
+            agent.core.scale.set(pulse, pulse, pulse);
 
-        // ============================================
-        // ANIMATION LOOP
-        // ============================================
-        const clock = new THREE.Clock();
+            // Rotations
+            agent.mid.rotation.x = time * 0.2 + offset;
+            agent.mid.rotation.y = time * 0.3 + offset;
+            agent.outer.rotation.x = -time * 0.15 + offset;
+            agent.ring.rotation.z = time * 0.4 + offset;
+            agent.glow.scale.setScalar(1 + Math.sin(time * 1.5 + offset) * 0.1);
 
-        function animate() {
-            requestAnimationFrame(animate);
-            const time = clock.getElapsedTime();
+            // Float
+            agent.group.position.y = agent.config.position.y + Math.sin(time * 0.6 + offset) * 0.3;
 
-            // Ambient light pulse
-            colorLight1.intensity = 0.2 + Math.sin(time * 0.5) * 0.1;
-            colorLight2.intensity = 0.15 + Math.sin(time * 0.7 + 1) * 0.08;
-            colorLight1.position.x = Math.sin(time * 0.2) * 25;
-            colorLight2.position.y = Math.cos(time * 0.3) * 15;
-
-            // Nebula drift
-            nebula.rotation.z = time * 0.01;
-
-            // Star layers
-            starLayerFar.rotation.y = time * 0.003;
-            starLayerMid.rotation.y = time * 0.006;
-            starLayerNear.rotation.y = time * 0.01;
-
-            // Camera
-            if (!currentAgent && !isAnimating) {
-                camera.position.x += (mouseX * 1.5 - camera.position.x) * 0.02;
-                camera.position.y += (-mouseY * 1 - camera.position.y) * 0.02;
-                camera.lookAt(0, 0, -10);
-            } else if (currentAgent && !isAnimating) {
-                const target = agents[currentAgent].group.position;
-                camera.lookAt(target);
-            }
-
-            // Animate agents
-            Object.values(agents).forEach((agent, idx) => {
-                const offset = idx * 1.2;
-
-                // Core pulse
-                const pulse = 1 + Math.sin(time * 2 + offset) * 0.15;
-                agent.core.scale.set(pulse, pulse, pulse);
-
-                // Rotations
-                agent.mid.rotation.x = time * 0.2 + offset;
-                agent.mid.rotation.y = time * 0.3 + offset;
-                agent.outer.rotation.x = -time * 0.15 + offset;
-                agent.ring.rotation.z = time * 0.4 + offset;
-                agent.glow.scale.setScalar(1 + Math.sin(time * 1.5 + offset) * 0.1);
-
-                // Float
-                agent.group.position.y = agent.config.position.y + Math.sin(time * 0.6 + offset) * 0.3;
-
-                // Moons
-                agent.moons.forEach((moon) => {
-                    const d = moon.userData;
-                    const angle = time * d.orbitSpeed + d.orbitOffset;
-                    moon.position.x = Math.cos(angle) * d.orbitRadius;
-                    moon.position.y = Math.sin(angle) * d.orbitRadius * d.orbitTilt;
-                    moon.position.z = Math.sin(angle) * d.orbitRadius * 0.5;
-                });
-
-                // Particles
-                const positions = agent.particles.geometry.attributes.position.array;
-                for (let i = 0; i < agent.particleData.length; i++) {
-                    const pd = agent.particleData[i];
-                    const angle = time * pd.speed + pd.offset;
-                    const r = 1.2 + Math.sin(time * 0.5 + i * 0.1) * 0.3;
-                    positions[i * 3] = Math.cos(angle + i * 0.2) * r;
-                    positions[i * 3 + 1] = Math.sin(angle * 0.8 + i * 0.15) * r;
-                    positions[i * 3 + 2] = Math.sin(angle + i * 0.3) * r * 0.5;
-                }
-                agent.particles.geometry.attributes.position.needsUpdate = true;
+            // Moons
+            agent.moons.forEach((moon) => {
+                const d = moon.userData;
+                const angle = time * d.orbitSpeed + d.orbitOffset;
+                moon.position.x = Math.cos(angle) * d.orbitRadius;
+                moon.position.y = Math.sin(angle) * d.orbitRadius * d.orbitTilt;
+                moon.position.z = Math.sin(angle) * d.orbitRadius * 0.5;
             });
 
-            // Orbit menu rotation
-            if (currentAgent && !isAnimating) {
-                orbitAngle += 0.002;
-                updateOrbitMenu();
+            // Particles
+            const positions = agent.particles.geometry.attributes.position.array;
+            for (let i = 0; i < agent.particleData.length; i++) {
+                const pd = agent.particleData[i];
+                const angle = time * pd.speed + pd.offset;
+                const r = 1.2 + Math.sin(time * 0.5 + i * 0.1) * 0.3;
+                positions[i * 3] = Math.cos(angle + i * 0.2) * r;
+                positions[i * 3 + 1] = Math.sin(angle * 0.8 + i * 0.15) * r;
+                positions[i * 3 + 2] = Math.sin(angle + i * 0.3) * r * 0.5;
             }
+            agent.particles.geometry.attributes.position.needsUpdate = true;
+        });
 
-            renderer.render(scene, camera);
+        // Orbit menu rotation
+        if (currentAgent && !isAnimating) {
+            orbitAngle += 0.002;
+            updateOrbitMenu();
         }
 
-        animate();
+        renderer.render(scene, camera);
+    }
 
-        // ============================================
-        // RESIZE
-        // ============================================
-        window.addEventListener('resize', () => {
-            camera.aspect = window.innerWidth / window.innerHeight;
-            camera.updateProjectionMatrix();
-            renderer.setSize(window.innerWidth, window.innerHeight);
-            updateOrbitMenu();
-        });
+    animate();
 
-        // ============================================
-        // LOADING
-        // ============================================
-        window.addEventListener('load', () => {
-            setTimeout(() => {
-                document.getElementById('loading').classList.add('done');
-            }, 3000);
-        });
+    // ============================================
+    // RESIZE
+    // ============================================
+    window.addEventListener('resize', () => {
+        camera.aspect = window.innerWidth / window.innerHeight;
+        camera.updateProjectionMatrix();
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        updateOrbitMenu();
+    });
 
-        console.log('🌌 The Rike Universe v3 - Immersive Agent Worlds');
+    // ============================================
+    // LOADING
+    // ============================================
+    window.addEventListener('load', () => {
+        setTimeout(() => {
+            document.getElementById('loading').classList.add('done');
+        }, 3000);
+    });
+
+    console.log('🌌 The Rike Universe v3 - Immersive Agent Worlds');
     </script>
 </body>
-
 </html>
